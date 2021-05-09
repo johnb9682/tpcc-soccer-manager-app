@@ -4,7 +4,7 @@ import yelp from "../services/yelp";
 
 const HomeScreen = () => {
 
-  const [restaurant, setRestaurant] = useState({});
+  const [restaurant, setRestaurant] = useState("Initialization");
 
   const getRestaurantDetailById = async () => {
       var response = await yelp.get(`/test`, {});
