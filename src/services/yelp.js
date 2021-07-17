@@ -1,10 +1,6 @@
 import Axios from 'axios';
 
-export default Axios.create(
-    {
-        baseURL: 'http://3.138.135.180:8080',
-        headers: {
-        }
-    }
-
-);
+export default Axios.create({
+  baseURL: 'http://13.229.70.125:8081',
+  headers: {},
+});
