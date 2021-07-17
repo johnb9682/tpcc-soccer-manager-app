@@ -1,24 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import { Text, StyleSheet } from "react-native";
-import yelp from "../services/yelp";
+import React, { useEffect, useState } from 'react';
+import { Text, StyleSheet } from 'react-native';
+import yelp from '../services/yelp';
 
 const HomeScreen = () => {
-
-  const [restaurant, setRestaurant] = useState("Initialization");
+  const [restaurant, setRestaurant] = useState('Initialization');
 
   const getRestaurantDetailById = async () => {
-      var response = await yelp.get(`/test`, {});
-      if (response) {
-          console.info(response.data);
-          setRestaurant(response.data);
-      }
-      console.info("getRestaurantDetailById");
-      console.info(response);
+    var response = await yelp.get(`/test`, {});
+    if (response) {
+      setRestaurant(response.data);
+    }
   };
 
   useEffect(() => {
-      getRestaurantDetailById();
-      console.info("useEffect");
+    getRestaurantDetailById();
   }, []);
 
   return <Text style={styles.text}>{restaurant}</Text>;
@@ -26,8 +21,8 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });
 
 export default HomeScreen;
