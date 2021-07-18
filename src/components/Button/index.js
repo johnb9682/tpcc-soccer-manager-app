@@ -2,14 +2,15 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import { styles } from './style';
+import { THEME_COLORS } from '../theme';
 
 const Button = ({
   title = 'Click Me',
   onPress,
   disabled = false,
   accessibilityLabel = 'Button',
-  buttonColor = 'dodgerblue',
-  fontColor = '#ffffff',
+  buttonColor = THEME_COLORS.DEFAULT_BUTTON_BACKGROUND_PRIMARY,
+  fontColor = THEME_COLORS.WHITE,
   height = 40,
   width = '80%',
 }) => {

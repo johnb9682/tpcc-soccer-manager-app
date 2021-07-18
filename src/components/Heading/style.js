@@ -5,6 +5,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: 40,
+    fontWeight: '400',
   },
 });

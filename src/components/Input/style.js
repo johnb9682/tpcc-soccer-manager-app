@@ -4,16 +4,15 @@ import { THEME_COLORS } from '../theme';
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    justifyContent: 'center',
   },
-  button: {
+  textInput: {
     margin: 10,
-    alignItems: 'center',
     padding: 10,
+    alignSelf: 'center',
     borderRadius: 10,
-    shadowColor: THEME_COLORS.DEFAULT_SHADOW,
-  },
-  text: {
-    color: THEME_COLORS.WHITE,
+    width: '80%',
+    height: 40,
+    backgroundColor: THEME_COLORS.DEFAULT_INPUT_BACKGROUND,
   },
 });

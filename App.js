@@ -6,6 +6,7 @@ import { useAuthStore } from './src/shared/zustand/auth';
 import Loading from './src/components/Loading';
 import HomeScreen from './src/screens/HomeScreen';
 import LandingScreen from './src/screens/LandingScreen';
+import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ const App = () => {
             component={LandingScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="Register" component={RegisterScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
