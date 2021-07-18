@@ -1,17 +1,40 @@
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import HomeScreen from "./src/screens/HomeScreen";
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const navigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-  },
-  {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      title: "Soccer Manager",
-    },
+import { useAuthStore } from './src/shared/zustand/auth';
+import Loading from './src/components/Loading';
+import HomeScreen from './src/screens/HomeScreen';
+import LandingScreen from './src/screens/LandingScreen';
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  const { isLoading, signedIn } = useAuthStore();
+
+  if (isLoading) {
+    return <Loading />;
   }
-);
+  if (!signedIn) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Landing">
+          <Stack.Screen
+            name="Landing"
+            component={LandingScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default createAppContainer(navigator);
+export default App;
