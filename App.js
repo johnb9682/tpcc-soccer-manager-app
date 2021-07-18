@@ -32,7 +32,11 @@ const App = () => {
             component={LandingScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ headerBackTitle: 'Back' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
