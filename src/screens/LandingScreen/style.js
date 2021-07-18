@@ -6,8 +6,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
-    justifyContent: 'center',
+    paddingTop: '15%',
   },
+  scrollView: { backgroundColor: THEME_COLORS.WHITE },
   forgot: {
     color: THEME_COLORS.DEFAULT_LINK_TEXT,
     fontSize: 12,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, Text, SafeAreaView } from 'react-native';
 
 import { styles } from './style';
 import { Button, Heading, Input, Loading } from '../../components';
@@ -17,27 +17,28 @@ const LandingScreen = ({ navigation }) => {
     return <Loading />;
   }
   return (
-    <View style={styles.container}>
-      <Heading containerStyle={styles.heading}>Welcome</Heading>
-      <View>
-        <Input
-          placeholder="Enter your e-mail"
-          autoFocus={true}
-          onChangeText={setEmailText}
-        />
-        <Input
-          placeholder="Enter your password"
-          onChangeText={setPasswordText}
-          secureTextEntry={true}
-        />
-        <Button title="Log In" onPress={onLoginPress} />
-        <Button
-          title="Sign Up"
-          onPress={() => navigation.navigate('Register')}
-        />
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardDismissMode="on-drag"
+      >
+        <Heading containerStyle={styles.heading}>Welcome</Heading>
+        <View>
+          <Input placeholder="Enter your e-mail" onChangeText={setEmailText} />
+          <Input
+            placeholder="Enter your password"
+            onChangeText={setPasswordText}
+            secureTextEntry={true}
+          />
+          <Button title="Log In" onPress={onLoginPress} />
+          <Button
+            title="Sign Up"
+            onPress={() => navigation.navigate('Register')}
+          />
+          <Text style={styles.forgot}>Forgot Password?</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 export default LandingScreen;
