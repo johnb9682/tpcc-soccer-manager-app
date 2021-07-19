@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
-import yelp from '../services/yelp';
+import yelp from '../../services/yelp';
 
 const HomeScreen = () => {
   const [restaurant, setRestaurant] = useState('Initialization');
