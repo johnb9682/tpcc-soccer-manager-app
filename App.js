@@ -38,7 +38,10 @@ const App = () => {
           <Stack.Screen
             name="Register"
             component={RegisterScreen}
-            options={{ headerBackTitle: 'Back' }}
+            options={{
+              headerBackTitleVisible: false,
+              headerTitleAlign: 'center',
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -52,9 +55,9 @@ const App = () => {
         backgroundColor={THEME_COLORS.WHITE}
       />
       <NavBar
-          settingScreen = {SettingScreen}
-          homeScreen={HomeScreen}
-          profileScreen={ProfileScreen}
+        settingScreen={SettingScreen}
+        homeScreen={HomeScreen}
+        profileScreen={ProfileScreen}
       />
     </NavigationContainer>
   );
