@@ -5,13 +5,13 @@ const Tab = createBottomTabNavigator();
 
 export default function NavBar(props) {
     return (
-        <Tab.Navigator initialRouteName="Landing">
+        <Tab.Navigator initialRouteName="Home">
           <Tab.Screen
               name="Setting"
               component={props.settingScreen}
               options={{
                   tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcon name="home" color={color} size={26}/>
+                      <MaterialCommunityIcon name="cog" color={color} size={26}/>
                   ),
               }}
           />
@@ -20,7 +20,7 @@ export default function NavBar(props) {
               component={props.homeScreen}
               options={{
                   tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcon name="plus-box" color={color} size={26}/>
+                      <MaterialCommunityIcon name="home" color={color} size={26}/>
                   ),
               }}
           />
