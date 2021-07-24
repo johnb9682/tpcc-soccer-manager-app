@@ -28,7 +28,7 @@ const App = () => {
           translucent={true}
           backgroundColor={THEME_COLORS.WHITE}
         />
-        {/* <Stack.Navigator initialRouteName="Landing">
+        <Stack.Navigator initialRouteName="Landing">
           <Stack.Screen
             name="Landing"
             component={LandingScreen}
@@ -39,12 +39,7 @@ const App = () => {
             component={RegisterScreen}
             options={{ headerBackTitle: 'Back' }}
           />
-        </Stack.Navigator> */}
-        <NavBar
-          landingScreen={LandingScreen}
-          profileScreen={ProfileScreen}
-          registerScreen = {RegisterScreen}
-        />
+        </Stack.Navigator>
       </NavigationContainer>
     );
   }
@@ -56,10 +51,9 @@ const App = () => {
         backgroundColor={THEME_COLORS.WHITE}
       />
       <NavBar
-          landingScreen={LandingScreen}
+          homeScreen={LandingScreen}
           profileScreen={ProfileScreen}
-          registerScreen = {RegisterScreen}
-        />
+      />
     </NavigationContainer>
   );
 };

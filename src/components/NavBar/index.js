@@ -7,8 +7,8 @@ export default function NavBar(props) {
     return (
         <Tab.Navigator initialRouteName="Landing">
           <Tab.Screen
-              name="Landing"
-              component={props.landingScreen}
+              name="Setting"
+              component={props.settingScreen}
               options={{
                   tabBarIcon: ({ color, size }) => (
                       <MaterialCommunityIcon name="home" color={color} size={26}/>
@@ -16,8 +16,8 @@ export default function NavBar(props) {
               }}
           />
           <Tab.Screen
-              name="Register"
-              component={props.registerScreen}
+              name="Home"
+              component={props.homeScreen}
               options={{
                   tabBarIcon: ({ color, size }) => (
                       <MaterialCommunityIcon name="plus-box" color={color} size={26}/>
