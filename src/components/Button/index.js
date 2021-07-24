@@ -23,17 +23,31 @@ const Button = ({
         onPress={onPress}
         accessibilityLabel={accessibilityLabel}
         disabled={disabled}
-        style={[
-          styles.button,
-          {
-            backgroundColor: buttonColor,
-            height,
-            width,
-            borderRadius,
-            borderColor,
-            borderWidth,
-          },
-        ]}
+        style={
+          disabled
+            ? [
+                styles.buttonDisabled,
+                {
+                  backgroundColor: buttonColor,
+                  height,
+                  width,
+                  borderRadius,
+                  borderColor,
+                  borderWidth,
+                },
+              ]
+            : [
+                styles.button,
+                {
+                  backgroundColor: buttonColor,
+                  height,
+                  width,
+                  borderRadius,
+                  borderColor,
+                  borderWidth,
+                },
+              ]
+        }
       >
         <Text style={[styles.text, { color: textColor }]}>{title}</Text>
       </TouchableOpacity>
