@@ -22,6 +22,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 30,
+    paddingTop: "15%",
   },
 });
 

@@ -10,6 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
+import SettingScreen from './src/screens/SettingScreens';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
@@ -51,7 +52,8 @@ const App = () => {
         backgroundColor={THEME_COLORS.WHITE}
       />
       <NavBar
-          homeScreen={LandingScreen}
+          settingScreen = {SettingScreen}
+          homeScreen={HomeScreen}
           profileScreen={ProfileScreen}
       />
     </NavigationContainer>

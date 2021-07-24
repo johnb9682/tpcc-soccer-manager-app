@@ -1,10 +1,11 @@
 import React from 'react';
+import { styles } from './style';
 import { View, Text } from 'react-native';
 
 const Profile = () => {
   return (
-    <View>
-      <Text>Profile Page</Text>
+    <View style={styles.container}>
+      <Text style={{fontSize: 30,}}>Profile Page</Text>
     </View>
   );
 };
