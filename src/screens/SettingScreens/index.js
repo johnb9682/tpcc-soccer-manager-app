@@ -1,13 +1,13 @@
 import React from 'react';
-import { styles } from './style';
 import { View, Text } from 'react-native';
+import { styles } from './style';
 
-const Profile = () => {
+const Setting = () => {
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 30,}}>Profile Page</Text>
+      <Text style={{fontSize: 30,}}>Setting Page</Text>
     </View>
   );
 };
 
-export default Profile;
+export default Setting;
