@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   button: {
     margin: 10,
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
     borderRadius: 10,
     shadowColor: THEME_COLORS.DEFAULT_SHADOW,
