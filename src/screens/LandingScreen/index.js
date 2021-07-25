@@ -4,8 +4,8 @@ import { View, ScrollView, Text, SafeAreaView } from 'react-native';
 import { styles } from './style';
 import { THEME_COLORS } from '../../components/theme';
 import { Button, Heading, Input, Loading } from '../../components';
-import { WARNING_TYPES } from '../../components/Input/constants';
 import { useAuthStore } from '../../shared/zustand/auth';
+import { isValidEmail } from '../../components/utils';
 
 const LandingScreen = ({ navigation }) => {
   const { login, isLoading } = useAuthStore();
@@ -32,7 +32,7 @@ const LandingScreen = ({ navigation }) => {
             placeholder="Enter your e-mail"
             onChangeText={setEmailText}
             warningText="Invalid e-mail format"
-            showWarningRule={WARNING_TYPES.EMAIL_VALIDATION}
+            showWarning={emailText.length > 0 && !isValidEmail(emailText)}
           />
           <Input
             placeholder="Enter your password"

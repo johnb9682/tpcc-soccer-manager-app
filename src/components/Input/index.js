@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from 'react-native';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 
 import { styles } from './style';
 import { THEME_COLORS } from '../theme';
-import { WARNING_TYPES } from './constants';
 import { isValidEmail } from '../utils';
 
 const Input = ({
@@ -22,54 +15,13 @@ const Input = ({
   backgroundColor = THEME_COLORS.DEFAULT_INPUT_BACKGROUND,
   showClearButton = true,
   secureTextEntry = false,
-  showWarningRule = WARNING_TYPES.NEVER,
-  overrideShowWarning = false,
+  showWarning = false,
   warningText = '',
   inputMinLength = 0,
 }) => {
   const [inputValue, setInputValue] = React.useState('');
-  const [showWarning, setShowWarning] = React.useState(false);
   const [enableSafeEntry, setEnableSafeEntry] = React.useState(false);
   const [isOnFocus, setIsOnFocus] = React.useState(false);
-
-  const validateInputStringLength = React.useCallback(
-    inputString => {
-      if (inputString.length < inputMinLength && showWarning === false) {
-        setShowWarning(true);
-      }
-    },
-    [showWarning, inputMinLength]
-  );
-
-  const validateEmail = React.useCallback(
-    emailStr => {
-      if (emailStr.length > 0 && !isValidEmail(emailStr)) {
-        setShowWarning(true);
-      } else {
-        setShowWarning(false);
-      }
-    },
-    [showWarning]
-  );
-
-  React.useEffect(() => {
-    if (inputValue.length === 0) {
-      setShowWarning(false);
-    }
-  }, [inputValue, setShowWarning]);
-
-  React.useEffect(() => {
-    if (showWarningRule !== WARNING_TYPES.NEVER) {
-      switch (showWarningRule) {
-        case WARNING_TYPES.EMAIL_VALIDATION:
-          validateEmail(inputValue);
-          break;
-        case WARNING_TYPES.INPUT_MIN_LENGTH:
-          validateInputStringLength(inputValue);
-          break;
-      }
-    }
-  }, [inputValue]);
 
   return (
     <View>
@@ -88,7 +40,7 @@ const Input = ({
           }}
           placeholder={placeholder}
           style={
-            showWarning || overrideShowWarning
+            showWarning
               ? [styles.textInputWarning, { backgroundColor, borderRadius }]
               : [
                   styles.textInput,
@@ -111,7 +63,7 @@ const Input = ({
           </TouchableOpacity>
         )}
       </View>
-      {(showWarning || overrideShowWarning) && warningText.length !== 0 && (
+      {showWarning && warningText.length !== 0 && (
         <View style={styles.warningTextContainer}>
           <Text style={styles.warningText}>{warningText}</Text>
         </View>
