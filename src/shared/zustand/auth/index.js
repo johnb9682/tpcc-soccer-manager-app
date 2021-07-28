@@ -6,7 +6,7 @@ import {
   storeDataObj,
   removeDataObj,
 } from '../../utils/asyncStorage';
-import { login, logout } from '../../api/auth/index';
+import { login, logout, signUp } from '../../api/auth/index';
 import {
   USER_INFO_SESSION_STORAGE_FIELD,
   TOKEN_SESSION_STORAGE_FIELD,
@@ -66,7 +66,8 @@ export const useAuthStore = create((set, get) => ({
   },
   logout: async () => {
     try {
-      await logout();
+      const message = logout();
+      console.log(message);
       removeDataObj(USER_INFO_SESSION_STORAGE_FIELD);
       removeDataObj(TOKEN_SESSION_STORAGE_FIELD);
       clearCache();
@@ -74,5 +75,38 @@ export const useAuthStore = create((set, get) => ({
       // Empty
     }
     set({ signedIn: false });
+  },
+  signUp: async (userName, email, password) => {
+    const response = await signUp(userName, email, password);
+    const status = response.status;
+    switch (status) {
+      case 200:
+        return {
+          status: 'success',
+          message: 'You have successfully registered your account!',
+          data: {
+            userName,
+          },
+        };
+      case 401:
+      // FALLTHROUGH
+      case 403:
+        return {
+          status: 'info',
+          message: 'You are not allowed to sign up. Please contact admin.',
+          data: {
+            // Empty
+          },
+        };
+      default:
+        return {
+          status: 'error',
+          message:
+            'You may have already created an account with same credentials. Please try again later or contact admin.',
+          data: {
+            // Empty
+          },
+        };
+    }
   },
 }));

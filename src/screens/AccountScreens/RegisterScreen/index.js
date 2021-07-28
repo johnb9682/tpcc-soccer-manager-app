@@ -1,22 +1,40 @@
 import React from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, SafeAreaView, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { styles } from './style';
 import { Button, Heading, Input, Loading, Info } from '../../../components';
+import { TOAST_UP_OFFSET } from '../../../components/constants';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import { isValidEmail } from '../../../components/utils';
 
 const Register = ({ navigation }) => {
-  const { isLoading } = useAuthStore();
+  const { isLoading, signUp } = useAuthStore();
+  const [userNameText, setUserNameText] = React.useState('');
   const [emailText, setEmailText] = React.useState('');
   const [passwordText, setPasswordText] = React.useState('');
   const [confirmPasswordText, setConfirmPasswordText] = React.useState('');
   const [isSignUpEnabled, setSignUpEnabled] = React.useState(false);
 
-  const onSignUpPress = React.useCallback(() => {
-    return <Text>Sign Up Successful</Text>;
-    // login(emailText, passwordText);
+  const onSignUpPress = React.useCallback(async () => {
+    const result = await signUp(userNameText, emailText, passwordText);
+    const toastTitle =
+      result.status === 'success'
+        ? 'Congratulations'
+        : result.status === 'info'
+        ? 'Uh-Oh'
+        : 'Something went wrong';
+    Toast.show({
+      type: result.status,
+      text1: toastTitle,
+      text2:
+        result.status === 'success'
+          ? (`Welcome, ${result.data.userName}! ` ?? '') + result.message
+          : result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
   });
+
   if (isLoading) {
     return <Loading />;
   }
@@ -41,8 +59,11 @@ const Register = ({ navigation }) => {
         keyboardDismissMode="on-drag"
       >
         <Heading containerStyle={styles.heading}>Sign Up</Heading>
-
         <View>
+          <Input
+            placeholder="Enter your username"
+            onChangeText={setUserNameText}
+          />
           <Input
             placeholder="Enter your e-mail"
             onChangeText={setEmailText}
