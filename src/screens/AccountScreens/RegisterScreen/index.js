@@ -43,13 +43,14 @@ const Register = ({ navigation }) => {
     if (
       isValidEmail(emailText) &&
       passwordText.length >= 6 &&
-      confirmPasswordText === passwordText
+      confirmPasswordText === passwordText &&
+      userNameText.length > 0
     ) {
       setSignUpEnabled(true);
     } else {
       setSignUpEnabled(false);
     }
-  }, [emailText, passwordText, confirmPasswordText]);
+  }, [userNameText, emailText, passwordText, confirmPasswordText]);
 
   return (
     <SafeAreaView style={styles.container}>
