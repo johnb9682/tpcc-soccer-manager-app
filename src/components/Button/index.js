@@ -10,7 +10,10 @@ const Button = ({
   disabled = false,
   accessibilityLabel = 'Button',
   buttonColor = THEME_COLORS.DEFAULT_BUTTON_BACKGROUND_PRIMARY,
-  fontColor = THEME_COLORS.WHITE,
+  borderColor = THEME_COLORS.DEFAULT_BUTTON_BACKGROUND_PRIMARY,
+  borderRadius = 10,
+  borderWidth = 1,
+  textColor = THEME_COLORS.WHITE,
   height = 40,
   width = '80%',
 }) => {
@@ -20,17 +23,33 @@ const Button = ({
         onPress={onPress}
         accessibilityLabel={accessibilityLabel}
         disabled={disabled}
-        style={[
-          styles.button,
-          {
-            backgroundColor: buttonColor,
-            color: fontColor,
-            height: height,
-            width: width,
-          },
-        ]}
+        style={
+          disabled
+            ? [
+                styles.buttonDisabled,
+                {
+                  backgroundColor: buttonColor,
+                  height,
+                  width,
+                  borderRadius,
+                  borderColor,
+                  borderWidth,
+                },
+              ]
+            : [
+                styles.button,
+                {
+                  backgroundColor: buttonColor,
+                  height,
+                  width,
+                  borderRadius,
+                  borderColor,
+                  borderWidth,
+                },
+              ]
+        }
       >
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, { color: textColor }]}>{title}</Text>
       </TouchableOpacity>
     </View>
   );

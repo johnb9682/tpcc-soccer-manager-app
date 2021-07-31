@@ -2,8 +2,10 @@ import * as React from 'react';
 import { View, ScrollView, Text, SafeAreaView } from 'react-native';
 
 import { styles } from './style';
+import { THEME_COLORS } from '../../components/theme';
 import { Button, Heading, Input, Loading } from '../../components';
 import { useAuthStore } from '../../shared/zustand/auth';
+import { isValidEmail } from '../../components/utils';
 
 const LandingScreen = ({ navigation }) => {
   const { login, isLoading } = useAuthStore();
@@ -11,6 +13,7 @@ const LandingScreen = ({ navigation }) => {
   const [passwordText, setPasswordText] = React.useState('');
 
   const onLoginPress = React.useCallback(() => {
+    console.log(emailText);
     login(emailText, passwordText);
   });
   if (isLoading) {
@@ -20,11 +23,17 @@ const LandingScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="always"
         keyboardDismissMode="on-drag"
       >
         <Heading containerStyle={styles.heading}>Welcome</Heading>
         <View>
-          <Input placeholder="Enter your e-mail" onChangeText={setEmailText} />
+          <Input
+            placeholder="Enter your e-mail"
+            onChangeText={setEmailText}
+            warningText="Invalid e-mail format"
+            showWarning={emailText.length > 0 && !isValidEmail(emailText)}
+          />
           <Input
             placeholder="Enter your password"
             onChangeText={setPasswordText}
@@ -33,6 +42,10 @@ const LandingScreen = ({ navigation }) => {
           <Button title="Log In" onPress={onLoginPress} />
           <Button
             title="Sign Up"
+            borderWidth={0}
+            buttonColor={THEME_COLORS.WHITE}
+            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+            textColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
             onPress={() => navigation.navigate('Register')}
           />
           <Text style={styles.forgot}>Forgot Password?</Text>
