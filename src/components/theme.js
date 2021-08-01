@@ -15,3 +15,8 @@ export const THEME_COLORS = {
   WHITE: '#FFFFFF',
   BLACK: '#000000',
 };
+
+export const THEME_FONTS = {
+  SYSTEM_FONT: 24,
+  BUTTON_FONT: 16,
+}
