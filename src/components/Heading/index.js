@@ -3,10 +3,15 @@ import { View, Text } from 'react-native';
 
 import { styles } from './style';
 
-const Heading = ({ children, fontSize = 40, containerStyle = {} }) => {
+const Heading = ({
+  children,
+  fontSize = 40,
+  fontWeight = '400',
+  containerStyle = {},
+}) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.text, { fontSize: fontSize }]}>{children}</Text>
+      <Text style={[styles.text, { fontSize, fontWeight }]}>{children}</Text>
     </View>
   );
 };

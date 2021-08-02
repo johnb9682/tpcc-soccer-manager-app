@@ -16,4 +16,8 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   heading: { padding: 40, alignItems: 'flex-start' },
+  buttonText: {
+    color: THEME_COLORS.WHITE,
+    fontWeight: '600',
+  },
 });

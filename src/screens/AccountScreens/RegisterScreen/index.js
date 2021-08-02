@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, ScrollView } from 'react-native';
+import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import { styles } from './style';
@@ -86,11 +86,9 @@ const Register = ({ navigation }) => {
             warningText="The second password you entered is different from the first password"
           />
           <Info>For security, your password must be 6 characters or more.</Info>
-          <Button
-            title="Confirm to Sign Up"
-            onPress={onSignUpPress}
-            disabled={!isSignUpEnabled}
-          />
+          <Button onPress={onSignUpPress} disabled={!isSignUpEnabled}>
+            <Text style={styles.buttonText}>Confirm to Sign Up</Text>
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

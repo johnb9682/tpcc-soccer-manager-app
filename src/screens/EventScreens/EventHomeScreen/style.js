@@ -6,17 +6,20 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
-    paddingTop: '3%',
+    paddingTop: '15%',
   },
-  forgot: {
-    color: THEME_COLORS.DEFAULT_LINK_TEXT,
-    fontSize: 12,
-    marginTop: 12,
-    alignSelf: 'center',
+  infoContainer: {
+    justifyContent: 'center',
+    paddingTop: 20,
   },
-  heading: { padding: 40, alignItems: 'flex-start' },
+  bottomContainer: {
+    height: '15%',
+    justifyContent: 'center',
+  },
+  heading: { padding: 20, alignItems: 'flex-start' },
   buttonText: {
     color: THEME_COLORS.WHITE,
     fontWeight: '600',
   },
+  createButtonText: { fontSize: 18 },
 });

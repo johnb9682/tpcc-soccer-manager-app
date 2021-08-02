@@ -5,7 +5,6 @@ import { styles } from './style';
 import { THEME_COLORS } from '../theme';
 
 const Button = ({
-  title = 'Click Me',
   onPress,
   disabled = false,
   accessibilityLabel = 'Button',
@@ -13,9 +12,9 @@ const Button = ({
   borderColor = THEME_COLORS.DEFAULT_BUTTON_BACKGROUND_PRIMARY,
   borderRadius = 10,
   borderWidth = 1,
-  textColor = THEME_COLORS.WHITE,
   height = 40,
   width = '80%',
+  children,
 }) => {
   return (
     <View style={styles.container}>
@@ -49,7 +48,7 @@ const Button = ({
               ]
         }
       >
-        <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+        {children}
       </TouchableOpacity>
     </View>
   );

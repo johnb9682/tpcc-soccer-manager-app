@@ -39,15 +39,24 @@ const LandingScreen = ({ navigation }) => {
             onChangeText={setPasswordText}
             secureTextEntry={true}
           />
-          <Button title="Log In" onPress={onLoginPress} />
+          <Button onPress={onLoginPress}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </Button>
           <Button
-            title="Sign Up"
             borderWidth={0}
             buttonColor={THEME_COLORS.WHITE}
             borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
-            textColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
             onPress={() => navigation.navigate('Register')}
-          />
+          >
+            <Text
+              style={[
+                styles.buttonText,
+                { color: THEME_COLORS.DEFAULT_BLUE_PRIMARY },
+              ]}
+            >
+              Sign Up
+            </Text>
+          </Button>
           <Text style={styles.forgot}>Forgot Password?</Text>
         </View>
       </ScrollView>
