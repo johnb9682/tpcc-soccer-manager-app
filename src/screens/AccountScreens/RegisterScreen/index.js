@@ -61,26 +61,23 @@ const Register = ({ navigation }) => {
       >
         <Heading containerStyle={styles.heading}>Sign Up</Heading>
         <View>
-          <Input
-            placeholder="Enter your username"
-            onChangeText={setUserNameText}
-          />
+          <Input placeholder="Enter your username" onInput={setUserNameText} />
           <Input
             placeholder="Enter your e-mail"
-            onChangeText={setEmailText}
+            onInput={setEmailText}
             warningText="Invalid e-mail format"
             showWarning={emailText.length > 0 && !isValidEmail(emailText)}
           />
           <Input
             placeholder="Enter your password"
-            onChangeText={setPasswordText}
+            onInput={setPasswordText}
             secureTextEntry={true}
             showWarning={passwordText.length > 0 && passwordText.length < 6}
             warningText="Your password must be 6 characters or more."
           />
           <Input
             placeholder="Repeat your password"
-            onChangeText={setConfirmPasswordText}
+            onInput={setConfirmPasswordText}
             secureTextEntry={true}
             showWarning={confirmPasswordText !== passwordText}
             warningText="The second password you entered is different from the first password"

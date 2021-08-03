@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { Heading, RoundRectContainer, NoData } from '../../../../components';
 import { styles } from './style';
 import EventItem from '../EventItem';
-import { THEME_COLORS } from '../../../../components/theme';
-const EventSection = ({ title, noDataMessage, eventData = [] }) => {
+
+const EventSection = ({ title, eventType, noDataMessage, eventData = [] }) => {
   return (
     <View>
       <Heading containerStyle={styles.heading} fontSize={30} fontWeight="bold">
@@ -19,7 +19,9 @@ const EventSection = ({ title, noDataMessage, eventData = [] }) => {
           <NoData message={noDataMessage} />
         ) : (
           eventData.map(event => {
-            return <EventItem key={event.id} event={event} />;
+            return (
+              <EventItem key={event.id} event={event} eventType={eventType} />
+            );
           })
         )}
       </RoundRectContainer>

@@ -4,34 +4,37 @@ import { THEME_COLORS } from '../theme';
 
 export const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 5,
+    justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  textInput: {
-    margin: 10,
-    padding: 10,
     alignSelf: 'center',
-    width: '80%',
-    height: 40,
   },
-  textInputWarning: {
-    margin: 10,
-    padding: 10,
+  containerWarning: {
+    marginVertical: 10,
+    paddingHorizontal: 5,
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    alignItems: 'center',
     alignSelf: 'center',
-    width: '80%',
-    height: 40,
     borderWidth: 1,
     borderColor: THEME_COLORS.DANGER_COLOR,
   },
-  clearButtonContainer: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    right: '13%',
+  prefixAccessoryContainer: {
+    width: 20,
+    height: 20,
   },
-  clearText: {
-    color: THEME_COLORS.DEFAULT_BLUE_SECONDARY,
+  textInput: {
+    alignSelf: 'center',
+    height: 40,
+  },
+  clearButtonContainer: {
+    width: 20,
+    height: 20,
+  },
+  clearIcon: {
+    color: THEME_COLORS.DEFAULT_GREY_SCALE_2,
   },
   warning: {
     borderColor: THEME_COLORS.DANGER_COLOR,

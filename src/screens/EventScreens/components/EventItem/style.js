@@ -21,7 +21,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  body: {},
+  body: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   infoPair: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -29,6 +32,7 @@ export const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 20,
+    maxWidth: 250,
   },
   label: {
     fontSize: 14,
@@ -38,10 +42,13 @@ export const styles = StyleSheet.create({
   },
   textValue: {
     fontSize: 14,
+    color: THEME_COLORS.DEFAULT_INFO_TEXT,
+    maxWidth: 120,
   },
   timeText: {
-    color: THEME_COLORS.DEFAULT_BLUE_SECONDARY,
-    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  icon: {
     marginRight: 5,
   },
 });

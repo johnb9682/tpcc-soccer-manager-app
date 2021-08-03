@@ -33,9 +33,9 @@ export const mockUpcomingEvents = [
 export const mockOngoingEvents = [
   {
     id: '4',
-    eventName: 'Event 1',
+    eventName: 'Event hahahaha atsijdosa df adioaf sd',
     eventTime: dayjs(),
-    eventLocation: 'NTU',
+    eventLocation: 'NTU Hall of residence 17 hahahah',
     eventDescriptioncription: 'dummy event 1',
   },
   {

@@ -30,13 +30,13 @@ const LandingScreen = ({ navigation }) => {
         <View>
           <Input
             placeholder="Enter your e-mail"
-            onChangeText={setEmailText}
+            onInput={setEmailText}
             warningText="Invalid e-mail format"
             showWarning={emailText.length > 0 && !isValidEmail(emailText)}
           />
           <Input
             placeholder="Enter your password"
-            onChangeText={setPasswordText}
+            onInput={setPasswordText}
             secureTextEntry={true}
           />
           <Button onPress={onLoginPress}>
