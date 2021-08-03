@@ -7,7 +7,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import dayjs from 'dayjs';
-import { BlurView } from 'expo-blur';
 
 import { styles } from './style';
 import { Button, Info, SearchInput } from '../../../components';
@@ -132,13 +131,13 @@ const EventHomeScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
-      <BlurView intensity={100} style={styles.bottomContainer}>
+      <View intensity={100} style={styles.bottomContainer}>
         <Button borderWidth={0} height={50} onPress={() => {}}>
           <Text style={[styles.createButtonText, styles.buttonText]}>
             Create a New Event
           </Text>
         </Button>
-      </BlurView>
+      </View>
     </SafeAreaView>
   );
 };

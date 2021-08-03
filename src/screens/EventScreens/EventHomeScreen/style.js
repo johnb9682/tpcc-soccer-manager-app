@@ -21,9 +21,12 @@ export const styles = StyleSheet.create({
   bottomContainer: {
     height: 90,
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopWidth: 0.2,
+    borderLeftWidth: 0.2,
+    borderRightWidth: 0.2,
+    borderColor: THEME_COLORS.DEFAULT_GREY_SCALE_2,
   },
   heading: { padding: 20, alignItems: 'flex-start' },
   buttonText: {
