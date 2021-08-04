@@ -12,6 +12,7 @@ import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
+import SettingScreen from './src/screens/SettingScreens';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();

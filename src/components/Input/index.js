@@ -9,7 +9,6 @@ const Input = ({
   prefixAccessory,
   placeholder,
   autoFocus,
-  value = '',
   onInput,
   width = '80%',
   height = 40,
