@@ -2,39 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { styles } from './style';
 import { View, Text } from 'react-native';
 import { Button, Input, Loading } from '../../../components';
-import { useAuthStore } from '../../../shared/zustand/auth';
 import { THEME_COLORS } from '../../../components/theme';
 import { Avartar } from '../../../components/Avatar';
-import { logout } from '../../../shared/api/auth';
 import { isValidEmail } from '../../../components/utils';
+import { useProfileStore } from '../../../shared/zustand/profile';
+import { useAuthStore } from '../../../shared/zustand/auth';
 
 const Profile = ({ navigation }) => {
-  const { isLoading } = useAuthStore();
-  const [userEmailString, setUserEmailString] = useState(
-    'ericding0110@gmail.com'
-  );
-  const [usernameString, setUsernameString] = useState('NicedeEric');
+  const { isLoading, userEmail, userName } = useProfileStore();
+  const { logout } = useAuthStore();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [updateButtonTitle, setUpdateButtonTitle] = useState('Edit Profile');
   const [isEnableSave, setIsEnableSave] = useState(false);
+  const [usernameStr, setusernameStr] = useState('NicdeErc');
   if (isLoading) {
     return <Loading />;
   }
-  function logOut() {}
   function editProfile() {
     setIsEditProfile(!isEditProfile);
     if (updateButtonTitle == 'Edit Profile') {
       setUpdateButtonTitle('Save');
     } else {
       setUpdateButtonTitle('Edit Profile');
+      // updateUseInfo(userEmail, usernameStr);
     }
   }
   useEffect(() => {
-    if (isValidEmail(userEmailString)) setIsEnableSave(true);
-    else setIsEnableSave(false);
+    // fetchUserInfo();
+    if (isValidEmail(userEmail)) {
+      setIsEnableSave(true);
+    }
+    else {
+      setIsEnableSave(false)
+    }
+    // fetchUserInfo();
   });
-  const avatarContent = usernameString[0]
-    ? usernameString[0].toUpperCase()
+  const avatarContent = usernameStr[0]
+    ? usernameStr[0].toUpperCase()
     : '';
   return (
     <View style={styles.container}>
@@ -49,13 +53,13 @@ const Profile = ({ navigation }) => {
         <View style={{ marginTop: '15%' }}>
           <View style={styles.userInfoTextContainer}>
             <Input
-              onInput={setUserEmailString}
-              value={userEmailString}
+              onInput={()=>{}}
+              value={userEmail}
               warningText="Invalid e-mail format"
               editable={isEditProfile}
               showWarning={
                 isEditProfile
-                  ? userEmailString.length > 0 && !isValidEmail(userEmailString)
+                  ? userEmail.length > 0 && !isValidEmail(userEmail)
                   : false
               }
               backgroundColor={
@@ -74,8 +78,8 @@ const Profile = ({ navigation }) => {
           </View>
           <View style={styles.userInfoTextContainer}>
             <Input
-              onInput={setUsernameString}
-              value={usernameString}
+              onInput={setusernameStr}
+              value={usernameStr}
               editable={isEditProfile}
               backgroundColor={
                 !isEditProfile
