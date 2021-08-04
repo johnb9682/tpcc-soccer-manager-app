@@ -3,9 +3,7 @@ import { StyleSheet } from 'react-native';
 import { THEME_COLORS } from '../theme';
 
 export const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
+  container: { justifyContent: 'center', alignItems: 'center' },
   button: {
     margin: 10,
     alignItems: 'center',
@@ -28,8 +26,5 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3, // iOS
     shadowRadius: 3, //iOS
     elevation: 3, // Android
-  },
-  text: {
-    color: THEME_COLORS.WHITE,
   },
 });

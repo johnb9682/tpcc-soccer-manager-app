@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, ScrollView } from 'react-native';
+import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import { styles } from './style';
@@ -61,36 +61,31 @@ const Register = ({ navigation }) => {
       >
         <Heading containerStyle={styles.heading}>Sign Up</Heading>
         <View>
-          <Input
-            placeholder="Enter your username"
-            onChangeText={setUserNameText}
-          />
+          <Input placeholder="Enter your username" onInput={setUserNameText} />
           <Input
             placeholder="Enter your e-mail"
-            onChangeText={setEmailText}
+            onInput={setEmailText}
             warningText="Invalid e-mail format"
             showWarning={emailText.length > 0 && !isValidEmail(emailText)}
           />
           <Input
             placeholder="Enter your password"
-            onChangeText={setPasswordText}
+            onInput={setPasswordText}
             secureTextEntry={true}
             showWarning={passwordText.length > 0 && passwordText.length < 6}
             warningText="Your password must be 6 characters or more."
           />
           <Input
             placeholder="Repeat your password"
-            onChangeText={setConfirmPasswordText}
+            onInput={setConfirmPasswordText}
             secureTextEntry={true}
             showWarning={confirmPasswordText !== passwordText}
             warningText="The second password you entered is different from the first password"
           />
           <Info>For security, your password must be 6 characters or more.</Info>
-          <Button
-            title="Confirm to Sign Up"
-            onPress={onSignUpPress}
-            disabled={!isSignUpEnabled}
-          />
+          <Button onPress={onSignUpPress} disabled={!isSignUpEnabled}>
+            <Text style={styles.buttonText}>Confirm to Sign Up</Text>
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

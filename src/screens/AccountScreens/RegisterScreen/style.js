@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     backgroundColor: THEME_COLORS.WHITE,
     paddingTop: '3%',
   },
-  scrollView: { backgroundColor: THEME_COLORS.WHITE },
   forgot: {
     color: THEME_COLORS.DEFAULT_LINK_TEXT,
     fontSize: 12,
@@ -16,4 +15,8 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   heading: { padding: 40, alignItems: 'flex-start' },
+  buttonText: {
+    color: THEME_COLORS.WHITE,
+    fontWeight: '600',
+  },
 });
