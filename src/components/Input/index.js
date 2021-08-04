@@ -22,8 +22,6 @@ const Input = ({
   showWarning = false,
   warningText = '',
 }) => {
-  const [inputValue, setInputValue] = React.useState(value);
-  const [enableSafeEntry, setEnableSafeEntry] = React.useState(false);
   const [isOnFocus, setIsOnFocus] = React.useState(false);
 
   const inputWidth = React.useMemo(() => {
@@ -65,14 +63,12 @@ const Input = ({
         )}
         <TextInput
           onFocus={() => {
-            setEnableSafeEntry(true);
             setIsOnFocus(true);
           }}
           onBlur={() => {
             setIsOnFocus(false);
           }}
           onChangeText={newValue => {
-            setInputValue(newValue);
             onInput(newValue);
           }}
           placeholder={placeholder}
@@ -83,14 +79,13 @@ const Input = ({
             },
           ]}
           autoFocus={autoFocus}
-          secureTextEntry={enableSafeEntry && secureTextEntry}
-          value={inputValue}
+          secureTextEntry={secureTextEntry}
+          value={value}
         />
         <View style={styles.clearButtonContainer}>
-          {showClearButton && inputValue.length !== 0 && isOnFocus && (
+          {showClearButton && value.length !== 0 && isOnFocus && (
             <TouchableOpacity
               onPress={() => {
-                setInputValue('');
                 onInput('');
               }}
             >

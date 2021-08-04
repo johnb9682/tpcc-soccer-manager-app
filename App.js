@@ -17,11 +17,8 @@ import NavBar from './src/components/NavBar';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { isLoading, signedIn } = useAuthStore();
+  const { signedIn } = useAuthStore();
 
-  if (isLoading) {
-    return <Loading />;
-  }
   if (!signedIn) {
     return (
       <>

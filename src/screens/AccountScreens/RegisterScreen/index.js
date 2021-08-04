@@ -33,6 +33,15 @@ const Register = ({ navigation }) => {
           : result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+    if (result.status === 'success') {
+      navigation.navigate({
+        name: 'Landing',
+        params: {
+          emailText,
+          passwordText,
+        },
+      });
+    }
   });
 
   if (isLoading) {
@@ -61,14 +70,20 @@ const Register = ({ navigation }) => {
       >
         <Heading containerStyle={styles.heading}>Sign Up</Heading>
         <View>
-          <Input placeholder="Enter your username" onInput={setUserNameText} />
           <Input
+            value={userNameText}
+            placeholder="Enter your username"
+            onInput={setUserNameText}
+          />
+          <Input
+            value={emailText}
             placeholder="Enter your e-mail"
             onInput={setEmailText}
             warningText="Invalid e-mail format"
             showWarning={emailText.length > 0 && !isValidEmail(emailText)}
           />
           <Input
+            value={passwordText}
             placeholder="Enter your password"
             onInput={setPasswordText}
             secureTextEntry={true}
@@ -76,6 +91,7 @@ const Register = ({ navigation }) => {
             warningText="Your password must be 6 characters or more."
           />
           <Input
+            value={confirmPasswordText}
             placeholder="Repeat your password"
             onInput={setConfirmPasswordText}
             secureTextEntry={true}
