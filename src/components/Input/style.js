@@ -27,7 +27,6 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     alignSelf: 'center',
-    height: 40,
   },
   clearButtonContainer: {
     width: 20,
