@@ -1,7 +1,9 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { View,Text } from 'react-native';
 import { Loading } from '../Loading';
 import { useAuthStore } from '../../shared/zustand/auth';
+import { THEME_COLORS, THEME_FONTS } from '../theme';
+import { styles } from './style';
 
 
 const Avartar = ({
@@ -9,6 +11,7 @@ const Avartar = ({
     avatarUri,
     width,
     height,
+    content,
 }) => {
     const { isLoading } = useAuthStore();
     if (isLoading) {
@@ -16,25 +19,48 @@ const Avartar = ({
     }
     if (type == "square") {
         return (
-            <Image
-            style={{ width, height,}}
-            source={{ uri: avatarUri }}
-            />
+            <View
+                style={[
+                    styles.avatarContainer,
+                    {
+                    width, height,
+                    backgroundColor: THEME_COLORS.DEFAULT_BLUE_PRIMARY
+                    }
+                ]}
+            // source={{ uri: avatarUri }}
+            >
+                <Text style={styles.text}>{content}</Text>
+            </View>
         );
     }
     else if (type == "roundedRect") {
         return (
-            <Image
-            style={{ width, height, borderRadius: (width/4)}}
-            source={{ uri: avatarUri }}
-            />
+            <View
+                style={[
+                    styles.avatarContainer,
+                    {
+                        width, height,
+                        borderRadius: (width / 4),
+                    }
+                ]}
+            // source={{ uri: avatarUri }}
+            >
+                <Text style={styles.text}>{content}</Text>
+            </View>
         );
     }
     return (
-            <Image
-            style={{ width, height, borderRadius: (width/2)}}
-            source={{ uri: avatarUri }}
-        />
+            <View
+            style={[
+                styles.avatarContainer,
+                {
+                    width,
+                    height,
+                    borderRadius: (width / 2),
+                }
+            ]}>
+                <Text style={styles.text}>{content}</Text>
+            </View>
     );
 
 }

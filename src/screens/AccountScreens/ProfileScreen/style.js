@@ -7,15 +7,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
     alignItems: "center",
-    justifyContent:"center",
   },
   userInfoContainer: {
-    marginTop: "5%",
-    width: "60%",
+    marginTop: "20%",
+    width: "70%",
     justifyContent: "center",
     alignItems: "center",
   },
   userInfoTextContainer: {
+    marginTop: "5%",
     width: "100%",
     alignItems: "center",
   },
@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     fontSize: THEME_FONTS.SYSTEM_FONT,
   },
   buttonGroup: {
-    width: "60%",
+    marginTop: "20%",
+    width: "70%",
   },
 });

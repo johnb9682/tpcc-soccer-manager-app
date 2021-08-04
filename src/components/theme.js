@@ -19,4 +19,5 @@ export const THEME_COLORS = {
 export const THEME_FONTS = {
   SYSTEM_FONT: 24,
   BUTTON_FONT: 16,
+  AVATAR_FONT: 100,
 }
