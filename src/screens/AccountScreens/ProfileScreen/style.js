@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   userInfoContainer: {
-    marginTop: "20%",
+    marginTop: "10%",
     width: "70%",
     justifyContent: "center",
     alignItems: "center",

@@ -15,6 +15,14 @@ import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
+const Profile = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Setting" component={SettingScreen} />
+    </Stack.Navigator>
+  );
+};
 
 const App = () => {
   const { signedIn } = useAuthStore();
@@ -59,7 +67,7 @@ const App = () => {
         <NavBar
           eventHomeScreen={EventHomeScreen}
           homeScreen={HomeScreen}
-          profileScreen={ProfileScreen}
+          profileScreen={Profile}
         />
       </NavigationContainer>
       <Toast ref={ref => Toast.setRef(ref)} />

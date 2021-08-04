@@ -9,7 +9,7 @@ import { logout } from '../../../shared/api/auth';
 import { isValidEmail } from '../../../components/utils';
 
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const { isLoading } = useAuthStore();
   const [userEmailString, setUserEmailString] = useState("ericding0110@gmail.com");
   const [usernameString, setUsernameString] = useState("NicedeEric");
@@ -93,6 +93,13 @@ const Profile = () => {
           textColor={THEME_COLORS.WHITE}
           onPress={() => logout()}
         />
+        <Button
+          title="Settings"
+          onPress={() => {
+            navigation.navigate('Setting');
+          }}
+        >
+        </Button>
       </View>
     </View>
   );
