@@ -20,4 +20,9 @@ export const styles = StyleSheet.create({
     color: THEME_COLORS.WHITE,
     fontWeight: '600',
   },
+  loadingContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 20,
+  },
 });
