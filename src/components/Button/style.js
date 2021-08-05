@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../theme';
+import { THEME_COLORS, THEME_FONTS } from '../theme';
 
 export const styles = StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -26,5 +26,10 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3, // iOS
     shadowRadius: 3, //iOS
     elevation: 3, // Android
+  },
+
+  text: {
+    color: THEME_COLORS.WHITE,
+    fontSize: THEME_FONTS.BUTTON_FONT,
   },
 });

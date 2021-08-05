@@ -9,10 +9,12 @@ const Input = ({
   prefixAccessory,
   placeholder,
   autoFocus,
-  value = '',
   onInput,
   width = '80%',
   height = 40,
+  autoCapitalize = 'none',
+  value = '',
+  editable = true,
   borderWidth = 1,
   borderRadius = 10,
   borderColor = THEME_COLORS.DEFAULT_INPUT_BACKGROUND,
@@ -62,6 +64,8 @@ const Input = ({
           <View style={styles.prefixAccessoryContainer}>{prefixAccessory}</View>
         )}
         <TextInput
+          autoCapitalize={autoCapitalize}
+          editable={editable}
           onFocus={() => {
             setIsOnFocus(true);
           }}
