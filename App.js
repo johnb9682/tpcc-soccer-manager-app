@@ -22,7 +22,7 @@ const Team = () => {
       <Stack.Screen
         name="TeamHomeScreen"
         component={TeamHomeScreen}
-        options={{ title: 'Teams' }}
+        options={{ title: 'Teams', headerTitleAlign: 'center' }}
       />
       {/* <Stack.Screen name="CreateTeamScreen" component={CreateEventScreen} /> */}
     </Stack.Navigator>
