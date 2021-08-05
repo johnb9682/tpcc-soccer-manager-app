@@ -1,7 +1,5 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import { View,Text } from 'react-native';
-import { Loading } from '../Loading';
-import { useAuthStore } from '../../shared/zustand/auth';
 import { THEME_COLORS, THEME_FONTS } from '../theme';
 import { styles } from './style';
 
@@ -13,54 +11,37 @@ const Avartar = ({
     height,
     content,
 }) => {
-    const { isLoading } = useAuthStore();
-    if (isLoading) {
-        return <Loading />;
-    }
-    if (type == "square") {
-        return (
-            <View
-                style={[
-                    styles.avatarContainer,
-                    {
-                    width, height,
-                    backgroundColor: THEME_COLORS.DEFAULT_BLUE_PRIMARY
+    const avatarStyle = useMemo(
+        () => {
+            switch (type) {
+                case "square":
+                    return {
+                        borderRadius: 0
                     }
-                ]}
-            // source={{ uri: avatarUri }}
-            >
-                <Text style={styles.text}>{content}</Text>
-            </View>
-        );
-    }
-    else if (type == "roundedRect") {
-        return (
-            <View
-                style={[
-                    styles.avatarContainer,
-                    {
-                        width, height,
-                        borderRadius: (width / 4),
+                case "roundedRect":
+                    return {
+                        borderRadius: width/4
                     }
-                ]}
-            // source={{ uri: avatarUri }}
-            >
-                <Text style={styles.text}>{content}</Text>
-            </View>
-        );
-    }
+                default:
+                    return {
+                        borderRadius: width/2
+                    }
+            }
+        }
+        , [width, height, type])
     return (
-            <View
+        <View
             style={[
                 styles.avatarContainer,
+                avatarStyle,
                 {
-                    width,
-                    height,
-                    borderRadius: (width / 2),
+                width,
+                height,
+                backgroundColor: THEME_COLORS.DEFAULT_BLUE_PRIMARY
                 }
             ]}>
-                <Text style={styles.text}>{content}</Text>
-            </View>
+            <Text style={styles.text}>{content}</Text>
+        </View>
     );
 
 }
