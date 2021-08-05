@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS, THEME_FONTS } from '../theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../theme';
 
 export const styles = StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -30,6 +30,6 @@ export const styles = StyleSheet.create({
 
   text: {
     color: THEME_COLORS.WHITE,
-    fontSize: THEME_FONTS.BUTTON_FONT,
+    fontSize: THEME_FONT_SIZES.BUTTON_FONT,
   },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../../../../components/theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../../../../components/theme';
 
 export const styles = StyleSheet.create({
   eventItem: {
@@ -31,22 +31,22 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_TITLE,
     maxWidth: 250,
   },
   label: {
-    fontSize: 14,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
     color: THEME_COLORS.DEFAULT_INFO_TEXT,
     fontWeight: 'bold',
     marginRight: 5,
   },
   textValue: {
-    fontSize: 14,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
     color: THEME_COLORS.DEFAULT_INFO_TEXT,
     maxWidth: 120,
   },
   timeText: {
-    fontSize: 14,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
   },
   icon: {
     marginRight: 5,

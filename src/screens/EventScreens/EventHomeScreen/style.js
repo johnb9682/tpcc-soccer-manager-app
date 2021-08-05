@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../../../components/theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -33,9 +33,9 @@ export const styles = StyleSheet.create({
     color: THEME_COLORS.WHITE,
     fontWeight: '600',
   },
-  createButtonText: { fontSize: 18 },
+  createButtonText: { fontSize: THEME_FONT_SIZES.BUTTON_FONT_LARGE },
   todayText: {
-    fontSize: 15,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO2,
     fontWeight: 'bold',
     color: THEME_COLORS.DEFAULT_INFO_TEXT,
   },
