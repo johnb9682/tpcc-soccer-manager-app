@@ -1,21 +1,40 @@
 import * as React from 'react';
-import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  RefreshControl,
+  Text,
+} from 'react-native';
 
 import { styles } from './style';
-import { SearchInput } from '../../../components';
+import { SearchInput, Button, NoData } from '../../../components';
 import { useTeamStore } from '../../../shared/zustand/team';
 import TeamItem from '../components/TeamItem';
 
 const TeamHomeScreen = ({ navigation }) => {
   const { isLoading, userTeams, fetchUserTeams } = useTeamStore();
   const [searchStr, setSearchStr] = React.useState('');
-  const handleOnSearch = React.useCallback(searchValue => {
-    console.log(searchValue);
-  }, []);
+  const [filteredTeams, setFilteredTeams] = React.useState([]);
+
+  const handleOnSearch = React.useCallback(
+    searchValue => {
+      const lowercaseSearchValue = searchValue.toLowerCase();
+      const updatedFilteredTeams = userTeams.filter(team =>
+        team.teamName.toLowerCase().includes(lowercaseSearchValue)
+      );
+      setFilteredTeams(updatedFilteredTeams);
+    },
+    [userTeams]
+  );
 
   React.useEffect(() => {
     fetchUserTeams();
   }, []);
+
+  React.useEffect(() => {
+    setFilteredTeams(userTeams);
+  }, [userTeams]);
 
   const handleOnRefresh = React.useCallback(() => {
     fetchUserTeams();
@@ -41,12 +60,24 @@ const TeamHomeScreen = ({ navigation }) => {
             />
           </View>
           <View>
-            {userTeams.map(team => {
+            {filteredTeams.map(team => {
               return <TeamItem key={team.teamId} teamName={team.teamName} />;
             })}
           </View>
+          {filteredTeams.length === 0 && (
+            <View style={styles.noData}>
+              <NoData message={'No Teams Found'} />
+            </View>
+          )}
         </View>
       </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Button borderWidth={0} height={50} onPress={() => {}}>
+          <Text style={[styles.createButtonText, styles.buttonText]}>
+            Create a New Team
+          </Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };

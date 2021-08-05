@@ -21,7 +21,9 @@ const TeamItem = ({ showSeparator = true, teamName, navigation }) => {
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.title}>{teamName}</Text>
+          <Text numberOfLines={1} style={styles.title}>
+            {teamName}
+          </Text>
           <Icon
             name="chevron-right"
             size={24}
