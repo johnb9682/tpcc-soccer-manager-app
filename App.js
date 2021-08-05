@@ -32,8 +32,21 @@ const Team = () => {
 const Profile = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
   );
 };
