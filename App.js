@@ -6,16 +6,29 @@ import Toast from 'react-native-toast-message';
 
 import { THEME_COLORS } from './src/components/theme';
 import { useAuthStore } from './src/shared/zustand/auth';
-import { Loading } from './src/components';
-import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import SettingScreen from './src/screens/SettingScreens';
+import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
+
+const Team = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TeamHomeScreen"
+        component={TeamHomeScreen}
+        options={{ title: 'Teams' }}
+      />
+      {/* <Stack.Screen name="CreateTeamScreen" component={CreateEventScreen} /> */}
+    </Stack.Navigator>
+  );
+};
+
 const Profile = () => {
   return (
     <Stack.Navigator>
@@ -67,7 +80,7 @@ const App = () => {
         />
         <NavBar
           eventHomeScreen={EventHomeScreen}
-          homeScreen={HomeScreen}
+          teamHomeScreen={Team}
           profileScreen={Profile}
         />
       </NavigationContainer>
