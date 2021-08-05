@@ -7,27 +7,26 @@ import {
   removeDataObj,
 } from '../../utils/asyncStorage';
 import { login, signUp } from '../../api/auth';
-import {
-  USER_INFO_SESSION_STORAGE_FIELD,
-  TOKEN_SESSION_STORAGE_FIELD,
-} from '../../api/auth/constants';
+import { USER_INFO_SESSION_STORAGE_FIELD } from '../../api/auth/constants';
 import { clearCache } from '../../api/cache';
 
-const cachedUserInfo = getDataObj(USER_INFO_SESSION_STORAGE_FIELD);
-const cachedAccessToken = getDataObj(TOKEN_SESSION_STORAGE_FIELD);
-
-const signedIn = Boolean(getDataObj(USER_INFO_SESSION_STORAGE_FIELD));
-
 const initialState = {
-  userInfo: cachedUserInfo ? cachedUserInfo : null,
-  tokenInfo: cachedAccessToken ? cachedAccessToken : null,
-  signedIn: signedIn,
+  userInfo: null,
+  signedIn: false,
   isLoading: false,
   loginTimeStamp: null,
 };
 
 export const useAuthStore = create((set, get) => ({
   ...initialState,
+  initialize: async () => {
+    const cachedUserInfo = await getDataObj(USER_INFO_SESSION_STORAGE_FIELD);
+    const signedIn = Boolean(cachedUserInfo);
+    set({
+      userInfo: cachedUserInfo ?? null,
+      signedIn,
+    });
+  },
   login: async (email, password) => {
     const { signedIn } = get();
     if (!signedIn) {
@@ -43,7 +42,7 @@ export const useAuthStore = create((set, get) => ({
             email: data.email,
             userName: data.userName,
           };
-          storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, userInfo);
+          await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, userInfo);
           set({
             userInfo,
             signedIn: true,
@@ -65,8 +64,8 @@ export const useAuthStore = create((set, get) => ({
   },
   logout: async () => {
     try {
-      removeDataObj(USER_INFO_SESSION_STORAGE_FIELD);
-      clearCache();
+      await removeDataObj(USER_INFO_SESSION_STORAGE_FIELD);
+      await clearCache();
     } catch {
       // Empty
     }
