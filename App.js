@@ -6,7 +6,6 @@ import Toast from 'react-native-toast-message';
 
 import { THEME_COLORS } from './src/components/theme';
 import { useAuthStore } from './src/shared/zustand/auth';
-import { Loading } from './src/components';
 import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
@@ -26,7 +25,11 @@ const Profile = () => {
 };
 
 const App = () => {
-  const { signedIn } = useAuthStore();
+  const { signedIn, initialize } = useAuthStore();
+
+  React.useEffect(() => {
+    initialize();
+  }, []);
 
   if (!signedIn) {
     return (
