@@ -6,7 +6,11 @@ import { THEME_COLORS } from '../theme';
 
 const Tab = createBottomTabNavigator();
 
-export default function NavBar({ eventHomeScreen, homeScreen, profileScreen }) {
+export default function NavBar({
+  eventHomeScreen,
+  teamHomeScreen,
+  profileScreen,
+}) {
   return (
     <Tab.Navigator
       initialRouteName="Events"
@@ -30,7 +34,7 @@ export default function NavBar({ eventHomeScreen, homeScreen, profileScreen }) {
       />
       <Tab.Screen
         name="Teams"
-        component={homeScreen}
+        component={teamHomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcon
