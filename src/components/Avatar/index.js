@@ -9,7 +9,7 @@ const Avartar = ({
   width,
   height,
   content,
-  fontSize = THEME_FONT_SIZES.AVATAR_FONT,
+  fontSize = THEME_FONT_SIZES.AVATAR_FONT_MAX,
 }) => {
   const avatarStyle = useMemo(() => {
     switch (type) {
