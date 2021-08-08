@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../../components/theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../../components/theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   scrollView: { backgroundColor: THEME_COLORS.WHITE },
   forgot: {
     color: THEME_COLORS.DEFAULT_LINK_TEXT,
-    fontSize: 12,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_SMALL,
     marginTop: 12,
     alignSelf: 'center',
   },

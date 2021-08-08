@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_TITLE,
     fontWeight: 'bold',
     color: THEME_COLORS.DEFAULT_INFO_TEXT,
   },
