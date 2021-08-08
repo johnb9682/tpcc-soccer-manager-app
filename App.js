@@ -52,7 +52,11 @@ const Profile = () => {
 };
 
 const App = () => {
-  const { signedIn } = useAuthStore();
+  const { signedIn, initialize } = useAuthStore();
+
+  React.useEffect(() => {
+    initialize();
+  }, []);
 
   if (!signedIn) {
     return (
