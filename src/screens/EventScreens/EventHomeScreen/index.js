@@ -93,7 +93,7 @@ const EventHomeScreen = ({ navigation }) => {
           <View style={styles.searchContainer}>
             <SearchInput
               width="94%"
-              placeholder="Search"
+              placeholder="Search My Events"
               value={searchStr}
               onInput={setSearchStr}
               onSearch={handleOnSearch}

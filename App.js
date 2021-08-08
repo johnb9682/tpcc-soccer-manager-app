@@ -6,22 +6,48 @@ import Toast from 'react-native-toast-message';
 
 import { THEME_COLORS } from './src/components/theme';
 import { useAuthStore } from './src/shared/zustand/auth';
-import { Loading } from './src/components';
-import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import CreateEventScreen from './src/screens/EventScreens/CreateEventScreen';
 import SettingScreen from './src/screens/SettingScreens';
+import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
+
+const Team = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TeamHomeScreen"
+        component={TeamHomeScreen}
+        options={{ title: 'Teams', headerTitleAlign: 'center' }}
+      />
+      {/* <Stack.Screen name="CreateTeamScreen" component={CreateEventScreen} /> */}
+    </Stack.Navigator>
+  );
+};
+
 const Profile = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -36,7 +62,11 @@ const Event = () => {
 }
 
 const App = () => {
-  const { signedIn } = useAuthStore();
+  const { signedIn, initialize } = useAuthStore();
+
+  React.useEffect(() => {
+    initialize();
+  }, []);
 
   if (!signedIn) {
     return (
@@ -77,7 +107,7 @@ const App = () => {
         />
         <NavBar
           eventHomeScreen={Event}
-          homeScreen={HomeScreen}
+          teamHomeScreen={Team}
           profileScreen={Profile}
         />
       </NavigationContainer>
