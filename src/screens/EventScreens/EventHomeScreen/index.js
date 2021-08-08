@@ -93,7 +93,7 @@ const EventHomeScreen = ({ navigation }) => {
           <View style={styles.searchContainer}>
             <SearchInput
               width="94%"
-              placeholder="Search"
+              placeholder="Search My Events"
               value={searchStr}
               onInput={setSearchStr}
               onSearch={handleOnSearch}
@@ -131,7 +131,7 @@ const EventHomeScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
-      <View intensity={100} style={styles.bottomContainer}>
+      <View style={styles.bottomContainer}>
         <Button borderWidth={0} height={50} onPress={() => {}}>
           <Text style={[styles.createButtonText, styles.buttonText]}>
             Create a New Event
