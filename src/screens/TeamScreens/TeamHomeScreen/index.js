@@ -72,7 +72,11 @@ const TeamHomeScreen = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.bottomContainer}>
-        <Button borderWidth={0} height={50} onPress={() => {}}>
+        <Button
+          borderWidth={0}
+          height={50}
+          onPress={() => navigation.navigate('CreateTeam')}
+        >
           <Text style={[styles.createButtonText, styles.buttonText]}>
             Create a New Team
           </Text>

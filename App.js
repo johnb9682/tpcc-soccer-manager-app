@@ -12,6 +12,7 @@ import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
+import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
@@ -20,11 +21,15 @@ const Team = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="TeamHomeScreen"
+        name="TeamHome"
         component={TeamHomeScreen}
         options={{ title: 'Teams', headerTitleAlign: 'center' }}
       />
-      {/* <Stack.Screen name="CreateTeamScreen" component={CreateEventScreen} /> */}
+      <Stack.Screen
+        name="CreateTeam"
+        component={CreateTeamScreen}
+        options={{ title: 'Create a Team', headerTitleAlign: 'center' }}
+      />
     </Stack.Navigator>
   );
 };
