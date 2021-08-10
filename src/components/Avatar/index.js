@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
-import { THEME_COLORS, THEME_FONTS } from '../theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../theme';
 import { styles } from './style';
 
 const Avartar = ({
@@ -9,7 +9,7 @@ const Avartar = ({
   width,
   height,
   content,
-  fontSize = THEME_FONTS.AVATAR_FONT,
+  fontSize = THEME_FONT_SIZES.AVATAR_FONT_MAX,
 }) => {
   const avatarStyle = useMemo(() => {
     switch (type) {
