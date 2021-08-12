@@ -1,16 +1,24 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS } from '../../../components/theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
   },
-  heading: {
-    width: '90%',
-    alignItems: 'flex-start',
-    alignSelf: 'center',
-    paddingVertical: '5%',
+  scrollContainer: {
+    paddingTop: 20,
+  },
+  buttonText: {
+    color: THEME_COLORS.WHITE,
+    fontSize: THEME_FONT_SIZES.BUTTON_FONT,
+    fontWeight: '600',
+  },
+  cancelButton: {
+    color: THEME_COLORS.DANGER_COLOR,
+  },
+  inputContainer: {
+    marginBottom: 10,
   },
 });

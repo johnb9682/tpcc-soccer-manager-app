@@ -23,12 +23,19 @@ const Team = () => {
       <Stack.Screen
         name="TeamHome"
         component={TeamHomeScreen}
-        options={{ title: 'Teams', headerTitleAlign: 'center' }}
+        options={{
+          title: 'Teams',
+          headerTitleAlign: 'center',
+        }}
       />
       <Stack.Screen
         name="CreateTeam"
         component={CreateTeamScreen}
-        options={{ title: 'Create a Team', headerTitleAlign: 'center' }}
+        options={{
+          title: 'Create a Team',
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+        }}
       />
     </Stack.Navigator>
   );
@@ -41,6 +48,7 @@ const Profile = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
+          headerBackTitleVisible: false,
           headerTitleAlign: 'center',
         }}
       />

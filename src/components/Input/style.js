@@ -1,8 +1,16 @@
 import { StyleSheet } from 'react-native';
 
-import { THEME_COLORS, THEME_FONTS } from '../theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../theme';
 
 export const styles = StyleSheet.create({
+  outerContainer: {
+    justifyContent: 'center',
+  },
+  label: {
+    alignSelf: 'center',
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_TITLE,
+    fontWeight: 'bold',
+  },
   container: {
     marginVertical: 10,
     paddingHorizontal: 5,
@@ -27,7 +35,6 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     alignSelf: 'center',
-    height: 40,
   },
   clearButtonContainer: {
     width: 20,

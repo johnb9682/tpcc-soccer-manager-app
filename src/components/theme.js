@@ -14,6 +14,7 @@ export const THEME_COLORS = {
   WARNING_COLOR: '#fcad23',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
+  DARK_GREY: '#212121',
 };
 
 export const THEME_FONT_SIZES = {
