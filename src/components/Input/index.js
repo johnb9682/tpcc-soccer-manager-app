@@ -10,6 +10,7 @@ const Input = ({
   placeholder,
   autoFocus,
   onInput,
+  multiline = false,
   width = '80%',
   height = 40,
   autoCapitalize = 'none',
@@ -64,6 +65,7 @@ const Input = ({
           <View style={styles.prefixAccessoryContainer}>{prefixAccessory}</View>
         )}
         <TextInput
+          multiline={multiline}
           autoCapitalize={autoCapitalize}
           editable={editable}
           onFocus={() => {
@@ -80,6 +82,7 @@ const Input = ({
             styles.textInput,
             {
               width: inputWidth,
+              height: height,
             },
           ]}
           autoFocus={autoFocus}

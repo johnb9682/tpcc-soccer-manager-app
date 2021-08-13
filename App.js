@@ -10,6 +10,7 @@ import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
+import CreateEventScreen from './src/screens/EventScreens/CreateEventScreen';
 import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import NavBar from './src/components/NavBar';
@@ -50,6 +51,15 @@ const Profile = () => {
     </Stack.Navigator>
   );
 };
+
+const Event = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="EventHome" component={EventHomeScreen}/>
+      <Stack.Screen name="CreateEvent" component={CreateEventScreen}/>
+    </Stack.Navigator>
+  )
+}
 
 const App = () => {
   const { signedIn, initialize } = useAuthStore();
@@ -96,7 +106,7 @@ const App = () => {
           backgroundColor={THEME_COLORS.WHITE}
         />
         <NavBar
-          eventHomeScreen={EventHomeScreen}
+          eventHomeScreen={Event}
           teamHomeScreen={Team}
           profileScreen={Profile}
         />
