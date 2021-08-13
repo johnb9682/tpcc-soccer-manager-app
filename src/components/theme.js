@@ -14,6 +14,7 @@ export const THEME_COLORS = {
   WARNING_COLOR: '#fcad23',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
+  DARK_GREY: '#212121',
 };
 
 export const THEME_FONT_SIZES = {
@@ -27,4 +28,5 @@ export const THEME_FONT_SIZES = {
   BUTTON_FONT_LARGE: 18,
   AVATAR_FONT_MAX: 100,
   HEADING_DEFAULT: 40,
+  HEADING_MEDIUM: 30,
 };

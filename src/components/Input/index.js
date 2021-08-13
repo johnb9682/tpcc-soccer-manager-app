@@ -24,6 +24,8 @@ const Input = ({
   secureTextEntry = false,
   showWarning = false,
   warningText = '',
+  label = null,
+  labelTextStyle,
 }) => {
   const [isOnFocus, setIsOnFocus] = React.useState(false);
 
@@ -31,11 +33,22 @@ const Input = ({
     if (prefixAccessory) {
       return '80%';
     }
+    if (!showClearButton && !prefixAccessory) {
+      return '96%';
+    }
     return '90%';
   }, [prefixAccessory]);
 
   return (
-    <View>
+    <View style={styles.outerContainer}>
+      {label && (
+        <Text
+          numberOfLines={1}
+          style={[styles.label, labelTextStyle, { width }]}
+        >
+          {label}
+        </Text>
+      )}
       <View
         style={
           showWarning
@@ -65,6 +78,7 @@ const Input = ({
           <View style={styles.prefixAccessoryContainer}>{prefixAccessory}</View>
         )}
         <TextInput
+          textAlignVertical={multiline ? 'top' : 'auto'}
           multiline={multiline}
           autoCapitalize={autoCapitalize}
           editable={editable}
@@ -82,14 +96,14 @@ const Input = ({
             styles.textInput,
             {
               width: inputWidth,
-              height: height,
+              height: height > 60 ? height - 20 : height,
             },
           ]}
           autoFocus={autoFocus}
           secureTextEntry={secureTextEntry}
           value={value}
         />
-        <View style={styles.clearButtonContainer}>
+        <View style={showClearButton ? styles.clearButtonContainer : {}}>
           {showClearButton && value.length !== 0 && isOnFocus && (
             <TouchableOpacity
               onPress={() => {
