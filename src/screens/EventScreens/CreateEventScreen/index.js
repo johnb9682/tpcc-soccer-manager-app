@@ -1,24 +1,27 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, ScrollView} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { DateInput } from '../../../components/DateInput';
 import { Input, Button } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
 
+
 const CreateEventScreen = ({ navigation }) => {
     const [eventName, setEventName] = useState('');
-    const [eventDate, setEventDate] = useState('');
+    const [eventStartDate, setEventStartDate] = useState(new Date());
+    const [eventEndDate, setEventEndDate] = useState(new Date());
     const [eventLocation, setEventLocation] = useState('');
     const [eventDescription, setEventDescription] = useState('');
     const [isCreateEnabled, setIsCreateEnabled] = useState(true)
     function handleCancel() {
         setEventName("");
-        setEventDate("");
+        setEventStartDate("");
         setEventLocation("");
         setEventDescription("");
         navigation.navigate('EventHome');
     }
     useEffect(() => {
-        if (eventName.length > 0 && eventDate.length > 0) {
+        if (eventName.length > 0 && eventStartDate.length > 0 && eventEndDate.length > 0) {
           setIsCreateEnabled(true);
         } else {
           setIsCreateEnabled(false);
@@ -38,15 +41,26 @@ const CreateEventScreen = ({ navigation }) => {
                             borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
                             backgroundColor={THEME_COLORS.WHITE}
                         />
-                        <Input
-                            value={eventDate}
+                        {/* <Input
+                            value={eventStartDate}
                             placeholder="Event Date"
                             height={70}
-                            onInput={setEventDate}
+                            onInput={setEventStartDate}
                             borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
                             backgroundColor={THEME_COLORS.WHITE}
-
-                        />
+                        /> */}
+                        <View>
+                            <DateInput
+                                title="Event Start Date"
+                                value={eventStartDate}
+                                onDateChange={setEventStartDate}
+                            />
+                            <DateInput
+                                title="Event End Date"
+                                value={eventEndDate}
+                                onDateChange={setEventEndDate}
+                            />
+                        </View>
                         <Input
                             value={eventLocation}
                             placeholder="Event Location"
