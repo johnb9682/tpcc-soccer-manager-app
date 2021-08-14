@@ -2811,14 +2811,9 @@ css-in-js-utils@^2.0.0:
     hyphenate-style-name "^1.0.2"
     isobject "^3.0.1"
 
-dayjs@^1.10.6:
+dayjs@^1.10.6, dayjs@^1.8.15:
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
-  integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
-
-dayjs@^1.8.15:
-  version "1.10.6"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.10.6.tgz"
   integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
@@ -5202,19 +5197,10 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-appearance@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"
-  integrity sha512-Vz3zdJbAEiMDwuw6wH98TT1WVfBvWjvANutYtkIbl16KGRCigtSgt6IIiLsF3/TSS3y3FtHhWDelFeGw/rtuig==
-  dependencies:
-    fbemitter "^2.1.1"
-    invariant "^2.2.4"
-    use-subscription "^1.0.0"
-
-react-native-date-input@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/react-native-date-input/-/react-native-date-input-1.0.11.tgz#fec3f6fa8598b3202750dafcadbd5a0d25e15dc0"
-  integrity sha512-gDTDEg6RTmn4KYNeWIpFo1QpHUWSaE/JGiEoNI51AtSmkNXy00LuE79NsrCBmR57VJKC2I42d6QB5oKGKY8/ow==
+react-native-date-picker@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-3.3.2.tgz#1e08ae1793112510cd19eaca900b3be3b21c7339"
+  integrity sha512-iLlze62sBPwHXaBz69eXPy8cA5vXWV21UaDflQ6TECDhOOQ5HTeDXqSHrQFNPqsYwfmHADGiQdKRnzRy5st2VA==
 
 react-native-gesture-handler@~1.10.2:
   version "1.10.3"
@@ -5230,11 +5216,6 @@ react-native-gesture-handler@~1.10.2:
 react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
-  integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
-
-react-native-iphone-x-helper@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
 react-native-reanimated@~2.1.0:
