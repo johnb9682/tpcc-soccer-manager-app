@@ -6,7 +6,7 @@ import { THEME_COLORS } from '../theme';
 
 const DateInput = ({
     onChange,
-    title,
+    label,
     width = '60%',
     value = '',
     mode = 'datetime',
@@ -26,7 +26,7 @@ const DateInput = ({
               borderRadius: borderRadius,
               backgroundColor: backgroundColor,
       }]}>
-        <Text>{title}</Text>
+        <Text style={styles.label}>{label}</Text>
               <DateTimePicker
                 mode={mode}
                 is24Hour={is24Hour}

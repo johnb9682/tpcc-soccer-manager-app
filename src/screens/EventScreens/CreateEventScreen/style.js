@@ -17,4 +17,8 @@ export const styles = StyleSheet.create({
     color: THEME_COLORS.WHITE,
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
   },
+  dangerButtonText: {
+    color: THEME_COLORS.DANGER_COLOR,
+    fontSize: THEME_FONT_SIZES.BUTTON_FONT,
+  }
 });

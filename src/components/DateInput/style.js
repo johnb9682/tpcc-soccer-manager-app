@@ -8,4 +8,8 @@ export const styles = StyleSheet.create({
         marginTop: "3%",
         marginBottom: "3%",
     },
+    label: {
+        fontSize: THEME_FONT_SIZES.BUTTON_FONT,
+        fontWeight: "700",
+    }
 });

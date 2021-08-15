@@ -11,7 +11,7 @@ const CreateEventScreen = ({ navigation }) => {
     const [eventEndDate, setEventEndDate] = useState(new Date());
     const [eventLocation, setEventLocation] = useState('');
     const [eventDescription, setEventDescription] = useState('');
-    const [isCreateEnabled, setIsCreateEnabled] = useState(true)
+    const [isCreateEnabled, setIsCreateEnabled] = useState(true);
     function handleCancel() {
         setEventName('');
         setEventLocation("");
@@ -24,7 +24,6 @@ const CreateEventScreen = ({ navigation }) => {
         if (eventName.length > 0 && (eventEndDate-eventStartDate>0)) {
             setIsCreateEnabled(true);
         } else {
-            console.log(eventName);
             setIsCreateEnabled(false);
         }
       });
@@ -44,12 +43,12 @@ const CreateEventScreen = ({ navigation }) => {
                         />
                         <View>
                             <DateInput
-                                title="Event Start Date"
+                                label="Event Start Date"
                                 value={eventStartDate}
                                 onChange={setEventStartDate}
                             />
                             <DateInput
-                                title="Event End Date"
+                                label="Event End Date"
                                 value={eventEndDate}
                                 onChange={setEventEndDate}
                             />
@@ -77,11 +76,11 @@ const CreateEventScreen = ({ navigation }) => {
                             <Text style={styles.ButtonText}> Create</Text>
                         </Button>
                         <Button
-                            buttonColor={THEME_COLORS.DANGER_COLOR}
-                            borderColor={THEME_COLORS.DANGER_COLOR}
+                            buttonColor={THEME_COLORS.WHITE}
+                            borderColor={THEME_COLORS.WHITE}
                             onPress={handleCancel}
                         >
-                            <Text style={styles.ButtonText}>Cancel</Text>
+                            <Text style={styles.dangerButtonText}>Cancel</Text>
                         </Button>
                     </View>
                 </View>
