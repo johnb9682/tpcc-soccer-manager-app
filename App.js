@@ -49,7 +49,6 @@ const Profile = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerBackTitleVisible: false,
           headerTitleAlign: 'center',
         }}
       />
@@ -68,11 +67,24 @@ const Profile = () => {
 const Event = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="EventHome" component={EventHomeScreen}/>
-      <Stack.Screen name="CreateEvent" component={CreateEventScreen}/>
+      <Stack.Screen
+        name="EventHome"
+        component={EventHomeScreen}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="CreateEvent"
+        component={CreateEventScreen}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const App = () => {
   const { signedIn, initialize } = useAuthStore();
