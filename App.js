@@ -49,6 +49,7 @@ const Profile = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
+          title: 'My Profile',
           headerTitleAlign: 'center',
         }}
       />
@@ -56,6 +57,7 @@ const Profile = () => {
         name="Setting"
         component={SettingScreen}
         options={{
+          title: 'Settings',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',
         }}
@@ -71,6 +73,7 @@ const Event = () => {
         name="EventHome"
         component={EventHomeScreen}
         options={{
+          title: 'Events',
           headerTitleAlign: 'center',
         }}
       />
@@ -78,6 +81,7 @@ const Event = () => {
         name="CreateEvent"
         component={CreateEventScreen}
         options={{
+          title: 'Create an Event',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',
         }}
