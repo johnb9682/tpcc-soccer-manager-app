@@ -10,6 +10,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
   },
+  innerContainer: {
+    paddingBottom: 50,
+  },
   ButtonText: {
     color: THEME_COLORS.WHITE,
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,

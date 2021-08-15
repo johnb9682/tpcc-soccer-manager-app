@@ -5,7 +5,6 @@ import { Input, Button } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
 
-
 const CreateEventScreen = ({ navigation }) => {
     const [eventName, setEventName] = useState('');
     const [eventStartDate, setEventStartDate] = useState(new Date());
@@ -14,51 +13,45 @@ const CreateEventScreen = ({ navigation }) => {
     const [eventDescription, setEventDescription] = useState('');
     const [isCreateEnabled, setIsCreateEnabled] = useState(true)
     function handleCancel() {
-        setEventName("");
-        setEventStartDate("");
+        setEventName('');
         setEventLocation("");
+        setEventEndDate(new Date());
+        setEventStartDate(new Date());
         setEventDescription("");
         navigation.navigate('EventHome');
     }
     useEffect(() => {
-        if (eventName.length > 0 && eventStartDate.length > 0 && eventEndDate.length > 0) {
-          setIsCreateEnabled(true);
+        if (eventName.length > 0 && (eventEndDate-eventStartDate>0)) {
+            setIsCreateEnabled(true);
         } else {
-          setIsCreateEnabled(false);
+            console.log(eventName);
+            setIsCreateEnabled(false);
         }
       });
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollContainer}>
-                <View >
+                <View style={styles.innerContainer}>
                     <View>
                         <Input
+                            onInput={setEventName}
                             value={eventName}
                             placeholder="Event Name"
-                            autoFocus={true}
+                            // autoFocus={true}
                             height={70}
-                            onInput={setEventName}
                             borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
                             backgroundColor={THEME_COLORS.WHITE}
                         />
-                        {/* <Input
-                            value={eventStartDate}
-                            placeholder="Event Date"
-                            height={70}
-                            onInput={setEventStartDate}
-                            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
-                            backgroundColor={THEME_COLORS.WHITE}
-                        /> */}
                         <View>
                             <DateInput
                                 title="Event Start Date"
                                 value={eventStartDate}
-                                onDateChange={setEventStartDate}
+                                onChange={setEventStartDate}
                             />
                             <DateInput
                                 title="Event End Date"
                                 value={eventEndDate}
-                                onDateChange={setEventEndDate}
+                                onChange={setEventEndDate}
                             />
                         </View>
                         <Input

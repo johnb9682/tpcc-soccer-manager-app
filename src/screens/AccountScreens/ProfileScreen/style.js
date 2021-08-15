@@ -10,21 +10,22 @@ export const styles = StyleSheet.create({
   },
   userInfoContainer: {
     marginTop: '10%',
-    width: '70%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   userInfoTextContainer: {
     marginTop: '5%',
     width: '100%',
-    alignItems: 'center',
+    alignSelf: "center",
   },
   userInfoText: {
     fontSize: THEME_FONT_SIZES.SYSTEM_FONT,
   },
   buttonGroup: {
     marginTop: '10%',
-    width: '70%',
+    alignSelf:"center",
+    width: '80%',
   },
   buttonText: {
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,

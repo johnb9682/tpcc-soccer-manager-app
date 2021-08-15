@@ -5,9 +5,9 @@ import { styles } from './style';
 import { THEME_COLORS } from '../theme';
 
 const DateInput = ({
-    onDateChange,
+    onChange,
     title,
-    width = '80%',
+    width = '60%',
     value = '',
     mode = 'datetime',
     is24Hour = true,
@@ -32,7 +32,9 @@ const DateInput = ({
                 is24Hour={is24Hour}
                 display={display}
                 value={value}
-                onDateChange={onDateChange}
+                onChange={(e, date) => {
+                  onChange(date);
+                }}
             /> 
         </View>
     </View>
