@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { styles } from './style';
 import { THEME_COLORS } from '../theme';
 import dayjs from 'dayjs';
+import { datePickerFormat, timePickerFormat } from '../constants';
 
 const DateInput = ({
   onChange,
@@ -36,11 +37,11 @@ const DateInput = ({
     return (
       <View>
             <View style={[styles.container,{
-                width: width,
-                borderColor: borderColor,
-                borderWidth: borderWidth,
-                borderRadius: borderRadius,
-                backgroundColor: backgroundColor,
+                width,
+                borderColor,
+                borderWidth,
+                borderRadius,
+                backgroundColor,
         }]}>
           <Text style={styles.label}>{label}</Text>
             <DateTimePicker
@@ -49,7 +50,7 @@ const DateInput = ({
               display={display}
               value={value}
               onChange={(e, date) => {
-                if (date != undefined) {
+                if (date !== undefined) {
                   onChange(date);
                 }
               }}
@@ -58,35 +59,35 @@ const DateInput = ({
       </View>
     );
   }
-  else if (Platform.OS === 'android') {
+  else {
     return (
       <View>
         <View style={[styles.container,{
-          width: width,
-          borderColor: borderColor,
-          borderWidth: borderWidth,
-          borderRadius: borderRadius,
-          backgroundColor: backgroundColor,
+          width,
+          borderColor,
+          borderWidth,
+          borderRadius,
+          backgroundColor,
         }]}>
           <Text style={styles.label}>{label}</Text>
           <View style={styles.dateContainer}>
-            <View style={{ alignSelf: 'flex-start', }}>
+            <View>
               <Button
                 width="100%"
                 onPress={showDatePicker}
                 buttonColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
                 borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
               >
-              <Text style={styles.btnText}>{dayjs(value).format('MMM DD, YYYY')}</Text> 
+              <Text style={styles.btnText}>{dayjs(value).format(datePickerFormat)}</Text> 
             </Button>
             </View>
-            <View style={{ alignSelf: 'flex-end', }}>
+            <View>
               <Button
                 width="100%"
                 onPress={showTimePicker}
                 buttonColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
                 borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}>
-              <Text style={styles.btnText}>{dayjs(value).format('HH:mm')}</Text>
+              <Text style={styles.btnText}>{dayjs(value).format(timePickerFormat)}</Text>
             </Button>
             </View>
           </View>
@@ -98,7 +99,7 @@ const DateInput = ({
             display={display}
             onChange={(e, date) => {
               setShow(Platform.OS === 'ios');
-              if (date != undefined) {
+              if (date !== undefined) {
                 onChange(date);
               }
             }}
