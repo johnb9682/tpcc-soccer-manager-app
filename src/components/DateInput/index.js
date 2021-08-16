@@ -9,8 +9,6 @@ import dayjs from 'dayjs';
 const DateInput = ({
   onChange,
   label,
-  dateBtnTitle,
-  timeBtnTitle,
   value,
   width = '60%',
   mode = 'datetime',
@@ -45,15 +43,15 @@ const DateInput = ({
                 backgroundColor: backgroundColor,
         }]}>
           <Text style={styles.label}>{label}</Text>
-                <DateTimePicker
-                  mode={mode}
-                  is24Hour={is24Hour}
-                  display={display}
-                  value={value}
-                  onChange={(e, date) => {
-                    onChange(date);
-                  }}
-              /> 
+            <DateTimePicker
+              mode={mode}
+              is24Hour={is24Hour}
+              display={display}
+              value={value}
+              onChange={(e, date) => {
+                onChange(date);
+              }}
+            /> 
           </View>
       </View>
     );
@@ -77,7 +75,7 @@ const DateInput = ({
                 buttonColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
                 borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
               >
-              <Text style={styles.btnText}>{dayjs(value).format('YYYY-MM-DD')}</Text> 
+              <Text style={styles.btnText}>{dayjs(value).format('MMM DD, YYYY')}</Text> 
             </Button>
             </View>
             <View style={{ alignSelf: 'flex-end', }}>
@@ -86,7 +84,7 @@ const DateInput = ({
                 onPress={showTimePicker}
                 buttonColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
                 borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}>
-              <Text style={styles.btnText}>{dayjs(value).format('HH:mm AM')}</Text>
+              <Text style={styles.btnText}>{dayjs(value).format('hh:mm AM').slice(0, -1)}</Text>
             </Button>
             </View>
           </View>

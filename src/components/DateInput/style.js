@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     },
     btnText: {
         color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
+        fontSize: THEME_FONT_SIZES.BUTTON_FONT,
     },
     dateContainer: {
         flex: 1,

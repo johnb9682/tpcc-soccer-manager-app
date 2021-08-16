@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Platform } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { DateInput } from '../../../components/DateInput';
-import { Input, Button } from '../../../components';
+import { Input, Button, Info } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
 
 const CreateEventScreen = ({ navigation }) => {
-  const [text, setText] = useState('');
+  const [warning, setWarning] = useState(false);
   const [eventName, setEventName] = useState('');
   const [eventStartDate, setEventStartDate] = useState(new Date());
   const [eventEndDate, setEventEndDate] = useState(new Date());
@@ -28,7 +28,15 @@ const CreateEventScreen = ({ navigation }) => {
     } else {
       setIsCreateEnabled(false);
     }
-  });
+  })
+  useEffect(() => {
+    if (eventEndDate - eventStartDate <= 0) {
+      setWarning(true);
+    }
+    else {
+      setWarning(false);
+    }
+  })
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -42,26 +50,26 @@ const CreateEventScreen = ({ navigation }) => {
               onInput={setEventName}
               value={eventName}
               placeholder="Event Name"
-              // autoFocus={true}
+              autoFocus={true}
               height={70}
               borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
               backgroundColor={THEME_COLORS.WHITE}
             />
             <View>
               <DateInput
-                dateBtnTitle="Choose start date"
-                timeBtnTitle="Choose start time"
                 label="Event Start Date"
                 value={eventStartDate}
                 onChange={setEventStartDate}
               />
               <DateInput
-                dateBtnTitle="Choose end date"
-                timeBtnTitle="Choose end time"
                 label="Event End Date"
                 value={eventEndDate}
                 onChange={setEventEndDate}
               />
+              {warning && <Text style={styles.warningText}>
+                The end date should be later than start date
+              </Text>}
+              
             </View>
             <Input
               value={eventLocation}

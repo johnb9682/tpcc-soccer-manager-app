@@ -21,7 +21,10 @@ export const styles = StyleSheet.create({
     color: THEME_COLORS.DANGER_COLOR,
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
   },
-  androidButton: {
-    width: "50%",
-  },
+  warningText: {
+    width: "80%",
+    alignSelf: 'center',
+    color: THEME_COLORS.DANGER_COLOR,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO2,
+  }
 });
