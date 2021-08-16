@@ -7,3 +7,4 @@ export * from './Info';
 export * from './NoData';
 export * from './RoundRectContainer';
 export * from './SearchInput';
+export * from './DateInput';

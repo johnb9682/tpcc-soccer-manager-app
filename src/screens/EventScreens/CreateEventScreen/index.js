@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
-import { DateInput } from '../../../components/DateInput';
-import { Input, Button, Info } from '../../../components';
+import { Input, Button, DateInput } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
 
