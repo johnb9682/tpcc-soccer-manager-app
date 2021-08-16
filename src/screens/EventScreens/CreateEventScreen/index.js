@@ -6,22 +6,24 @@ import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
 
 const CreateEventScreen = ({ navigation }) => {
+    const [text, setText] = useState('');
     const [eventName, setEventName] = useState('');
     const [eventStartDate, setEventStartDate] = useState(new Date());
     const [eventEndDate, setEventEndDate] = useState(new Date());
     const [eventLocation, setEventLocation] = useState('');
     const [eventDescription, setEventDescription] = useState('');
     const [isCreateEnabled, setIsCreateEnabled] = useState(true);
+
     function handleCancel() {
         setEventName('');
-        setEventLocation("");
+        setEventLocation('');
         setEventEndDate(new Date());
         setEventStartDate(new Date());
-        setEventDescription("");
+        setEventDescription('');
         navigation.navigate('EventHome');
     }
     useEffect(() => {
-        if (eventName.length > 0 && (eventEndDate - eventStartDate > 0)) {
+        if (eventName.length > 0 && eventEndDate - eventStartDate > 0) {
             setIsCreateEnabled(true);
         } else {
             setIsCreateEnabled(false);
@@ -66,7 +68,7 @@ const CreateEventScreen = ({ navigation }) => {
                             backgroundColor={THEME_COLORS.WHITE}
                         />
                         <Input
-                            value={eventDescription} 
+                            value={eventDescription}
                             placeholder="Event Description"
                             height={300}
                             multiline={true}
@@ -90,7 +92,7 @@ const CreateEventScreen = ({ navigation }) => {
                 </View>
             </ScrollView>
         </SafeAreaView>
-  );
-};
+    );
+}
 
 export default CreateEventScreen;

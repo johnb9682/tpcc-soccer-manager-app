@@ -6,25 +6,25 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   userInfoContainer: {
     marginTop: '10%',
     justifyContent: 'center',
-    alignSelf: "center",
-    alignItems: "center",
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   userInfoTextContainer: {
     marginTop: '5%',
     width: '100%',
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   userInfoText: {
     fontSize: THEME_FONT_SIZES.SYSTEM_FONT,
   },
   buttonGroup: {
     marginTop: '10%',
-    alignSelf:"center",
+    alignSelf: 'center',
     width: '80%',
   },
   buttonText: {

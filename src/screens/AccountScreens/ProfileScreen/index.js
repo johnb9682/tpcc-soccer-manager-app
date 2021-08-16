@@ -31,18 +31,18 @@ const Profile = ({ navigation }) => {
     // fetchUserInfo();
     if (isValidEmail(userEmail)) {
       setIsEnableSave(true);
-    }
-    else {
-      setIsEnableSave(false)
+    } else {
+      setIsEnableSave(false);
     }
     // fetchUserInfo();
   });
-  const avatarContent = usernameStr[0]
-    ? usernameStr[0].toUpperCase()
-    : '';
+  const avatarContent = usernameStr[0] ? usernameStr[0].toUpperCase() : '';
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.innerContainer}>
           <View style={styles.userInfoContainer}>
             <Avartar
@@ -52,10 +52,10 @@ const Profile = ({ navigation }) => {
               avatarUri="https://w.wallhaven.cc/full/0q/wallhaven-0q6vml.jpg"
               content={avatarContent}
             />
-            <View style={{ marginTop: '15%' }}>
+            <View>
               <View style={styles.userInfoTextContainer}>
                 <Input
-                  onInput={()=>{}}
+                  onInput={() => {}}
                   value={userEmail}
                   warningText="Invalid e-mail format"
                   editable={isEditProfile}
@@ -127,7 +127,7 @@ const Profile = ({ navigation }) => {
               <Text style={styles.buttonText}>Settings</Text>
             </Button>
           </View>
-        </View>           
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
