@@ -20,5 +20,8 @@ export const styles = StyleSheet.create({
   dangerButtonText: {
     color: THEME_COLORS.DANGER_COLOR,
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
-  }
+  },
+  androidButton: {
+    width: "50%",
+  },
 });

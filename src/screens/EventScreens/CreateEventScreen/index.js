@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Platform } from 'react-native';
 import { DateInput } from '../../../components/DateInput';
 import { Input, Button } from '../../../components';
 import { styles } from './style';
@@ -21,12 +21,12 @@ const CreateEventScreen = ({ navigation }) => {
         navigation.navigate('EventHome');
     }
     useEffect(() => {
-        if (eventName.length > 0 && (eventEndDate-eventStartDate>0)) {
+        if (eventName.length > 0 && (eventEndDate - eventStartDate > 0)) {
             setIsCreateEnabled(true);
         } else {
             setIsCreateEnabled(false);
         }
-      });
+    });
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollContainer}>
@@ -43,11 +43,15 @@ const CreateEventScreen = ({ navigation }) => {
                         />
                         <View>
                             <DateInput
+                                dateBtnTitle="Choose start date"
+                                timeBtnTitle="Choose start time"
                                 label="Event Start Date"
                                 value={eventStartDate}
                                 onChange={setEventStartDate}
                             />
                             <DateInput
+                                dateBtnTitle="Choose end date"
+                                timeBtnTitle="Choose end time"
                                 label="Event End Date"
                                 value={eventEndDate}
                                 onChange={setEventEndDate}

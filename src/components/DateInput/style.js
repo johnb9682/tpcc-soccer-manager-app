@@ -11,5 +11,13 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: THEME_FONT_SIZES.BUTTON_FONT,
         fontWeight: "700",
+    },
+    btnText: {
+        color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
+    },
+    dateContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     }
 });
