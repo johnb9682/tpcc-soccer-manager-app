@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { styles } from './style';
+import React, {useState} from 'react';
+import {View, Button, Platform, Text} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Setting = () => {
   return (
-    <View style={styles.container}>
-      <Text style={{fontSize: 30,}}>Setting Page</Text>
+    <View>
+      <Text>SETTING PAGE</Text> 
     </View>
   );
 };
