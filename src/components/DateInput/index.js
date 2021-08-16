@@ -49,7 +49,9 @@ const DateInput = ({
               display={display}
               value={value}
               onChange={(e, date) => {
-                onChange(date);
+                if (date != undefined) {
+                  onChange(date);
+                }
               }}
             /> 
           </View>
@@ -84,7 +86,7 @@ const DateInput = ({
                 onPress={showTimePicker}
                 buttonColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
                 borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}>
-              <Text style={styles.btnText}>{dayjs(value).format('hh:mm AM').slice(0, -1)}</Text>
+              <Text style={styles.btnText}>{dayjs(value).format('HH:mm')}</Text>
             </Button>
             </View>
           </View>
@@ -96,7 +98,9 @@ const DateInput = ({
             display={display}
             onChange={(e, date) => {
               setShow(Platform.OS === 'ios');
-              onChange(date);
+              if (date != undefined) {
+                onChange(date);
+              }
             }}
             /> }
           </View>
