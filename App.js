@@ -14,6 +14,7 @@ import CreateEventScreen from './src/screens/EventScreens/CreateEventScreen';
 import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
+import TeamScreen from './src/screens/TeamScreens/TeamScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
@@ -37,6 +38,15 @@ const Team = () => {
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
         }}
+      />
+      <Stack.Screen
+        name="Team"
+        component={TeamScreen}
+        options={({ route }) => ({
+          title: route.params.teamName,
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+        })}
       />
     </Stack.Navigator>
   );

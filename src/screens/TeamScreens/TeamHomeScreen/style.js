@@ -7,9 +7,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME_COLORS.WHITE,
   },
-  innerContainer: {
-    paddingBottom: 70,
-  },
   searchContainer: {
     width: '100%',
   },
