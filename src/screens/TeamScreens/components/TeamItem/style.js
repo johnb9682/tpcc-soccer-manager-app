@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 80,
-    padding: 20,
+    paddingHorizontal: 20,
     justifyContent: 'center',
   },
   innerContainer: {
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   separator: {
     borderTopWidth: 1,
     borderColor: THEME_COLORS.DEFAULT_GREY_SCALE,
-    width: '90%',
+    width: '86%',
     alignSelf: 'flex-end',
     position: 'absolute',
     bottom: 0,

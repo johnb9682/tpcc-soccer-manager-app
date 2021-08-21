@@ -4,19 +4,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { styles } from './style';
 import { Avartar } from '../../../../components';
-import { THEME_COLORS } from '../../../../components/theme';
+import { THEME_COLORS, THEME_FONT_SIZES } from '../../../../components/theme';
 
-const TeamItem = ({ showSeparator = true, teamName, navigation }) => {
+const TeamItem = ({ showSeparator = true, teamName, navigation, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.innerContainer}>
         <View style={styles.avatar}>
           <Avartar
-            width={50}
-            height={50}
-            type="roundedRect"
+            width={60}
+            height={60}
+            type="circle"
             content={teamName ? teamName[0] : ''}
-            fontSize={28}
+            fontSize={THEME_FONT_SIZES.AVATAR_FONT_MEDIUM}
           />
         </View>
 

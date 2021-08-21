@@ -49,7 +49,7 @@ const TeamHomeScreen = ({ navigation }) => {
           <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
         }
       >
-        <View style={styles.innerContainer}>
+        <View>
           <View style={styles.searchContainer}>
             <SearchInput
               width="94%"
@@ -61,7 +61,15 @@ const TeamHomeScreen = ({ navigation }) => {
           </View>
           <View>
             {filteredTeams.map(team => {
-              return <TeamItem key={team.teamId} teamName={team.teamName} />;
+              return (
+                <TeamItem
+                  key={team.teamId}
+                  teamName={team.teamName}
+                  onPress={() =>
+                    navigation.navigate({ name: 'Team', params: team })
+                  }
+                />
+              );
             })}
           </View>
           {filteredTeams.length === 0 && (
