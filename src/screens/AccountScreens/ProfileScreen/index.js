@@ -9,15 +9,12 @@ import { useProfileStore } from '../../../shared/zustand/profile';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import Toast from 'react-native-toast-message';
 import { TOAST_UP_OFFSET } from '../../../components/constants';
-import { getDataObj } from '../../../shared/utils/asyncStorage';
-import { USER_INFO_SESSION_STORAGE_FIELD } from '../../../shared/api/auth/constants';
 
 
 const Profile = ({ navigation }) => {
-  const { isLoading, updateUseInfo, fetchUserInfo } = useProfileStore();
+  const { isLoading, updateUserInfo, fetchUserInfo } = useProfileStore();
   const { logout, userInfo, updateAuthUserInfo } = useAuthStore();
   const [isEditProfile, setIsEditProfile] = useState(false);
-  const [updateButtonTitle, setUpdateButtonTitle] = useState('Edit Profile');
   const [isEnableSave, setIsEnableSave] = useState(false);
   const [usernameStr, setusernameStr] = useState(userInfo['userName']);
   const [userEmail, setuserEmail] = useState(userInfo['email']);
@@ -26,19 +23,17 @@ const Profile = ({ navigation }) => {
     return <Loading />;
   }
   function editProfile() {
-    if (updateButtonTitle == 'Edit Profile') {
+    if (isEditProfile === false) {
       setIsEditProfile(true);
-      setUpdateButtonTitle('Save');
     } else {
       onPressSave();
     }
   }
-  const onPressSave = useCallback(
-    async () => {
-      const result = await updateUseInfo(userEmail, userId, usernameStr);
+  const onPressSave = useCallback( async () => {
+      const result = await updateUserInfo(userEmail, userId, usernameStr);
       const toastTitle =
         result.status === 'success'
-          ? 'Hi'
+          ? 'Success!'
           : result.status === 'info'
           ? 'Uh-Oh'
             : 'Something went wrong';
@@ -47,20 +42,16 @@ const Profile = ({ navigation }) => {
         text1: toastTitle,
         text2:
           result.status === 'success'
-            ? (`${result.data.userName}! ` ?? '') + result.message
+            ? (`Hi ${result.data.userName}! ` ?? '') + result.message
             : result.message,
         topOffset: TOAST_UP_OFFSET,
       });
-      if (result.status == 'success') {
-        setUpdateButtonTitle('Edit Profile');
+      if (result.status === 'success') {
         setIsEditProfile(false);
       }
-      const updatedUserInfo = await getDataObj(USER_INFO_SESSION_STORAGE_FIELD);
-      await updateAuthUserInfo(updatedUserInfo);
-    }
-  , console.log(userInfo))
+    updateAuthUserInfo();
+    })
   useEffect(() => {
-    // fetchUserInfo();
     if (isValidEmail(userEmail)) {
       setIsEnableSave(true);
     } else {
@@ -139,7 +130,7 @@ const Profile = ({ navigation }) => {
               disabled={!isEnableSave}
             >
               <Text style={[styles.buttonText, styles.editButton]}>
-                {updateButtonTitle}
+                {isEditProfile ? 'Save' : 'Edit Profile'}
               </Text>
             </Button>
             <Button

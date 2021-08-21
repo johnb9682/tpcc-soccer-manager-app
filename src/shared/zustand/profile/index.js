@@ -1,9 +1,7 @@
 import create from 'zustand';
 import {updateProfile, getUserInfo} from '../../api/profile'
-import { clearCache } from '../../api/cache';
-import { storeDataObj, getDataObj, removeDataObj } from '../../utils/asyncStorage';
+import { storeDataObj } from '../../utils/asyncStorage';
 import {USER_INFO_SESSION_STORAGE_FIELD} from '../../api/auth/constants'
-import { useAuthStore } from '../auth';
 const initialState = {
     isLoading: false,
 };
@@ -13,7 +11,6 @@ export const useProfileStore = create((set, get) => ({
     fetchUserInfo: async userId => {
         try {
             const response = await getUserInfo(userId);
-            const status = response.status;
             const data = response.data;
             return data;
         }
@@ -21,7 +18,7 @@ export const useProfileStore = create((set, get) => ({
             throw new Error(error.message);
         }
     },
-    updateUseInfo: async (email, userId, userName) => {
+    updateUserInfo: async (email, userId, userName) => {
         const result = await updateProfile(email, userId, userName, "123456");
         const status = result.status;
         const data = result.data;
@@ -32,8 +29,6 @@ export const useProfileStore = create((set, get) => ({
                         userName: data.userName,
                         userId: userId,
                     };
-                    // await removeDataObj(USER_INFO_SESSION_STORAGE_FIELD);
-                    // await clearCache();
                     await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, updatedUserInfo);
                 return {
                     status: 'success',
@@ -55,7 +50,7 @@ export const useProfileStore = create((set, get) => ({
             default:
                 return {
                     status: 'error',
-                    message:'404 Not Found',
+                    message:'Your updated email may have already been used, please try another one or contact the admin.',
                     data: {
                     // Empty
                     },
