@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { styles } from './style';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Button, Input, Loading } from '../../../components';
@@ -7,26 +7,58 @@ import { Avartar } from '../../../components/Avatar';
 import { isValidEmail } from '../../../components/utils';
 import { useProfileStore } from '../../../shared/zustand/profile';
 import { useAuthStore } from '../../../shared/zustand/auth';
+import Toast from 'react-native-toast-message';
+import { TOAST_UP_OFFSET } from '../../../components/constants';
+import { getDataObj } from '../../../shared/utils/asyncStorage';
+import { USER_INFO_SESSION_STORAGE_FIELD } from '../../../shared/api/auth/constants';
+
 
 const Profile = ({ navigation }) => {
-  const { isLoading, userEmail, userName } = useProfileStore();
-  const { logout } = useAuthStore();
+  const { isLoading, updateUseInfo, fetchUserInfo } = useProfileStore();
+  const { logout, userInfo, updateAuthUserInfo } = useAuthStore();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [updateButtonTitle, setUpdateButtonTitle] = useState('Edit Profile');
   const [isEnableSave, setIsEnableSave] = useState(false);
-  const [usernameStr, setusernameStr] = useState('NicdeErc');
+  const [usernameStr, setusernameStr] = useState(userInfo['userName']);
+  const [userEmail, setuserEmail] = useState(userInfo['email']);
+  const userId = userInfo['userId'];
   if (isLoading) {
     return <Loading />;
   }
   function editProfile() {
-    setIsEditProfile(!isEditProfile);
     if (updateButtonTitle == 'Edit Profile') {
+      setIsEditProfile(true);
       setUpdateButtonTitle('Save');
     } else {
-      setUpdateButtonTitle('Edit Profile');
-      // updateUseInfo(userEmail, usernameStr);
+      onPressSave();
     }
   }
+  const onPressSave = useCallback(
+    async () => {
+      const result = await updateUseInfo(userEmail, userId, usernameStr);
+      const toastTitle =
+        result.status === 'success'
+          ? 'Hi'
+          : result.status === 'info'
+          ? 'Uh-Oh'
+            : 'Something went wrong';
+      Toast.show({
+        type: result.status,
+        text1: toastTitle,
+        text2:
+          result.status === 'success'
+            ? (`${result.data.userName}! ` ?? '') + result.message
+            : result.message,
+        topOffset: TOAST_UP_OFFSET,
+      });
+      if (result.status == 'success') {
+        setUpdateButtonTitle('Edit Profile');
+        setIsEditProfile(false);
+      }
+      const updatedUserInfo = await getDataObj(USER_INFO_SESSION_STORAGE_FIELD);
+      await updateAuthUserInfo(updatedUserInfo);
+    }
+  , console.log(userInfo))
   useEffect(() => {
     // fetchUserInfo();
     if (isValidEmail(userEmail)) {
@@ -34,7 +66,6 @@ const Profile = ({ navigation }) => {
     } else {
       setIsEnableSave(false);
     }
-    // fetchUserInfo();
   });
   const avatarContent = usernameStr[0] ? usernameStr[0].toUpperCase() : '';
   return (
@@ -55,7 +86,7 @@ const Profile = ({ navigation }) => {
             <View>
               <View style={styles.userInfoTextContainer}>
                 <Input
-                  onInput={() => {}}
+                  onInput={setuserEmail}
                   value={userEmail}
                   warningText="Invalid e-mail format"
                   editable={isEditProfile}

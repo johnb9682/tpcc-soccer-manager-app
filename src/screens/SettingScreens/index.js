@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import {View, Button, Platform, Text} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
+import {View, Text} from 'react-native';
 const Setting = () => {
   return (
     <View>
