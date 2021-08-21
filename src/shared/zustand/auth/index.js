@@ -41,6 +41,7 @@ export const useAuthStore = create((set, get) => ({
           const userInfo = {
             email: data.email,
             userName: data.userName,
+            userId: data.userId,
           };
           await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, userInfo);
           set({
@@ -104,4 +105,15 @@ export const useAuthStore = create((set, get) => ({
         };
     }
   },
+  updateAuthUserInfo: async (updatedUserInfo) => {
+    set(
+      {
+        userInfo: {
+          userId: updatedUserInfo.userId,
+          userName: updatedUserInfo.userName,
+          email: updatedUserInfo.email,
+        },
+      }
+    );
+  }
 }));
