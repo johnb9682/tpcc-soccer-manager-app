@@ -15,6 +15,7 @@ import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
 import TeamScreen from './src/screens/TeamScreens/TeamScreen';
+import InviteMemberScreen from './src/screens/TeamScreens/InviteMemberScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
@@ -23,7 +24,7 @@ const Team = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="TeamHome"
+        name='TeamHome'
         component={TeamHomeScreen}
         options={{
           title: 'Teams',
@@ -31,7 +32,7 @@ const Team = () => {
         }}
       />
       <Stack.Screen
-        name="CreateTeam"
+        name='CreateTeam'
         component={CreateTeamScreen}
         options={{
           title: 'Create a Team',
@@ -40,13 +41,22 @@ const Team = () => {
         }}
       />
       <Stack.Screen
-        name="Team"
+        name='Team'
         component={TeamScreen}
         options={({ route }) => ({
           title: route.params.teamName,
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
         })}
+      />
+      <Stack.Screen
+        name='InviteMember'
+        component={InviteMemberScreen}
+        options={{
+          title: 'Invite a Member',
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+        }}
       />
     </Stack.Navigator>
   );
@@ -56,7 +66,7 @@ const Profile = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Profile"
+        name='Profile'
         component={ProfileScreen}
         options={{
           title: 'My Profile',
@@ -64,7 +74,7 @@ const Profile = () => {
         }}
       />
       <Stack.Screen
-        name="Setting"
+        name='Setting'
         component={SettingScreen}
         options={{
           title: 'Settings',
@@ -80,7 +90,7 @@ const Event = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="EventHome"
+        name='EventHome'
         component={EventHomeScreen}
         options={{
           title: 'Events',
@@ -88,7 +98,7 @@ const Event = () => {
         }}
       />
       <Stack.Screen
-        name="CreateEvent"
+        name='CreateEvent'
         component={CreateEventScreen}
         options={{
           title: 'Create an Event',
@@ -112,18 +122,18 @@ const App = () => {
       <>
         <NavigationContainer>
           <StatusBar
-            barStyle="dark-content"
+            barStyle='dark-content'
             translucent={true}
             backgroundColor={THEME_COLORS.WHITE}
           />
-          <Stack.Navigator initialRouteName="Landing">
+          <Stack.Navigator initialRouteName='Landing'>
             <Stack.Screen
-              name="Landing"
+              name='Landing'
               component={LandingScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Register"
+              name='Register'
               component={RegisterScreen}
               options={{
                 headerBackTitleVisible: false,
@@ -132,7 +142,7 @@ const App = () => {
             />
           </Stack.Navigator>
         </NavigationContainer>
-        <Toast ref={ref => Toast.setRef(ref)} />
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </>
     );
   }
@@ -140,7 +150,7 @@ const App = () => {
     <>
       <NavigationContainer>
         <StatusBar
-          barStyle="dark-content"
+          barStyle='dark-content'
           translucent={true}
           backgroundColor={THEME_COLORS.WHITE}
         />
@@ -150,7 +160,7 @@ const App = () => {
           profileScreen={Profile}
         />
       </NavigationContainer>
-      <Toast ref={ref => Toast.setRef(ref)} />
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </>
   );
 };
