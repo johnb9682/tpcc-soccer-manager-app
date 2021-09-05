@@ -1,10 +1,16 @@
 import yelp from '../../../services/yelp';
 
 export const login = async (email, password) => {
-  return await yelp.post('/verifyLoginUser', {
-    email,
-    password,
-  });
+  try {
+    const result = await yelp.post('/verifyLoginUser', {
+      email,
+      password,
+    });
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { data: { statusCode: 500, errorMessage: 'Server Error' } };
+  }
 };
 
 export const signUp = async (userName, email, password) => {
