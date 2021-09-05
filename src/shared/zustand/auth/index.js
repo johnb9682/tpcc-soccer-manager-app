@@ -34,32 +34,27 @@ export const useAuthStore = create((set, get) => ({
         ...initialState,
         isLoading: true,
       });
-      try {
-        const result = await login(email, password);
-        const data = result.data;
-        if (data.statusCode === 0) {
-          const userInfo = {
-            email: data.email,
-            userName: data.userName,
-            userId: data.userId,
-          };
-          await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, userInfo);
-          set({
-            userInfo,
-            signedIn: true,
-            loginTimeStamp: dayjs(),
-            isLoading: false,
-          });
-          return null;
-        } else {
-          set({
-            isLoading: false,
-          });
-          return data.errorMessage;
-        }
-      } catch (error) {
-        set({ isLoading: false });
-        throw new Error(error.message);
+      const result = await login(email, password);
+      const data = result.data;
+      if (data.statusCode === 0) {
+        const userInfo = {
+          email: data.email,
+          userName: data.userName,
+          userId: data.userId,
+        };
+        await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, userInfo);
+        set({
+          userInfo,
+          signedIn: true,
+          loginTimeStamp: dayjs(),
+          isLoading: false,
+        });
+        return null;
+      } else {
+        set({
+          isLoading: false,
+        });
+        return data.errorMessage;
       }
     }
   },
@@ -107,10 +102,8 @@ export const useAuthStore = create((set, get) => ({
   },
   updateAuthUserInfo: async () => {
     const updatedUserInfo = await getDataObj(USER_INFO_SESSION_STORAGE_FIELD);
-    set(
-      {
-        userInfo: updatedUserInfo ?? null,
-      }
-    );
-  }
+    set({
+      userInfo: updatedUserInfo ?? null,
+    });
+  },
 }));
