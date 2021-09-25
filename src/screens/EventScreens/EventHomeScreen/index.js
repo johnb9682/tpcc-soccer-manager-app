@@ -107,18 +107,43 @@ const EventHomeScreen = ({ navigation }) => {
             noDataMessage="No Ongoing Events"
             eventData={filteredOngoingEvents}
             eventType={EVENT_TYPE.ONGOING}
+            onPress={(id) => {
+              for (let i = 0; i <= filteredOngoingEvents.length; i++) {
+                if (id == filteredOngoingEvents[i]['id']) {
+                  navigation.navigate({ name: "EventDetail", params: filteredOngoingEvents[i] })
+                  break
+                  
+                }
+              }
+            }}
           />
           <EventSection
             title="Upcoming"
             noDataMessage="No Upcoming Events"
             eventData={filteredUpcomingEvents}
             eventType={EVENT_TYPE.UPCOMING}
+            onPress={(id) => {
+              for (let i = 0; i <= filteredUpcomingEvents.length; i++) {
+                if (id == filteredUpcomingEvents[i]['id']) {
+                  navigation.navigate({ name: "EventDetail", params: filteredUpcomingEvents[i] })
+                  break
+                }
+              }
+            }}
           />
           <EventSection
             title="History"
             noDataMessage="No History Events"
             eventData={filteredHistoryEvents}
             eventType={EVENT_TYPE.HISTORY}
+            onPress={(id) => {
+              for (let i = 0; i <= filteredHistoryEvents.length; i++) {
+                if (id == filteredHistoryEvents[i]['id']) {
+                  navigation.navigate({ name: "EventDetail", params: filteredHistoryEvents[i]})
+                  break
+                }
+              }
+            }}
           />
 
           {totalEventNum === 0 && (

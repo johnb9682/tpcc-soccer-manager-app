@@ -90,3 +90,18 @@ export const mockHistoryEvents = [
     eventDescriptioncription: 'dummy event 1',
   },
 ];
+export const mockEventInfo = {
+  hostId: 0,
+  participants: [
+    {
+      userId: 0,
+      userName: 'MarcoLoveJayking',
+      email: 'marco@mm.cc',
+    },
+    {
+      userId: 1,
+      userName: 'Jayking',
+      email: 'jk@mm.cc',
+    },
+  ],
+};

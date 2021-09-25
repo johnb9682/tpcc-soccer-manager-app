@@ -7,7 +7,7 @@ import { dateFormat } from '../../../../components/constants';
 import { THEME_COLORS } from '../../../../components/theme';
 import { EVENT_TYPE } from '../constants';
 
-const EventItem = ({ event, eventType }) => {
+const EventItem = ({ event, eventType, onPress }) => {
   const eventIcon = React.useMemo(() => {
     switch (eventType) {
       case EVENT_TYPE.ONGOING:
@@ -35,7 +35,11 @@ const EventItem = ({ event, eventType }) => {
   }, [eventType]);
 
   return (
-    <TouchableOpacity style={styles.eventItem}>
+    <TouchableOpacity style={styles.eventItem} onPress={() => {
+      let eventId = event['id']
+      console.log(eventId)
+      onPress(eventId)
+    }}>
       <View style={styles.header}>
         <View style={styles.infoPair}>
           <Icon

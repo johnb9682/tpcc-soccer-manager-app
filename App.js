@@ -11,6 +11,7 @@ import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import CreateEventScreen from './src/screens/EventScreens/CreateEventScreen';
+import EventDetailScreen from './src/screens/EventScreens/EventDetailScreen';
 import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
@@ -106,6 +107,15 @@ const Event = () => {
           headerTitleAlign: 'center',
         }}
       />
+      <Stack.Screen
+        name='EventDetail'
+        component={EventDetailScreen}
+        options={{
+          title: 'Event Detail',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -117,7 +127,7 @@ const App = () => {
     initialize();
   }, []);
 
-  if (!signedIn) {
+  if (signedIn) {
     return (
       <>
         <NavigationContainer>

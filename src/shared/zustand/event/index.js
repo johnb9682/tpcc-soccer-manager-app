@@ -11,7 +11,22 @@ const initialState = {
   upComingEvents: [],
   onGoingEvents: [],
   historyEvents: [],
-};
+  currentEventInfo: {
+    hostId: 0,
+    participants: [
+      {
+        userId: 0,
+        userName: 'MarcoLoveJayking',
+        email: 'marco@mm.cc',
+      },
+      {
+        userId: 1,
+        userName: 'Jayking',
+        email: 'jk@mm.cc',
+      },
+    ],
+  },
+}
 
 export const useEventStore = create((set, get) => ({
   ...initialState,
@@ -25,5 +40,5 @@ export const useEventStore = create((set, get) => ({
       onGoingEvents: mockOngoingEvents,
     });
     set({ isLoading: false });
-  },
+  }, 
 }));
