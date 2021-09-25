@@ -8,34 +8,23 @@ export const styles = StyleSheet.create({
     backgroundColor: THEME_COLORS.WHITE,
   },
   heading: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    padding: 20,
     alignItems: 'flex-start',
-  },
-  description: {
-    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
-    color: THEME_COLORS.DARK_GREY,
   },
   buttonText: {
     color: THEME_COLORS.WHITE,
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
     fontWeight: '600',
   },
-  leaveButton: {
-    color: THEME_COLORS.DANGER_COLOR,
-  },
   inviteButton: {
     color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
   },
-  leaveButtonContainer: {
+  cancelButton: {
+    color: THEME_COLORS.DANGER_COLOR,
+  },
+  cancelButtonContainer: {
     height: 90,
     justifyContent: 'center',
     width: '100%',
-  },
-  avatarContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 30,
   },
 });

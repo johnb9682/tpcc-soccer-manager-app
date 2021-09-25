@@ -31,15 +31,15 @@ const TeamScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps='always'
+        keyboardDismissMode='on-drag'
       >
         <View>
           <View style={styles.avatarContainer}>
             <Avartar
               width={160}
               height={160}
-              type="circle"
+              type='circle'
               content={route.params.teamName ? route.params.teamName[0] : ''}
               fontSize={THEME_FONT_SIZES.AVATAR_FONT_MAX}
             />
@@ -48,7 +48,7 @@ const TeamScreen = ({ navigation, route }) => {
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
-            fontWeight="bold"
+            fontWeight='bold'
           >
             Team Description
           </Heading>
@@ -57,7 +57,7 @@ const TeamScreen = ({ navigation, route }) => {
             paddingTop={10}
             paddingBottom={10}
             borderRadius={15}
-            justifyContent="flex-start"
+            justifyContent='flex-start'
           >
             <Text style={styles.description}>
               {route.params.teamDescription}
@@ -69,14 +69,14 @@ const TeamScreen = ({ navigation, route }) => {
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
-            fontWeight="bold"
+            fontWeight='bold'
           >
             Team Members
           </Heading>
           <RoundRectContainer
             borderRadius={15}
             paddingHorizontal={5}
-            justifyContent="flex-start"
+            justifyContent='flex-start'
           >
             {members.map((member, index) => {
               return (
@@ -90,15 +90,25 @@ const TeamScreen = ({ navigation, route }) => {
                 />
               );
             })}
-            {/* { && (
-              <NoData message={'No Member Data'} />
-            )} */}
           </RoundRectContainer>
+          <Button
+            buttonColor={THEME_COLORS.WHITE}
+            borderColor={THEME_COLORS.WHITE}
+            width='90%'
+            onPress={() => {
+              navigation.navigate({
+                name: 'InviteMember',
+                params: { ...route.params, members },
+              });
+            }}
+          >
+            <Text style={[styles.buttonText, styles.inviteButton]}>Invite</Text>
+          </Button>
           <View style={styles.leaveButtonContainer}>
             <Button
               buttonColor={THEME_COLORS.WHITE}
               borderColor={THEME_COLORS.WHITE}
-              width="90%"
+              width='90%'
               onPress={() => {
                 navigation.navigate('TeamHome');
                 console.log('Leaving team ...');
