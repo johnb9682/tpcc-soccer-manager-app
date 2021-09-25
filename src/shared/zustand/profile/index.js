@@ -19,7 +19,7 @@ export const useProfileStore = create((set, get) => ({
         }
     },
     updateUserInfo: async (email, userId, userName) => {
-        const result = await updateProfile(email, userId, userName, "123456");
+        const result = await updateProfile(email, userId, userName, "123456"); 
         const status = result.status;
         const data = result.data;
         switch (status) {

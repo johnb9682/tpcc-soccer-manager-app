@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Input, Button, DateInput } from '../../../components';
 import { styles } from './style';
+import dayjs from 'dayjs';
 import { THEME_COLORS } from '../../../components/theme';
 
 const CreateEventScreen = ({ navigation }) => {
@@ -12,6 +13,7 @@ const CreateEventScreen = ({ navigation }) => {
   const [eventLocation, setEventLocation] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [isCreateEnabled, setIsCreateEnabled] = useState(true);
+  // const nowDate = dayjs('2019-01-25').valueOf();
 
   function handleCancel() {
     setEventName('');
@@ -20,6 +22,15 @@ const CreateEventScreen = ({ navigation }) => {
     setEventStartDate(new Date());
     setEventDescription('');
     navigation.navigate('EventHome');
+  }
+  function createEvent() {
+    eventRequest = {
+      eventDescription,
+      eventLocation,
+      eventEndDate,
+      eventStartDate,
+      eventName,
+    }
   }
   useEffect(() => {
     if (eventName.length > 0 && eventEndDate - eventStartDate > 0) {
