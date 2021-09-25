@@ -10,17 +10,19 @@ import {
 import { styles } from './style';
 import { SearchInput, Button, NoData } from '../../../components';
 import { useTeamStore } from '../../../shared/zustand/team';
+import { useAuthStore } from '../../../shared/zustand/auth';
 import TeamItem from '../components/TeamItem';
 
 const TeamHomeScreen = ({ navigation }) => {
+  const { userInfo } = useAuthStore();
   const { isLoading, userTeams, fetchUserTeams } = useTeamStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredTeams, setFilteredTeams] = React.useState([]);
 
   const handleOnSearch = React.useCallback(
-    searchValue => {
+    (searchValue) => {
       const lowercaseSearchValue = searchValue.toLowerCase();
-      const updatedFilteredTeams = userTeams.filter(team =>
+      const updatedFilteredTeams = userTeams.filter((team) =>
         team.teamName.toLowerCase().includes(lowercaseSearchValue)
       );
       setFilteredTeams(updatedFilteredTeams);
@@ -29,22 +31,22 @@ const TeamHomeScreen = ({ navigation }) => {
   );
 
   React.useEffect(() => {
-    fetchUserTeams();
-  }, []);
+    fetchUserTeams(userInfo.userId);
+  }, [userInfo]);
 
   React.useEffect(() => {
     setFilteredTeams(userTeams);
   }, [userTeams]);
 
   const handleOnRefresh = React.useCallback(() => {
-    fetchUserTeams();
-  }, []);
+    fetchUserTeams(userInfo.userId);
+  }, [userInfo]);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps='always'
+        keyboardDismissMode='on-drag'
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
         }
@@ -52,15 +54,15 @@ const TeamHomeScreen = ({ navigation }) => {
         <View>
           <View style={styles.searchContainer}>
             <SearchInput
-              width="94%"
-              placeholder="Search My Teams"
+              width='94%'
+              placeholder='Search My Teams'
               value={searchStr}
               onInput={setSearchStr}
               onSearch={handleOnSearch}
             />
           </View>
           <View>
-            {filteredTeams.map(team => {
+            {filteredTeams.map((team) => {
               return (
                 <TeamItem
                   key={team.teamId}
