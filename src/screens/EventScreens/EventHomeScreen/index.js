@@ -30,7 +30,7 @@ const EventHomeScreen = ({ navigation }) => {
     []
   );
   const [filteredHistoryEvents, setFilteredHistoryEvents] = React.useState([]);
-
+  const AllEvents = filteredOngoingEvents.concat(filteredUpcomingEvents, filteredHistoryEvents)
   const handleOnSearch = React.useCallback(
     searchValue => {
       const lowercaseSearchValue = searchValue.toLowerCase();
@@ -69,8 +69,8 @@ const EventHomeScreen = ({ navigation }) => {
     return dayjs().format(todayFormat).toUpperCase();
   });
   function findChosenEvent(id) {
-    const foundEvent = filteredOngoingEvents.find(event => event.id === id)
-    if (foundEvent !== null) {
+    const foundEvent = AllEvents.find(event => event.id === id)
+    if (foundEvent !== undefined) {
       navigation.navigate({ name: "EventDetail", params: foundEvent })
     }
   }
@@ -119,28 +119,14 @@ const EventHomeScreen = ({ navigation }) => {
             noDataMessage="No Upcoming Events"
             eventData={filteredUpcomingEvents}
             eventType={EVENT_TYPE.UPCOMING}
-            onPress={(id) => {
-              for (let i = 0; i <= filteredUpcomingEvents.length; i++) {
-                if (id == filteredUpcomingEvents[i]['id']) {
-                  navigation.navigate({ name: "EventDetail", params: filteredUpcomingEvents[i] })
-                  break
-                }
-              }
-            }}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="History"
             noDataMessage="No History Events"
             eventData={filteredHistoryEvents}
             eventType={EVENT_TYPE.HISTORY}
-            onPress={(id) => {
-              for (let i = 0; i <= filteredHistoryEvents.length; i++) {
-                if (id == filteredHistoryEvents[i]['id']) {
-                  navigation.navigate({ name: "EventDetail", params: filteredHistoryEvents[i]})
-                  break
-                }
-              }
-            }}
+            onPress={findChosenEvent}
           />
 
           {totalEventNum === 0 && (
