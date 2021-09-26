@@ -30,7 +30,7 @@ const EventHomeScreen = ({ navigation }) => {
     []
   );
   const [filteredHistoryEvents, setFilteredHistoryEvents] = React.useState([]);
-
+  const AllEvents = filteredOngoingEvents.concat(filteredUpcomingEvents, filteredHistoryEvents)
   const handleOnSearch = React.useCallback(
     searchValue => {
       const lowercaseSearchValue = searchValue.toLowerCase();
@@ -68,7 +68,12 @@ const EventHomeScreen = ({ navigation }) => {
   const today = React.useMemo(() => {
     return dayjs().format(todayFormat).toUpperCase();
   });
-
+  function findChosenEvent(id) {
+    const foundEvent = AllEvents.find(event => event.id === id)
+    if (foundEvent !== undefined) {
+      navigation.navigate({ name: "EventDetail", params: foundEvent })
+    }
+  }
   React.useEffect(() => {
     fetchUserEvents();
   }, []);
@@ -107,18 +112,21 @@ const EventHomeScreen = ({ navigation }) => {
             noDataMessage="No Ongoing Events"
             eventData={filteredOngoingEvents}
             eventType={EVENT_TYPE.ONGOING}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="Upcoming"
             noDataMessage="No Upcoming Events"
             eventData={filteredUpcomingEvents}
             eventType={EVENT_TYPE.UPCOMING}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="History"
             noDataMessage="No History Events"
             eventData={filteredHistoryEvents}
             eventType={EVENT_TYPE.HISTORY}
+            onPress={findChosenEvent}
           />
 
           {totalEventNum === 0 && (

@@ -4,6 +4,7 @@ import {
   mockHistoryEvents,
   mockOngoingEvents,
   mockUpcomingEvents,
+  mockEventInfo,
 } from './mockData';
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   upComingEvents: [],
   onGoingEvents: [],
   historyEvents: [],
-};
+  currentEventInfo: {},
+}
 
 export const useEventStore = create((set, get) => ({
   ...initialState,
@@ -24,6 +26,11 @@ export const useEventStore = create((set, get) => ({
       historyEvents: mockHistoryEvents,
       onGoingEvents: mockOngoingEvents,
     });
+    set({ isLoading: false });
+  },
+  fetchEventInfo: async eventId => {
+    set({ isLoading: true });
+    set({ currentEventInfo: mockEventInfo })
     set({ isLoading: false });
   },
 }));

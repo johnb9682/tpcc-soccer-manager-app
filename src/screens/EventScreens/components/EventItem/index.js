@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import dayjs from 'dayjs';
 import { styles } from './style';
 import { dateFormat } from '../../../../components/constants';
 import { THEME_COLORS } from '../../../../components/theme';
 import { EVENT_TYPE } from '../constants';
 
-const EventItem = ({ event, eventType }) => {
+const EventItem = ({ event, eventType, onPress }) => {
   const eventIcon = React.useMemo(() => {
     switch (eventType) {
       case EVENT_TYPE.ONGOING:
@@ -35,7 +35,10 @@ const EventItem = ({ event, eventType }) => {
   }, [eventType]);
 
   return (
-    <TouchableOpacity style={styles.eventItem}>
+    <TouchableOpacity style={styles.eventItem} onPress={() => {
+      let eventId = event['id']
+      onPress(eventId)
+    }}>
       <View style={styles.header}>
         <View style={styles.infoPair}>
           <Icon
@@ -66,7 +69,7 @@ const EventItem = ({ event, eventType }) => {
             numberOfLines={1}
             style={[styles.timeText, { color: eventColor }]}
           >
-            {event.eventTime.format(dateFormat)}
+            {dayjs(event.eventStartTime).format(dateFormat)}
           </Text>
         </View>
         <View style={styles.infoPair}>
