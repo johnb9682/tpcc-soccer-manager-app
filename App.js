@@ -137,7 +137,7 @@ const App = () => {
     initialize();
   }, []);
 
-  if (!signedIn) {
+  if (signedIn) {
     return (
       <>
         <NavigationContainer>

@@ -16,11 +16,11 @@ import EventMemberItem from '../components/EventMemberItem';
 
 
 const EventDetailScreen = ({ navigation, route }) => {
-  const { isLoading, currentEventInfo } = useEventStore();
+  const { isLoading, fetchEventInfo ,currentEventInfo } = useEventStore();
 
-  // React.useEffect(() => {
-  //   fetchEventInfo();
-  // }, []);
+  React.useEffect(() => {
+    fetchEventInfo();
+  }, []);
 
   const hostId = React.useMemo(() => {
     return currentEventInfo.hostId ?? null;
@@ -137,8 +137,7 @@ const EventDetailScreen = ({ navigation, route }) => {
               );
             })}
           </RoundRectContainer>
-          {/* userId == hostId ? : */}
-          {1 == hostId &&
+          {1 === hostId &&
             <Button
             buttonColor={THEME_COLORS.WHITE}
             borderColor={THEME_COLORS.WHITE}

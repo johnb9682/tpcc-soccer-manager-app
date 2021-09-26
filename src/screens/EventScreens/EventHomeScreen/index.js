@@ -68,7 +68,12 @@ const EventHomeScreen = ({ navigation }) => {
   const today = React.useMemo(() => {
     return dayjs().format(todayFormat).toUpperCase();
   });
-
+  function findChosenEvent(id) {
+    const foundEvent = filteredOngoingEvents.find(event => event.id === id)
+    if (foundEvent !== null) {
+      navigation.navigate({ name: "EventDetail", params: foundEvent })
+    }
+  }
   React.useEffect(() => {
     fetchUserEvents();
   }, []);
@@ -107,15 +112,7 @@ const EventHomeScreen = ({ navigation }) => {
             noDataMessage="No Ongoing Events"
             eventData={filteredOngoingEvents}
             eventType={EVENT_TYPE.ONGOING}
-            onPress={(id) => {
-              for (let i = 0; i <= filteredOngoingEvents.length; i++) {
-                if (id == filteredOngoingEvents[i]['id']) {
-                  navigation.navigate({ name: "EventDetail", params: filteredOngoingEvents[i] })
-                  break
-                  
-                }
-              }
-            }}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="Upcoming"
