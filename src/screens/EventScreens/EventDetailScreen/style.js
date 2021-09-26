@@ -28,14 +28,8 @@ export const styles = StyleSheet.create({
     color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
   },
   leaveButtonContainer: {
-    height: 90,
+    height: 60,
     justifyContent: 'center',
     width: '100%',
-  },
-  avatarContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 30,
   },
 });

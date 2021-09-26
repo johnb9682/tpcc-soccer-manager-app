@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import dayjs from 'dayjs';
 import { styles } from './style';
 import { dateFormat } from '../../../../components/constants';
 import { THEME_COLORS } from '../../../../components/theme';
@@ -37,7 +37,6 @@ const EventItem = ({ event, eventType, onPress }) => {
   return (
     <TouchableOpacity style={styles.eventItem} onPress={() => {
       let eventId = event['id']
-      console.log(eventId)
       onPress(eventId)
     }}>
       <View style={styles.header}>
@@ -70,7 +69,7 @@ const EventItem = ({ event, eventType, onPress }) => {
             numberOfLines={1}
             style={[styles.timeText, { color: eventColor }]}
           >
-            {event.eventTime.format(dateFormat)}
+            {dayjs(event.eventStartTime).format(dateFormat)}
           </Text>
         </View>
         <View style={styles.infoPair}>
