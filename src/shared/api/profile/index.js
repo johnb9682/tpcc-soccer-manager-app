@@ -1,11 +1,10 @@
 import yelp from '../../../services/yelp';
 
-export const updateProfile = async (email, id, userName, password) => {
+export const updateProfile = async (email, id, userName) => {
   try {
     const response = await yelp.put('/updateUser', {
       email,
       id,
-      password,
       userName,
     });
     return response;

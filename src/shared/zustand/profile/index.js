@@ -18,7 +18,10 @@ export const useProfileStore = create((set, get) => ({
     }
   },
   updateUserInfo: async (email, userId, userName) => {
-    const result = await updateProfile(email, userId, userName, '123456');
+    set({
+      isLoading: true,
+    })
+    const result = await updateProfile(email, userId, userName);
     const status = result.status;
     const data = result.data;
     switch (status) {
@@ -29,6 +32,9 @@ export const useProfileStore = create((set, get) => ({
           userId: userId,
         };
         await storeDataObj(USER_INFO_SESSION_STORAGE_FIELD, updatedUserInfo);
+        set({
+          isLoading: false,
+        })
         return {
           status: 'success',
           message: 'You have successfully changed your profile information!',
@@ -37,8 +43,15 @@ export const useProfileStore = create((set, get) => ({
           },
         };
       }
-      case 401: // FALLTHROUGH
+      case 401: {
+        set({
+          isLoading: true,
+        })
+      }// FALLTHROUGH
       case 403:
+        set({
+          isLoading: false,
+        })
         return {
           status: 'info',
           message:
@@ -48,6 +61,9 @@ export const useProfileStore = create((set, get) => ({
           },
         };
       default:
+        set({
+          isLoading: false,
+        })
         return {
           status: 'error',
           message:
