@@ -18,15 +18,17 @@ const Profile = ({ navigation }) => {
   const [usernameStr, setusernameStr] = useState(userInfo['userName']);
   const [userEmail, setuserEmail] = useState(userInfo['email']);
   const userId = userInfo['userId'];
-  if (isLoading) {
-    return <Loading />;
-  }
   function editProfile() {
     if (isEditProfile === false) {
       setIsEditProfile(true);
     } else {
       onPressSave();
     }
+  }
+  function cancelEdit() {
+    setusernameStr(userInfo['userName'])
+    setuserEmail(userInfo['email'])
+    setIsEditProfile(false)
   }
   const onPressSave = useCallback(async () => {
     const result = await updateUserInfo(userEmail, userId, usernameStr);
@@ -65,6 +67,7 @@ const Profile = ({ navigation }) => {
         keyboardDismissMode='on-drag'
       >
         <View style={styles.innerContainer}>
+          {isLoading && <Loading />}
           <View style={styles.userInfoContainer}>
             <Avartar
               width={200}
@@ -132,6 +135,17 @@ const Profile = ({ navigation }) => {
                 {isEditProfile ? 'Save' : 'Edit Profile'}
               </Text>
             </Button>
+            {isEditProfile && 
+            <Button
+              borderWidth={0}
+              buttonColor={THEME_COLORS.WHITE}
+              borderColor={THEME_COLORS.DANGER_COLOR}
+              onPress={cancelEdit}
+            >
+              <Text style={[styles.buttonText, styles.cancelButton]}>
+                Cancel
+              </Text>
+            </Button>}
             <Button
               borderWidth={0}
               buttonColor={THEME_COLORS.DANGER_COLOR}

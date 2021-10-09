@@ -34,4 +34,7 @@ export const styles = StyleSheet.create({
   editButton: {
     color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
   },
+  cancelButton: {
+    color: THEME_COLORS.DANGER_COLOR,
+  }
 });
