@@ -1,6 +1,15 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Alert,
+  Button as NativeButton,
+} from 'react-native';
+import Toast from 'react-native-toast-message';
 
+import { TOAST_UP_OFFSET } from '../../../components/constants';
 import { styles } from './style';
 import {
   Heading,
@@ -8,25 +17,99 @@ import {
   NoData,
   Button,
   Avartar,
+  Loading,
 } from '../../../components';
 import { THEME_FONT_SIZES, THEME_COLORS } from '../../../components/theme';
 import { useTeamStore } from '../../../shared/zustand/team';
 import TeamMemberItem from '../components/TeamMemberItem';
+import { useAuthStore } from '../../../shared/zustand/auth';
 
 const TeamScreen = ({ navigation, route }) => {
-  const { isLoading, currentTeamInfo, fetchTeamInfo } = useTeamStore();
+  const {
+    isLoading,
+    errorMessage,
+    currentTeamMembers,
+    fetchTeamMembers,
+    deleteTeamMember,
+    deleteTeam,
+  } = useTeamStore();
+  const { userInfo } = useAuthStore();
+  const { teamName, teamId, teamDescription, leaderId } = route.params;
+  const [isEditing, setIsEditing] = React.useState(false);
+
+  const confirmLeave = React.useCallback(() => {
+    deleteTeamMember(userInfo.userId, teamId);
+    navigation.navigate('TeamHome');
+  }, [navigation, deleteTeamMember, teamId, userInfo]);
+
+  const confirmDismiss = React.useCallback(() => {
+    deleteTeam(teamId);
+    navigation.navigate('TeamHome');
+  }, [navigation, deleteTeam, teamId]);
+
+  const handleOnPressLeave = ({ isLeader }) =>
+    Alert.alert(
+      'Are you sure you want to leave the team?',
+      'This operation can NOT be undone',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        { text: 'Confirm', onPress: confirmLeave },
+      ]
+    );
+  const handleOnPressDismiss = () =>
+    Alert.alert(
+      'Are you sure you want to dismiss the team?',
+      'This operation can NOT be undone',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        { text: 'Dismiss', onPress: confirmDismiss },
+      ]
+    );
+
+  React.useLayoutEffect(() => {
+    if (leaderId === userInfo.userId) {
+      navigation.setOptions({
+        headerRight: () => (
+          <NativeButton
+            color={
+              isEditing
+                ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
+                : THEME_COLORS.DANGER_COLOR
+            }
+            onPress={() => setIsEditing(!isEditing)}
+            title={isEditing ? 'Save' : 'Edit'}
+          />
+        ),
+      });
+    }
+  }, [navigation, leaderId, userInfo, isEditing, setIsEditing]);
 
   React.useEffect(() => {
-    fetchTeamInfo();
-  }, []);
+    // fetch teams on screen focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchTeamMembers(teamId);
+    });
+    return unsubscribe;
+  }, [route, navigation]);
 
-  const leaderId = React.useMemo(() => {
-    return currentTeamInfo.leaderId ?? null;
-  }, [currentTeamInfo]);
-
-  const members = React.useMemo(() => {
-    return currentTeamInfo.members ?? [];
-  }, [currentTeamInfo]);
+  React.useEffect(() => {
+    if (errorMessage) {
+      if (errorMessage !== null) {
+        Toast.show({
+          type: 'error',
+          text1: 'Network Error',
+          text2: errorMessage,
+          topOffset: TOAST_UP_OFFSET,
+        });
+      }
+    }
+  }, [errorMessage]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,7 +123,7 @@ const TeamScreen = ({ navigation, route }) => {
               width={160}
               height={160}
               type='circle'
-              content={route.params.teamName ? route.params.teamName[0] : ''}
+              content={teamName ? teamName[0] : ''}
               fontSize={THEME_FONT_SIZES.AVATAR_FONT_MAX}
             />
           </View>
@@ -59,12 +142,8 @@ const TeamScreen = ({ navigation, route }) => {
             borderRadius={15}
             justifyContent='flex-start'
           >
-            <Text style={styles.description}>
-              {route.params.teamDescription}
-            </Text>
-            {!route.params.teamDescription && (
-              <NoData message={'No Description'} />
-            )}
+            <Text style={styles.description}>{teamDescription}</Text>
+            {!teamDescription && <NoData message={'No Description'} />}
           </RoundRectContainer>
           <Heading
             containerStyle={styles.heading}
@@ -78,18 +157,25 @@ const TeamScreen = ({ navigation, route }) => {
             paddingHorizontal={5}
             justifyContent='flex-start'
           >
-            {members.map((member, index) => {
-              return (
-                <TeamMemberItem
-                  key={member.userId}
-                  userData={member}
-                  showSeparator={
-                    members.length > 1 && index !== members.length - 1
-                  }
-                  isLeader={member.userId === leaderId}
-                />
-              );
-            })}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                {currentTeamMembers.map((member, index) => {
+                  return (
+                    <TeamMemberItem
+                      key={member.userId}
+                      userData={member}
+                      showSeparator={
+                        currentTeamMembers.length > 1 &&
+                        index !== currentTeamMembers.length - 1
+                      }
+                      isLeader={member.userId === leaderId}
+                    />
+                  );
+                })}
+              </>
+            )}
           </RoundRectContainer>
           <Button
             buttonColor={THEME_COLORS.WHITE}
@@ -98,27 +184,34 @@ const TeamScreen = ({ navigation, route }) => {
             onPress={() => {
               navigation.navigate({
                 name: 'InviteMember',
-                params: { ...route.params, members },
+                params: { ...route.params, members: currentTeamMembers },
               });
             }}
           >
-            <Text style={[styles.buttonText, styles.inviteButton]}>Invite</Text>
+            <Text style={[styles.buttonText, styles.inviteButton]}>
+              Invite New Member
+            </Text>
           </Button>
-          <View style={styles.leaveButtonContainer}>
+          <Button
+            buttonColor={THEME_COLORS.WHITE}
+            borderColor={THEME_COLORS.WHITE}
+            width='90%'
+            onPress={handleOnPressLeave}
+          >
+            <Text style={[styles.buttonText, styles.leaveButton]}>
+              Leave Team
+            </Text>
+          </Button>
+          {isEditing && userInfo.userId === leaderId && (
             <Button
-              buttonColor={THEME_COLORS.WHITE}
-              borderColor={THEME_COLORS.WHITE}
+              buttonColor={THEME_COLORS.DANGER_COLOR}
+              borderColor={THEME_COLORS.DANGER_COLOR}
               width='90%'
-              onPress={() => {
-                navigation.navigate('TeamHome');
-                console.log('Leaving team ...');
-              }}
+              onPress={handleOnPressDismiss}
             >
-              <Text style={[styles.buttonText, styles.leaveButton]}>
-                Leave Team
-              </Text>
+              <Text style={[styles.buttonText]}>Dismiss Team</Text>
             </Button>
-          </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
