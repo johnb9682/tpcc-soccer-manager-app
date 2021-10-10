@@ -31,8 +31,12 @@ const TeamHomeScreen = ({ navigation }) => {
   );
 
   React.useEffect(() => {
-    fetchUserTeams(userInfo.userId);
-  }, [userInfo]);
+    // fetch teams on screen focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchUserTeams(userInfo.userId);
+    });
+    return unsubscribe;
+  }, [userInfo, navigation]);
 
   React.useEffect(() => {
     setFilteredTeams(userTeams);

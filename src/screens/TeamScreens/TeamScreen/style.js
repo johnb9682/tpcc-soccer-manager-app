@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   description: {
+    alignSelf: 'flex-start',
     fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
     color: THEME_COLORS.DARK_GREY,
   },
@@ -26,11 +27,6 @@ export const styles = StyleSheet.create({
   },
   inviteButton: {
     color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
-  },
-  leaveButtonContainer: {
-    height: 90,
-    justifyContent: 'center',
-    width: '100%',
   },
   avatarContainer: {
     width: '100%',

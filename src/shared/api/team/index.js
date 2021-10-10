@@ -5,8 +5,7 @@ export const getUserTeam = async (userId) => {
     const response = await yelp.get('/getUserTeam', { headers: { userId } });
     return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
 
@@ -15,8 +14,7 @@ export const getTeamInfo = async (teamId) => {
     const response = await yelp.get('/team', { headers: { teamId } });
     return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
 
@@ -27,23 +25,20 @@ export const createTeam = async (leaderId, teamName, teamDescription) => {
       teamDescription,
       teamName,
     });
-    console.log(response.data);
     return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
 
 export const deleteTeam = async (teamId) => {
   try {
-    const response = await yelp.delete('/team', {
-      //
+    await yelp.delete('/team', {
+      headers: { teamId },
     });
-    return response;
-  } catch (err) {
-    console.error(err);
     return null;
+  } catch (err) {
+    return err.message;
   }
 };
 
@@ -54,29 +49,25 @@ export const updateTeam = async (teamId) => {
     });
     return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
 
 export const getTeamMembers = async (teamId) => {
   try {
-    const response = await yelp.get('/team', { headers: { teamId } });
+    const response = await yelp.get('/teamMembers', { headers: { teamId } });
     return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
 
-export const deleteTeamMember = async (teamId, userId) => {
+export const deleteTeamMember = async (userId, teamId) => {
   try {
-    const response = await yelp.delete('/team', {
-      //
+    await yelp.delete('/teamMember', {
+      headers: { userId, teamId },
     });
-    return response;
   } catch (err) {
-    console.error(err);
-    return null;
+    return err.message;
   }
 };
