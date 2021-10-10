@@ -25,14 +25,15 @@ export const createEvent = async (eventInfoObj) => {
     }
 };
 
-export const fetchUserEvents = async (userId) => {
+export const getUserEvent = async (userId) => {
     try {
         const response = await yelp.get('/getUserEvent', {
-            userId,
-        });
+            headers: { userId }
+        }
+        );
         return response;
     } catch (err) {
         console.log(err);
         return { status: 500 };
     }
-}
+};

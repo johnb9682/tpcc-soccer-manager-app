@@ -1,6 +1,6 @@
 import create from 'zustand';
-import { createEvent, fetchUserEvents } from '../../api/event';
-
+import { createEvent, getUserEvent } from '../../api/event';
+import dayjs from 'dayjs';
 import {
   mockHistoryEvents,
   mockOngoingEvents,
@@ -20,16 +20,31 @@ export const useEventStore = create((set, get) => ({
   ...initialState,
   fetchUserEvents: async userId => {
     set({ isLoading: true });
-    // call fetch api using userId
-    // categorize based on dates
-    set({
-      upComingEvents: mockUpcomingEvents,
-      historyEvents: mockHistoryEvents,
-      onGoingEvents: mockOngoingEvents,
-    });
     try {
-      const response = await fetchUserEvents(userId);
+      const response = await getUserEvent(userId);
       const data = response.data;
+      const eventLists = data.eventResponses;
+      const fetchedUpcomingEvents = [];
+      const fetchedHistoryEvents = [];
+      const fetchedOngoingEvents = [];
+      const todayUnix = dayjs().valueOf();
+      for (let i = 0; i < eventLists.length; i++) {
+        const currentEvent = eventLists[i];
+        if (todayUnix < currentEvent.eventStartTime) {
+          fetchedUpcomingEvents.push(currentEvent);
+        }
+        else if (todayUnix >= currentEvent.eventStartTime && todayUnix < currentEvent.eventEndTime) {
+          fetchedOngoingEvents.push(currentEvent);
+        }
+        else {
+          fetchedHistoryEvents.push(currentEvent);
+        }
+      }
+      set({
+        upComingEvents: fetchedUpcomingEvents,
+        historyEvents: fetchedHistoryEvents,
+        onGoingEvents: fetchedOngoingEvents,
+      });
       set({ isLoading: false });
       return data;
     } catch (error) {

@@ -15,7 +15,6 @@ import { useEventStore } from '../../../shared/zustand/event';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import { todayFormat } from '../../../components/constants';
 import { EVENT_TYPE } from '../components/constants';
-
 const EventHomeScreen = ({ navigation }) => {
   const {
     isLoading,
@@ -59,9 +58,8 @@ const EventHomeScreen = ({ navigation }) => {
   );
 
   const handleOnRefresh = React.useCallback(async () => {
-    const result = await fetchUserEvents(userInfo['userId']);
-    console.log(result);
-  }, []);
+    await fetchUserEvents(userInfo['userId']);
+  });
 
   const totalEventNum = React.useMemo(() => {
     return upComingEvents.length + onGoingEvents.length + historyEvents.length;
@@ -77,9 +75,11 @@ const EventHomeScreen = ({ navigation }) => {
     }
   }
   React.useEffect(() => {
-    fetchUserEvents(userInfo['userId']);
-  }, []);
-
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchUserEvents(userInfo['userId']);
+    });
+    return unsubscribe;
+  }, [userInfo, navigation]);
   React.useEffect(() => {
     // initialization
     setFilteredOngoingEvents(onGoingEvents);

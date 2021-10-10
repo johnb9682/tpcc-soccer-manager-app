@@ -4,9 +4,10 @@ import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Input, Button, DateInput } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
-import { eventDetailDateFormat } from '../../../components/constants';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import { useEventStore } from '../../../shared/zustand/event';
+import Toast from 'react-native-toast-message';
+import { TOAST_UP_OFFSET } from '../../../components/constants';
 
 const CreateEventScreen = ({ navigation }) => {
   const [warning, setWarning] = useState(false);
@@ -20,10 +21,10 @@ const CreateEventScreen = ({ navigation }) => {
   const { createEvent } = useEventStore();
   const eventInfoObj = {
     "eventDescription": eventDescription,
-    "eventEndTime": dayjs(eventEndDate).valueOf(),
+    "eventEndTime": 1633835982, //dayjs(eventEndDate).valueOf(),
     "eventLocation": eventLocation,
     "eventName": eventName,
-    "eventStartTime": dayjs(eventStartDate).valueOf(),
+    "eventStartTime": 1633796495,//dayjs(eventStartDate).valueOf(),
     "hostId": userInfo['userId'],
   }
   function handleCancel() {
@@ -36,13 +37,8 @@ const CreateEventScreen = ({ navigation }) => {
   }
   const onPressCreate = useCallback(async () => {
     const result = await createEvent(eventInfoObj);
-    console.log(result)
-    // if (result.status === "success") {
-    //   console.log("Success")
-    // }
-    // else {
-    //   console.log("fail")
-    // }
+    console.log(result);
+    navigation.navigate('EventHome');
   });
   useEffect(() => {
     if (eventName.length > 0 && eventEndDate - eventStartDate > 0) {
