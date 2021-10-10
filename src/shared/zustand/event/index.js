@@ -1,4 +1,5 @@
 import create from 'zustand';
+import { createEvent } from '../../api/event';
 
 import {
   mockHistoryEvents,
@@ -33,4 +34,13 @@ export const useEventStore = create((set, get) => ({
     set({ currentEventInfo: mockEventInfo })
     set({ isLoading: false });
   },
+  createEvent: async eventInfoObj => {
+    try {
+      const response = await createEvent(eventInfoObj);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }));

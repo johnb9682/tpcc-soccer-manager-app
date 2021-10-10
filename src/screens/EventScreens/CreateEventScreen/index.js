@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import dayjs from 'dayjs';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Input, Button, DateInput } from '../../../components';
 import { styles } from './style';
 import { THEME_COLORS } from '../../../components/theme';
+import { eventDetailDateFormat } from '../../../components/constants';
+import { useAuthStore } from '../../../shared/zustand/auth';
+import { useEventStore } from '../../../shared/zustand/event';
 
 const CreateEventScreen = ({ navigation }) => {
   const [warning, setWarning] = useState(false);
@@ -12,7 +16,16 @@ const CreateEventScreen = ({ navigation }) => {
   const [eventLocation, setEventLocation] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [isCreateEnabled, setIsCreateEnabled] = useState(true);
-
+  const { userInfo } = useAuthStore();
+  const { createEvent } = useEventStore();
+  const eventInfoObj = {
+    "eventDescription": eventDescription,
+    "eventEndTime": dayjs(eventEndDate).valueOf(),
+    "eventLocation": eventLocation,
+    "eventName": eventName,
+    "eventStartTime": dayjs(eventStartDate).valueOf(),
+    "hostId": userInfo['userId'],
+  }
   function handleCancel() {
     setEventName('');
     setEventLocation('');
@@ -21,6 +34,16 @@ const CreateEventScreen = ({ navigation }) => {
     setEventDescription('');
     navigation.navigate('EventHome');
   }
+  const onPressCreate = useCallback(async () => {
+    const result = await createEvent(eventInfoObj);
+    console.log(result)
+    // if (result.status === "success") {
+    //   console.log("Success")
+    // }
+    // else {
+    //   console.log("fail")
+    // }
+  });
   useEffect(() => {
     if (eventName.length > 0 && eventEndDate - eventStartDate > 0) {
       setIsCreateEnabled(true);
@@ -89,7 +112,7 @@ const CreateEventScreen = ({ navigation }) => {
             />
           </View>
           <View>
-            <Button disabled={!isCreateEnabled}>
+            <Button disabled={!isCreateEnabled} onPress={onPressCreate}>
               <Text style={styles.ButtonText}> Create</Text>
             </Button>
             <Button
