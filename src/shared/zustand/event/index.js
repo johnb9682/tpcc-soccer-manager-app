@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { createEvent } from '../../api/event';
+import { createEvent, fetchUserEvents } from '../../api/event';
 
 import {
   mockHistoryEvents,
@@ -27,7 +27,14 @@ export const useEventStore = create((set, get) => ({
       historyEvents: mockHistoryEvents,
       onGoingEvents: mockOngoingEvents,
     });
-    set({ isLoading: false });
+    try {
+      const response = await fetchUserEvents(userId);
+      const data = response.data;
+      set({ isLoading: false });
+      return data;
+    } catch (error) {
+      throw new Error(error.message);
+    };
   },
   fetchEventInfo: async eventId => {
     set({ isLoading: true });

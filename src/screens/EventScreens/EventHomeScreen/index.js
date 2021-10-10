@@ -12,6 +12,7 @@ import { styles } from './style';
 import { Button, Info, SearchInput } from '../../../components';
 import EventSection from '../components/EventSection';
 import { useEventStore } from '../../../shared/zustand/event';
+import { useAuthStore } from '../../../shared/zustand/auth';
 import { todayFormat } from '../../../components/constants';
 import { EVENT_TYPE } from '../components/constants';
 
@@ -23,7 +24,7 @@ const EventHomeScreen = ({ navigation }) => {
     historyEvents,
     fetchUserEvents,
   } = useEventStore();
-
+  const { userInfo } = useAuthStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredOngoingEvents, setFilteredOngoingEvents] = React.useState([]);
   const [filteredUpcomingEvents, setFilteredUpcomingEvents] = React.useState(
@@ -57,8 +58,9 @@ const EventHomeScreen = ({ navigation }) => {
     ]
   );
 
-  const handleOnRefresh = React.useCallback(() => {
-    fetchUserEvents();
+  const handleOnRefresh = React.useCallback(async () => {
+    const result = await fetchUserEvents(userInfo['userId']);
+    console.log(result);
   }, []);
 
   const totalEventNum = React.useMemo(() => {
@@ -75,7 +77,7 @@ const EventHomeScreen = ({ navigation }) => {
     }
   }
   React.useEffect(() => {
-    fetchUserEvents();
+    fetchUserEvents(userInfo['userId']);
   }, []);
 
   React.useEffect(() => {

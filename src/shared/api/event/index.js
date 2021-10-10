@@ -10,17 +10,29 @@ import yelp from '../../../services/yelp';
 // }
 export const createEvent = async (eventInfoObj) => {
     try {
-      const response = await yelp.post('/event', {
+        const response = await yelp.post('/event', {
         "eventDescription": eventInfoObj["eventDescription"],
         "eventEndTime": eventInfoObj["eventEndTime"],
         "eventLocation": eventInfoObj["eventLocation"],
         "eventName": eventInfoObj["eventName"],
         "eventStartTime": eventInfoObj["eventStartTime"],
         "hostId": eventInfoObj["hostId"],
-      });
-      return response;
+        });
+        return response;
     } catch (err) {
-      console.log(err);
-      return { status: 500 };
+        console.log(err);
+        return { status: 500 };
     }
-  };
+};
+
+export const fetchUserEvents = async (userId) => {
+    try {
+        const response = await yelp.get('/getUserEvent', {
+            userId,
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return { status: 500 };
+    }
+}
