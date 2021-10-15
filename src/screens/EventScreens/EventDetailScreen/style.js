@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
     fontWeight: '600',
   },
-  leaveButton: {
+  cancelButton: {
     color: THEME_COLORS.DANGER_COLOR,
   },
   inviteButton: {

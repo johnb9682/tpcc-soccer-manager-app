@@ -36,8 +36,8 @@ const EventItem = ({ event, eventType, onPress }) => {
 
   return (
     <TouchableOpacity style={styles.eventItem} onPress={() => {
-      let eventId = event['id']
-      onPress(eventId)
+      let eventId = event['eventId'];
+      onPress(eventId);
     }}>
       <View style={styles.header}>
         <View style={styles.infoPair}>

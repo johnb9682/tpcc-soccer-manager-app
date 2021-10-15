@@ -21,10 +21,10 @@ const CreateEventScreen = ({ navigation }) => {
   const { createEvent } = useEventStore();
   const eventInfoObj = {
     "eventDescription": eventDescription,
-    "eventEndTime": 1633835982, //dayjs(eventEndDate).valueOf(),
+    "eventEndTime": dayjs(eventEndDate).valueOf(),
     "eventLocation": eventLocation,
     "eventName": eventName,
-    "eventStartTime": 1633796495,//dayjs(eventStartDate).valueOf(),
+    "eventStartTime": dayjs(eventStartDate).valueOf(),
     "hostId": userInfo['userId'],
   }
   function handleCancel() {
@@ -37,7 +37,21 @@ const CreateEventScreen = ({ navigation }) => {
   }
   const onPressCreate = useCallback(async () => {
     const result = await createEvent(eventInfoObj);
-    console.log(result);
+    if (result) {
+      Toast.show({
+        type: 'error',
+        text1: 'Oops, something went wrong',
+        text2:"You can't create a event, if you have any questiosn please contact the admin.",
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+    else {
+      Toast.show({
+        type: 'success',
+        text2: "You have created a event successfully",
+        topOffset: TOAST_UP_OFFSET,
+      })
+    }
     navigation.navigate('EventHome');
   });
   useEffect(() => {

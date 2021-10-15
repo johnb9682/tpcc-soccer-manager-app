@@ -69,7 +69,7 @@ const EventHomeScreen = ({ navigation }) => {
     return dayjs().format(todayFormat).toUpperCase();
   });
   function findChosenEvent(id) {
-    const foundEvent = AllEvents.find(event => event.id === id)
+    const foundEvent = AllEvents.find(event => event.eventId === id)
     if (foundEvent !== undefined) {
       navigation.navigate({ name: "EventDetail", params: foundEvent })
     }

@@ -1,19 +1,14 @@
 import create from 'zustand';
-import { createEvent, getUserEvent } from '../../api/event';
+import { createEvent, getUserEvent, getEventUserInfo, cancelEvent } from '../../api/event';
 import dayjs from 'dayjs';
-import {
-  mockHistoryEvents,
-  mockOngoingEvents,
-  mockUpcomingEvents,
-  mockEventInfo,
-} from './mockData';
 
 const initialState = {
   isLoading: false,
   upComingEvents: [],
   onGoingEvents: [],
   historyEvents: [],
-  currentEventInfo: {},
+  currentEventUserInfo: {},
+  errorMessage: null,
 }
 
 export const useEventStore = create((set, get) => ({
@@ -51,18 +46,26 @@ export const useEventStore = create((set, get) => ({
       throw new Error(error.message);
     };
   },
-  fetchEventInfo: async eventId => {
+  fetchEventUserInfo: async eventId => {
     set({ isLoading: true });
-    set({ currentEventInfo: mockEventInfo })
+    const response = await getEventUserInfo(eventId);
+    if (response) {
+      const userLists = response.data.userResponses;
+      set({ currentEventUserInfo: { participants: userLists } });
+    }
     set({ isLoading: false });
   },
   createEvent: async eventInfoObj => {
-    try {
-      const response = await createEvent(eventInfoObj);
-      const data = response.data;
-      return data;
-    } catch (error) {
-      throw new Error(error.message);
+    set({ isLoading: true });
+    const errorMessage = await createEvent(eventInfoObj);
+    if (errorMessage) {
+      set({ errorMessage });
     }
-  }
+  },
+  cancelEvent: async eventId => {
+    const errorMessage = await cancelEvent(eventId);
+    if (errorMessage) {
+      set({ errorMessage });
+    }
+  },
 }));

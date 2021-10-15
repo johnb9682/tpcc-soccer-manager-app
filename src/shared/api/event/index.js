@@ -1,13 +1,5 @@
 import yelp from '../../../services/yelp';
 
-// {
-//     "eventDescription": "string",
-//     "eventEndTime": 0,
-//     "eventLocation": "string",
-//     "eventName": "string",
-//     "eventStartTime": 0,
-//     "hostId": 0
-// }
 export const createEvent = async (eventInfoObj) => {
     try {
         const response = await yelp.post('/event', {
@@ -18,10 +10,9 @@ export const createEvent = async (eventInfoObj) => {
         "eventStartTime": eventInfoObj["eventStartTime"],
         "hostId": eventInfoObj["hostId"],
         });
-        return response;
+        return null;
     } catch (err) {
-        console.log(err);
-        return { status: 500 };
+        return err.message;
     }
 };
 
@@ -37,3 +28,49 @@ export const getUserEvent = async (userId) => {
         return { status: 500 };
     }
 };
+
+export const getEventUserInfo = async (eventId) => {
+    try {
+        const response = await yelp.get('/eventParticipant', {
+            headers: { eventId }
+        }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+        return { status: 500 };
+    }
+}
+
+export const cancelEvent = async (eventId) => {
+    try {
+        const response = await yelp.delete('/event', {
+            headers: { eventId }
+        });
+        return null;
+    } catch (err) {
+        return err.message;
+    }
+}
+
+export const deleteEventParticipants = async (userId, eventId) => {
+
+}
+
+export const updateEventInfo = async (eventInfoObj) => {
+    try {
+        const response = await yelp.put('/event', {
+            "eventDescription": eventInfoObj["eventDescription"],
+            "eventEndTime": eventInfoObj["eventEndTime"],
+            "eventLocation": eventInfoObj["eventLocation"],
+            "eventName": eventInfoObj["eventName"],
+            "eventStartTime": eventInfoObj["eventStartTime"],
+            "hostId": eventInfoObj["hostId"],
+            "id": eventInfoObj["id"],
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return { status: 500 };
+    }
+}
