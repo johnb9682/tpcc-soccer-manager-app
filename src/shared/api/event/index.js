@@ -40,7 +40,7 @@ export const getEventUserInfo = async (eventId) => {
         console.log(err);
         return { status: 500 };
     }
-}
+};
 
 export const cancelEvent = async (eventId) => {
     try {
@@ -51,11 +51,23 @@ export const cancelEvent = async (eventId) => {
     } catch (err) {
         return err.message;
     }
-}
+};
+
+export const quitEvent = async (userId, eventId) => {
+    try {
+        const response = await yelp.post("", {
+            userId,
+            eventId,
+        })
+        return null;
+    } catch (err) {
+        return err.message;
+    }
+};
 
 export const deleteEventParticipants = async (userId, eventId) => {
 
-}
+};
 
 export const updateEventInfo = async (eventInfoObj) => {
     try {
@@ -73,4 +85,4 @@ export const updateEventInfo = async (eventInfoObj) => {
         console.log(err);
         return { status: 500 };
     }
-}
+};

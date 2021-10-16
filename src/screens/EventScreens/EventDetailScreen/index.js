@@ -52,7 +52,7 @@ const EventDetailScreen = ({ navigation, route }) => {
       Toast.show({
         type: 'error',
         text1: 'Oops, something went wrong',
-        text2:"You can't cancel this event, if you have any questiosn please contact the admin.",
+        text2: "You can't cancel this event, if you have any questiosn please contact the admin.",
         topOffset: TOAST_UP_OFFSET,
       });
     }
@@ -64,7 +64,7 @@ const EventDetailScreen = ({ navigation, route }) => {
       })
     }
     navigation.navigate('EventHome');
-  }
+  };
   const handleOnPressCancel = () =>
     Alert.alert(
       'Are you sure you want to cancel the event?',
@@ -77,6 +77,37 @@ const EventDetailScreen = ({ navigation, route }) => {
         { text: 'Yes', onPress: confirmCancelEvent },
       ]
     );
+  const confirmQuitEvent = async () => {
+    const result = await cancelEvent(route.params.eventId);
+    if (result) {
+      Toast.show({
+        type: 'error',
+        text1: 'Oops, something went wrong',
+        text2: "You can't quit this event, if you have any questiosn please contact the admin.",
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+    else {
+      Toast.show({
+        type: 'success',
+        text2: "You have quit the event " + route.params.eventName + " successfully",
+        topOffset: TOAST_UP_OFFSET,
+      })
+    }
+    navigation.navigate('EventHome');
+  };
+  const handleOnPressQuit = () =>
+  Alert.alert(
+    'Are you sure you want to quit this event?',
+    'This operation can NOT be undone',
+    [
+      {
+        text: 'No',
+        style: 'cancel',
+      },
+      { text: 'Yes', onPress: confirmQuitEvent },
+    ]
+  );
   React.useLayoutEffect(() => {
     if (hostId === userInfo.userId) {
       navigation.setOptions({
@@ -232,12 +263,10 @@ const EventDetailScreen = ({ navigation, route }) => {
               buttonColor={THEME_COLORS.DANGER_COLOR}
               borderColor={THEME_COLORS.DANGER_COLOR}
               width='90%'
-              onPress={() => {
-                navigation.navigate('EventHome');
-              }}
+              onPress={handleOnPressQuit}
             >
               <Text style={[styles.buttonText]}>
-                Leave Event
+                Quit this Event
               </Text>
             </Button>
           </View>

@@ -50,7 +50,7 @@ const SelectList = ({
                 handleOnPress(index);
               }}
             >
-              {renderItem}
+              <Text>{d.userName}, {d.email}</Text>
             </CheckBox>
           </View>
         ))}
