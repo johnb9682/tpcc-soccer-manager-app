@@ -5,27 +5,53 @@ import { styles } from './style';
 import { SearchInput } from '../SearchInput';
 import { RoundRectContainer } from '../RoundRectContainer';
 import { CheckBox } from '../CheckBox';
+import { useSearchStore } from '../../shared/zustand/search';
+import { set } from 'react-native-reanimated';
 
 const SelectList = ({
   selectedItems = [],
   setSelectedItems,
   searchPlaceholder = '',
   multiple = true,
-  data = [],
-  renderItem,
+  currentGroupInfo,
 }) => {
   const [searchStr, setSearchStr] = React.useState('');
-  const handleOnSearch = () => {
-    console.log(searchStr);
+  const [data, setData] = React.useState([]);
+  const { fetchSearchedUsers } = useSearchStore();
+  const handleOnSearch = async () => {
+    if (searchStr === "") {
+      setData([]);
+    }
+    else {
+      const result = await fetchSearchedUsers(searchStr);
+      const searchedUserResults = result.userResponses;
+      setData(searchedUserResults);
+    }
+    // console.log(data);
   };
-  const handleOnPress = (index) => {
-    if (selectedItems.includes(index)) {
-      const newItems = selectedItems.splice().filter((item) => item !== index);
-      setSelectedItems(newItems);
+  const handleOnPress = (userId) => {
+    if (selectedItems.includes(userId)) {
+      const index = selectedItems.indexOf(userId);
+      if (index > -1) {
+        selectedItems.splice(index, 1);
+      }
+      setSelectedItems(selectedItems);
     } else {
-      setSelectedItems([...selectedItems, index]);
+      setSelectedItems([...selectedItems, userId]);
     }
   };
+  React.useEffect(() => {
+    console.log(selectedItems);
+  })
+  const InGroup = (userId) => {
+    for (let i = 0; i < currentGroupInfo.length; i++) {
+      const selectedUserId = currentGroupInfo[i].userId;
+      if (userId === selectedUserId) {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -43,11 +69,12 @@ const SelectList = ({
         justifyContent='flex-start'
       >
         {data.map((d, index) => (
-          <View key={index} style={styles.itemContainer}>
+          <View key={d.userId} style={styles.itemContainer}>
             <CheckBox
-              selected={selectedItems.includes(index)}
+              selected={selectedItems.includes(d.userId)}
+              disabled={InGroup(d.userId)}
               onPress={() => {
-                handleOnPress(index);
+                handleOnPress(d.userId);
               }}
             >
               <Text>{d.userName}, {d.email}</Text>

@@ -4,13 +4,10 @@ import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { styles } from './style';
 import { Button, Heading, SelectList, CheckBox } from '../../../components';
 import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
+import { useSearchStore } from '../../../shared/zustand/search';
 
 const EventInviteScreen = ({ navigation, route }) => {
   const [selectedMembers, setSelectedMembers] = React.useState([]);
-  const [searchedResultUsers, setSearchedResultUsers] = React.useState([]);
-  React.useEffect(() => {
-    console.log(route.params.participants);
-  })
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -28,8 +25,7 @@ const EventInviteScreen = ({ navigation, route }) => {
           searchPlaceholder='Search Username'
           selectedItems={selectedMembers}
           setSelectedItems={setSelectedMembers}
-          data={route.params.participants} //searchedResultUsers
-          renderItem={"Dummy member"}
+          currentGroupInfo = {route.params.participants}
         />
         <Button
           buttonColor={THEME_COLORS.WHITE}
