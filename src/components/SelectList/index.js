@@ -42,7 +42,7 @@ const SelectList = ({
   };
   React.useEffect(() => {
     console.log(selectedItems);
-  })
+  }, [selectedItems])
   const InGroup = (userId) => {
     for (let i = 0; i < currentGroupInfo.length; i++) {
       const selectedUserId = currentGroupInfo[i].userId;
