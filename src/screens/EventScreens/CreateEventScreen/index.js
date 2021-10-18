@@ -19,14 +19,6 @@ const CreateEventScreen = ({ navigation }) => {
   const [isCreateEnabled, setIsCreateEnabled] = useState(true);
   const { userInfo } = useAuthStore();
   const { createEvent } = useEventStore();
-  const eventInfoObj = {
-    "eventDescription": eventDescription,
-    "eventEndTime": dayjs(eventEndDate).valueOf(),
-    "eventLocation": eventLocation,
-    "eventName": eventName,
-    "eventStartTime": dayjs(eventStartDate).valueOf(),
-    "hostId": userInfo['userId'],
-  }
   function handleCancel() {
     setEventName('');
     setEventLocation('');
@@ -36,6 +28,14 @@ const CreateEventScreen = ({ navigation }) => {
     navigation.navigate('EventHome');
   }
   const onPressCreate = useCallback(async () => {
+    const eventInfoObj = {
+      "eventDescription": eventDescription,
+      "eventEndTime": dayjs(eventEndDate).valueOf(),
+      "eventLocation": eventLocation,
+      "eventName": eventName,
+      "eventStartTime": dayjs(eventStartDate).valueOf(),
+      "hostId": userInfo['userId'],
+    }
     const result = await createEvent(eventInfoObj);
     if (result) {
       Toast.show({

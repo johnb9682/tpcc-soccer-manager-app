@@ -57,9 +57,9 @@ const EventHomeScreen = ({ navigation }) => {
     ]
   );
 
-  const handleOnRefresh = React.useCallback(async () => {
-    await fetchUserEvents(userInfo['userId']);
-  });
+  const handleOnRefresh = React.useCallback(() => {
+    fetchUserEvents(userInfo['userId']);
+  }, []);
 
   const totalEventNum = React.useMemo(() => {
     return upComingEvents.length + onGoingEvents.length + historyEvents.length;

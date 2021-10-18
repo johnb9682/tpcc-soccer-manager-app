@@ -2,12 +2,13 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 
 import { styles } from './style';
-import { Button, Heading, SelectList, CheckBox } from '../../../components';
+import { Button, Heading, SelectList } from '../../../components';
 import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
 import { useSearchStore } from '../../../shared/zustand/search';
 
 const EventInviteScreen = ({ navigation, route }) => {
   const [selectedMembers, setSelectedMembers] = React.useState([]);
+  const { fetchSearchedUsers } = useSearchStore();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -25,7 +26,8 @@ const EventInviteScreen = ({ navigation, route }) => {
           searchPlaceholder='Search Username'
           selectedItems={selectedMembers}
           setSelectedItems={setSelectedMembers}
-          currentGroupInfo = {route.params.participants}
+          currentGroupInfo={route.params.participants}
+          searchFunction = {fetchSearchedUsers}
         />
         <Button
           buttonColor={THEME_COLORS.WHITE}

@@ -5,29 +5,26 @@ import { styles } from './style';
 import { SearchInput } from '../SearchInput';
 import { RoundRectContainer } from '../RoundRectContainer';
 import { CheckBox } from '../CheckBox';
-import { useSearchStore } from '../../shared/zustand/search';
-import { set } from 'react-native-reanimated';
 
 const SelectList = ({
   selectedItems = [],
   setSelectedItems,
   searchPlaceholder = '',
+  searchFunction = async ()=>{},
   multiple = true,
   currentGroupInfo,
 }) => {
   const [searchStr, setSearchStr] = React.useState('');
   const [data, setData] = React.useState([]);
-  const { fetchSearchedUsers } = useSearchStore();
   const handleOnSearch = async () => {
     if (searchStr === "") {
       setData([]);
     }
     else {
-      const result = await fetchSearchedUsers(searchStr);
+      const result = await searchFunction(searchStr);
       const searchedUserResults = result.userResponses;
       setData(searchedUserResults);
     }
-    // console.log(data);
   };
   const handleOnPress = (userId) => {
     if (selectedItems.includes(userId)) {
