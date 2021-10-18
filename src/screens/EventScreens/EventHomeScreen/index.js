@@ -75,10 +75,10 @@ const EventHomeScreen = ({ navigation }) => {
     }
   }
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      fetchUserEvents(userInfo['userId']);
+    const unsubscribe = navigation.addListener("focus", async () => {
+      await fetchUserEvents(userInfo['userId']);
     });
-    return unsubscribe;
+    // return unsubscribe;
   }, [userInfo, navigation]);
   React.useEffect(() => {
     // initialization

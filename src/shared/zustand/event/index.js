@@ -69,9 +69,10 @@ export const useEventStore = create((set, get) => ({
     }
   },
   quitEvent: async (userId, eventId) => {
+    // set({ errorMessage: "WE" });
     const errorMessage = await quitEvent(userId, eventId);
-    if (errorMessage) {
-      set({ errorMessage });
+    if (typeof errorMessage === "string") {
+      set({ errorMessage, });
     }
   },
 }));

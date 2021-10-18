@@ -55,9 +55,11 @@ export const cancelEvent = async (eventId) => {
 
 export const quitEvent = async (userId, eventId) => {
     try {
-        const response = await yelp.post("", {
-            userId,
-            eventId,
+        const response = await yelp.delete("/eventParticipant", {
+            headers: {
+                userId,
+                eventId,
+            }
         })
         return null;
     } catch (err) {

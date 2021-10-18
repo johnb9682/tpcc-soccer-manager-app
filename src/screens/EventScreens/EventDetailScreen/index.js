@@ -26,7 +26,7 @@ import { TOAST_UP_OFFSET } from '../../../components/constants';
 
 
 const EventDetailScreen = ({ navigation, route }) => {
-  const { isLoading, fetchEventUserInfo ,currentEventUserInfo, cancelEvent, quitEvent } = useEventStore();
+  const { isLoading, fetchEventUserInfo ,currentEventUserInfo, cancelEvent, quitEvent, errorMessage } = useEventStore();
   const { userInfo } = useAuthStore();
   const [eventName, setEventName] = React.useState(route.params.eventName);
   const [eventLocation, setEventLocation] = React.useState(route.params.eventLocation);
@@ -78,22 +78,23 @@ const EventDetailScreen = ({ navigation, route }) => {
       ]
     );
   const confirmQuitEvent = async () => {
-    // const result = await quitEvent(userInfo.userId, route.params.eventId);
-    // if (result) {
-    //   Toast.show({
-    //     type: 'error',
-    //     text1: 'Oops, something went wrong',
-    //     text2: "You can't quit this event, if you have any questiosn please contact the admin.",
-    //     topOffset: TOAST_UP_OFFSET,
-    //   });
-    // }
-    // else {
-    //   Toast.show({
-    //     type: 'success',
-    //     text2: "You have quit the event " + route.params.eventName + " successfully",
-    //     topOffset: TOAST_UP_OFFSET,
-    //   })
-    // }
+    const result = await quitEvent(userInfo.userId, route.params.eventId);
+    console.log(errorMessage);
+    if (errorMessage) {
+      Toast.show({
+        type: 'error',
+        text1: 'Oops, something went wrong',
+        text2: "You can't quit this event, if you have any questiosn please contact the admin.",
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+    else {
+      Toast.show({
+        type: 'success',
+        text2: "You have quit the event " + route.params.eventName + " successfully",
+        topOffset: TOAST_UP_OFFSET,
+      })
+    }
     navigation.navigate('EventHome');
   };
   const handleOnPressQuit = () =>
