@@ -40,7 +40,7 @@ const EventInviteScreen = ({ navigation, route }) => {
           currentGroupInfo={route.params.participants}
           data={data}
           searchFunction={handleOnSearch}
-          renderItem = {<Text>Testing User</Text> }
+          renderItem = {["userName", "email"]}
         />
         <Button
           buttonColor={THEME_COLORS.WHITE}

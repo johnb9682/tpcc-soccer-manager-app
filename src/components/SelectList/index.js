@@ -44,7 +44,12 @@ const SelectList = ({
     else {
       return false;
     }
-
+  }
+  function generateRenderText(d,finalText) {
+    for (let i = 0; i < renderItem.length; i++) {
+      finalText = finalText + d[renderItem[i]] + ", "
+    }
+    return finalText.substring(0, finalText.length-2);
   }
   return (
     <View style={styles.container}>
@@ -71,7 +76,7 @@ const SelectList = ({
                 handleOnPress(JSON.stringify(d));
               }}
             >
-              {renderItem}
+              <Text>{generateRenderText(d, "")}</Text>
             </CheckBox>
           </View>
         ))}
