@@ -12,42 +12,39 @@ const SelectList = ({
   searchPlaceholder = '',
   searchFunction = async ()=>{},
   multiple = true,
-  currentGroupInfo,
+  currentGroupInfo = [],
+  data,
+  renderItem,
 }) => {
   const [searchStr, setSearchStr] = React.useState('');
-  const [data, setData] = React.useState([]);
-  const handleOnSearch = async () => {
-    if (searchStr === "") {
-      setData([]);
-    }
-    else {
-      const result = await searchFunction(searchStr);
-      const searchedUserResults = result.userResponses;
-      setData(searchedUserResults);
-    }
-  };
-  const handleOnPress = (userId) => {
-    if (selectedItems.includes(userId)) {
-      const index = selectedItems.indexOf(userId);
+  const handleOnPress = (target) => {
+    if (selectedItems.includes(target)) {
+      const index = selectedItems.indexOf(target);
       if (index > -1) {
         selectedItems.splice(index, 1);
       }
       setSelectedItems(selectedItems);
     } else {
-      setSelectedItems([...selectedItems, userId]);
+      setSelectedItems([...selectedItems, target]);
     }
   };
   React.useEffect(() => {
     console.log(selectedItems);
   }, [selectedItems])
-  const InGroup = (userId) => {
-    for (let i = 0; i < currentGroupInfo.length; i++) {
-      const selectedUserId = currentGroupInfo[i].userId;
-      if (userId === selectedUserId) {
-        return true;
+  const InGroup = (target) => {
+    if (currentGroupInfo !== []) {
+      for (let i = 0; i < currentGroupInfo.length; i++) {
+        const selectedTarget = JSON.stringify(currentGroupInfo[i]);
+        if (target === selectedTarget) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
+    else {
+      return false;
+    }
+
   }
   return (
     <View style={styles.container}>
@@ -57,7 +54,7 @@ const SelectList = ({
           placeholder={searchPlaceholder}
           value={searchStr}
           onInput={setSearchStr}
-          onSearch={handleOnSearch}
+          onSearch={searchFunction}
         />
       </View>
       <RoundRectContainer
@@ -66,15 +63,15 @@ const SelectList = ({
         justifyContent='flex-start'
       >
         {data.map((d, index) => (
-          <View key={d.userId} style={styles.itemContainer}>
+          <View key={JSON.stringify(d)} style={styles.itemContainer}>
             <CheckBox
-              selected={selectedItems.includes(d.userId)}
-              disabled={InGroup(d.userId)}
+              selected={selectedItems.includes(JSON.stringify(d))}
+              disabled={InGroup(JSON.stringify(d))}
               onPress={() => {
-                handleOnPress(d.userId);
+                handleOnPress(JSON.stringify(d));
               }}
             >
-              <Text>{d.userName}, {d.email}</Text>
+              {renderItem}
             </CheckBox>
           </View>
         ))}

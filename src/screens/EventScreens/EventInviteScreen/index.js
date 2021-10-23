@@ -9,6 +9,17 @@ import { useSearchStore } from '../../../shared/zustand/search';
 const EventInviteScreen = ({ navigation, route }) => {
   const [selectedMembers, setSelectedMembers] = React.useState([]);
   const { fetchSearchedUsers } = useSearchStore();
+  const [data, setData] = React.useState([]);
+  const handleOnSearch = async (searchStr) => {
+    if (searchStr === "") {
+      setData([]);
+    }
+    else {
+      const result = await fetchSearchedUsers(searchStr);
+      const searchedUserResults = result.userResponses;
+      setData(searchedUserResults);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -27,7 +38,9 @@ const EventInviteScreen = ({ navigation, route }) => {
           selectedItems={selectedMembers}
           setSelectedItems={setSelectedMembers}
           currentGroupInfo={route.params.participants}
-          searchFunction = {fetchSearchedUsers}
+          data={data}
+          searchFunction={handleOnSearch}
+          renderItem = {<Text>Testing User</Text> }
         />
         <Button
           buttonColor={THEME_COLORS.WHITE}
