@@ -2,11 +2,24 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 
 import { styles } from './style';
-import { Button, Heading, SelectList, CheckBox } from '../../../components';
+import { Button, Heading, SelectList } from '../../../components';
 import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
+import { useSearchStore } from '../../../shared/zustand/search';
 
 const EventInviteScreen = ({ navigation, route }) => {
   const [selectedMembers, setSelectedMembers] = React.useState([]);
+  const { fetchSearchedUsers } = useSearchStore();
+  const [data, setData] = React.useState([]);
+  const handleOnSearch = async (searchStr) => {
+    if (searchStr === "") {
+      setData([]);
+    }
+    else {
+      const result = await fetchSearchedUsers(searchStr);
+      const searchedUserResults = result.userResponses;
+      setData(searchedUserResults);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -24,8 +37,10 @@ const EventInviteScreen = ({ navigation, route }) => {
           searchPlaceholder='Search Username'
           selectedItems={selectedMembers}
           setSelectedItems={setSelectedMembers}
-          data={route.params.participants}
-          renderItem={<Text>Dummy Member</Text>}
+          currentGroupInfo={route.params.participants}
+          data={data}
+          searchFunction={handleOnSearch}
+          renderItem = {["userName", "email"]}
         />
         <Button
           buttonColor={THEME_COLORS.WHITE}

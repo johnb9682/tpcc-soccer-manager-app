@@ -12,9 +12,9 @@ import { styles } from './style';
 import { Button, Info, SearchInput } from '../../../components';
 import EventSection from '../components/EventSection';
 import { useEventStore } from '../../../shared/zustand/event';
+import { useAuthStore } from '../../../shared/zustand/auth';
 import { todayFormat } from '../../../components/constants';
 import { EVENT_TYPE } from '../components/constants';
-
 const EventHomeScreen = ({ navigation }) => {
   const {
     isLoading,
@@ -23,7 +23,7 @@ const EventHomeScreen = ({ navigation }) => {
     historyEvents,
     fetchUserEvents,
   } = useEventStore();
-
+  const { userInfo } = useAuthStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredOngoingEvents, setFilteredOngoingEvents] = React.useState([]);
   const [filteredUpcomingEvents, setFilteredUpcomingEvents] = React.useState(
@@ -58,7 +58,7 @@ const EventHomeScreen = ({ navigation }) => {
   );
 
   const handleOnRefresh = React.useCallback(() => {
-    fetchUserEvents();
+    fetchUserEvents(userInfo['userId']);
   }, []);
 
   const totalEventNum = React.useMemo(() => {
@@ -69,15 +69,17 @@ const EventHomeScreen = ({ navigation }) => {
     return dayjs().format(todayFormat).toUpperCase();
   });
   function findChosenEvent(id) {
-    const foundEvent = AllEvents.find(event => event.id === id)
+    const foundEvent = AllEvents.find(event => event.eventId === id)
     if (foundEvent !== undefined) {
       navigation.navigate({ name: "EventDetail", params: foundEvent })
     }
   }
   React.useEffect(() => {
-    fetchUserEvents();
-  }, []);
-
+    const unsubscribe = navigation.addListener("focus", async () => {
+      await fetchUserEvents(userInfo['userId']);
+    });
+    // return unsubscribe;
+  }, [userInfo, navigation]);
   React.useEffect(() => {
     // initialization
     setFilteredOngoingEvents(onGoingEvents);

@@ -26,7 +26,7 @@ const EventSection = ({ title, eventType, noDataMessage, eventData = [], onPress
           eventData.map(event => {
             return (
               <EventItem
-                key={event.id}
+                key={event.eventId}
                 event={event}
                 eventType={eventType}
                 onPress={onPress}

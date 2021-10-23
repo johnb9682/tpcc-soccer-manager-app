@@ -10,11 +10,16 @@ const CheckBox = ({
   disabled = false,
   children,
 }) => {
+  if (disabled) {
+    selected = true;
+  }
+  const [stateSelected, setStateSelected] = React.useState(selected);
   return (
     <TouchableOpacity
       disabled={disabled}
       onPress={() => {
         onPress();
+        setStateSelected(!stateSelected);
       }}
       style={[styles.container, disabled ? styles.disabled : {}]}
     >
@@ -22,10 +27,10 @@ const CheckBox = ({
         style={styles.checkButtonContainer}
         style={[
           styles.checkButton,
-          selected ? styles.checkButtonSelected : styles.checkButtonUnSelected,
+          stateSelected ? styles.checkButtonSelected : styles.checkButtonUnSelected,
         ]}
       >
-        {selected && <Icon name='check-bold' size={20} style={styles.icon} />}
+        {stateSelected && <Icon name='check-bold' size={20} style={styles.icon} />}
       </View>
       {children}
     </TouchableOpacity>

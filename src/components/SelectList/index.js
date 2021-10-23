@@ -10,22 +10,47 @@ const SelectList = ({
   selectedItems = [],
   setSelectedItems,
   searchPlaceholder = '',
+  searchFunction = async ()=>{},
   multiple = true,
-  data = [],
+  currentGroupInfo = [],
+  data,
   renderItem,
 }) => {
   const [searchStr, setSearchStr] = React.useState('');
-  const handleOnSearch = () => {
-    console.log(searchStr);
-  };
-  const handleOnPress = (index) => {
-    if (selectedItems.includes(index)) {
-      const newItems = selectedItems.splice().filter((item) => item !== index);
-      setSelectedItems(newItems);
+  const handleOnPress = (target) => {
+    if (selectedItems.includes(target)) {
+      const index = selectedItems.indexOf(target);
+      if (index > -1) {
+        selectedItems.splice(index, 1);
+      }
+      setSelectedItems(selectedItems);
     } else {
-      setSelectedItems([...selectedItems, index]);
+      setSelectedItems([...selectedItems, target]);
     }
   };
+  React.useEffect(() => {
+    console.log(selectedItems);
+  }, [selectedItems])
+  const InGroup = (target) => {
+    if (currentGroupInfo !== []) {
+      for (let i = 0; i < currentGroupInfo.length; i++) {
+        const selectedTarget = JSON.stringify(currentGroupInfo[i]);
+        if (target === selectedTarget) {
+          return true;
+        }
+      }
+      return false;
+    }
+    else {
+      return false;
+    }
+  }
+  function generateRenderText(d,finalText) {
+    for (let i = 0; i < renderItem.length; i++) {
+      finalText = finalText + d[renderItem[i]] + ", "
+    }
+    return finalText.substring(0, finalText.length-2);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -34,7 +59,7 @@ const SelectList = ({
           placeholder={searchPlaceholder}
           value={searchStr}
           onInput={setSearchStr}
-          onSearch={handleOnSearch}
+          onSearch={searchFunction}
         />
       </View>
       <RoundRectContainer
@@ -43,14 +68,15 @@ const SelectList = ({
         justifyContent='flex-start'
       >
         {data.map((d, index) => (
-          <View key={index} style={styles.itemContainer}>
+          <View key={JSON.stringify(d)} style={styles.itemContainer}>
             <CheckBox
-              selected={selectedItems.includes(index)}
+              selected={selectedItems.includes(JSON.stringify(d))}
+              disabled={InGroup(JSON.stringify(d))}
               onPress={() => {
-                handleOnPress(index);
+                handleOnPress(JSON.stringify(d));
               }}
             >
-              {renderItem}
+              <Text>{generateRenderText(d, "")}</Text>
             </CheckBox>
           </View>
         ))}
