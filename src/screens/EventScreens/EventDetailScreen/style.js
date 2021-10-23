@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   description: {
-    alignSelf: 'flex-start',
     fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO,
     color: THEME_COLORS.DARK_GREY,
   },
@@ -22,16 +21,15 @@ export const styles = StyleSheet.create({
     fontSize: THEME_FONT_SIZES.BUTTON_FONT,
     fontWeight: '600',
   },
-  leaveButton: {
+  cancelButton: {
     color: THEME_COLORS.DANGER_COLOR,
   },
   inviteButton: {
     color: THEME_COLORS.DEFAULT_BLUE_PRIMARY,
   },
-  avatarContainer: {
-    width: '100%',
+  leaveButtonContainer: {
+    height: 60,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 30,
+    width: '100%',
   },
 });

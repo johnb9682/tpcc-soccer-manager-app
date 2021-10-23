@@ -10,11 +10,14 @@ import LandingScreen from './src/screens/LandingScreen';
 import RegisterScreen from './src/screens/AccountScreens/RegisterScreen';
 import EventHomeScreen from './src/screens/EventScreens/EventHomeScreen';
 import CreateEventScreen from './src/screens/EventScreens/CreateEventScreen';
+import EventDetailScreen from './src/screens/EventScreens/EventDetailScreen';
+import EventInviteScreen from './src/screens/EventScreens/EventInviteScreen';
 import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
 import TeamScreen from './src/screens/TeamScreens/TeamScreen';
 import NotificationScreen from './src/screens/NotificationScreen';
+import InviteMemberScreen from './src/screens/TeamScreens/InviteMemberScreen';
 import NavBar from './src/components/NavBar';
 
 const Stack = createStackNavigator();
@@ -52,7 +55,16 @@ const Team = () => {
         name='TeamNotification'
         component={NotificationScreen}
         options={{
-          title: 'Notifications',
+           title: 'Notifications',
+           headerTitleAlign: 'center',
+           headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name='InviteMember'
+        component={InviteMemberScreen}
+        options={{
+          title: 'Invite a Member',
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
         }}
@@ -101,6 +113,24 @@ const Event = () => {
         component={CreateEventScreen}
         options={{
           title: 'Create an Event',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name='EventDetail'
+        component={EventDetailScreen}
+        options={{
+          title: 'Event Detail',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name='EventInvite'
+        component={EventInviteScreen}
+        options={{
+          title: 'Invite new participants',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',
         }}

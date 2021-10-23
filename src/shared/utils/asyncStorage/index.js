@@ -9,7 +9,7 @@ export const storeDataObj = async (storageKey, target) => {
   }
 };
 
-export const getDataObj = async storageKey => {
+export const getDataObj = async (storageKey) => {
   try {
     const jsonValue = await AsyncStorage.getItem(storageKey);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -18,7 +18,7 @@ export const getDataObj = async storageKey => {
   }
 };
 
-export const removeDataObj = async storageKey => {
+export const removeDataObj = async (storageKey) => {
   try {
     await AsyncStorage.removeItem(storageKey);
   } catch (e) {

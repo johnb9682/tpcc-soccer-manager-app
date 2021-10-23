@@ -10,9 +10,10 @@ const Loading = ({
   color = THEME_COLORS.DEFAULT_INFO_TEXT,
   textColor = THEME_COLORS.DEFAULT_INFO_TEXT,
   textValue = 'Loading...',
+  center = false,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, center ? styles.center : {}]}>
       <ActivityIndicator size={size} color={color} />
       {showText && (
         <Text style={[styles.loadingText, { color: textColor }]}>

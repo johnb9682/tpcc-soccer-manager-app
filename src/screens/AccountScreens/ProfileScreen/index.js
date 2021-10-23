@@ -10,7 +10,6 @@ import { useAuthStore } from '../../../shared/zustand/auth';
 import Toast from 'react-native-toast-message';
 import { TOAST_UP_OFFSET } from '../../../components/constants';
 
-
 const Profile = ({ navigation }) => {
   const { isLoading, updateUserInfo, fetchUserInfo } = useProfileStore();
   const { logout, userInfo, updateAuthUserInfo } = useAuthStore();
@@ -19,9 +18,6 @@ const Profile = ({ navigation }) => {
   const [usernameStr, setusernameStr] = useState(userInfo['userName']);
   const [userEmail, setuserEmail] = useState(userInfo['email']);
   const userId = userInfo['userId'];
-  if (isLoading) {
-    return <Loading />;
-  }
   function editProfile() {
     if (isEditProfile === false) {
       setIsEditProfile(true);
@@ -29,28 +25,33 @@ const Profile = ({ navigation }) => {
       onPressSave();
     }
   }
-  const onPressSave = useCallback( async () => {
-      const result = await updateUserInfo(userEmail, userId, usernameStr);
-      const toastTitle =
+  function cancelEdit() {
+    setusernameStr(userInfo['userName'])
+    setuserEmail(userInfo['email'])
+    setIsEditProfile(false)
+  }
+  const onPressSave = useCallback(async () => {
+    const result = await updateUserInfo(userEmail, userId, usernameStr);
+    const toastTitle =
+      result.status === 'success'
+        ? 'Success!'
+        : result.status === 'info'
+        ? 'Uh-Oh'
+        : 'Something went wrong';
+    Toast.show({
+      type: result.status,
+      text1: toastTitle,
+      text2:
         result.status === 'success'
-          ? 'Success!'
-          : result.status === 'info'
-          ? 'Uh-Oh'
-            : 'Something went wrong';
-      Toast.show({
-        type: result.status,
-        text1: toastTitle,
-        text2:
-          result.status === 'success'
-            ? (`Hi ${result.data.userName}! ` ?? '') + result.message
-            : result.message,
-        topOffset: TOAST_UP_OFFSET,
-      });
-      if (result.status === 'success') {
-        setIsEditProfile(false);
-      }
+          ? (`Hi ${result.data.userName}! ` ?? '') + result.message
+          : result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+    if (result.status === 'success') {
+      setIsEditProfile(false);
+    }
     updateAuthUserInfo();
-    })
+  });
   useEffect(() => {
     if (isValidEmail(userEmail)) {
       setIsEnableSave(true);
@@ -62,16 +63,17 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps='always'
+        keyboardDismissMode='on-drag'
       >
         <View style={styles.innerContainer}>
+          {isLoading && <Loading />}
           <View style={styles.userInfoContainer}>
             <Avartar
               width={200}
               height={200}
               type={'circle'}
-              avatarUri="https://w.wallhaven.cc/full/0q/wallhaven-0q6vml.jpg"
+              avatarUri='https://w.wallhaven.cc/full/0q/wallhaven-0q6vml.jpg'
               content={avatarContent}
             />
             <View>
@@ -79,7 +81,7 @@ const Profile = ({ navigation }) => {
                 <Input
                   onInput={setuserEmail}
                   value={userEmail}
-                  warningText="Invalid e-mail format"
+                  warningText='Invalid e-mail format'
                   editable={isEditProfile}
                   showWarning={
                     isEditProfile
@@ -97,7 +99,7 @@ const Profile = ({ navigation }) => {
                       : THEME_COLORS.DEFAULT_INPUT_BACKGROUND
                   }
                   borderRadius={!isEditProfile ? 0 : 10}
-                  placeholder="Email"
+                  placeholder='Email'
                 />
               </View>
               <View style={styles.userInfoTextContainer}>
@@ -116,7 +118,7 @@ const Profile = ({ navigation }) => {
                       : THEME_COLORS.DEFAULT_INPUT_BACKGROUND
                   }
                   borderRadius={!isEditProfile ? 0 : 10}
-                  placeholder="Username"
+                  placeholder='Username'
                 />
               </View>
             </View>
@@ -133,6 +135,17 @@ const Profile = ({ navigation }) => {
                 {isEditProfile ? 'Save' : 'Edit Profile'}
               </Text>
             </Button>
+            {isEditProfile && 
+            <Button
+              borderWidth={0}
+              buttonColor={THEME_COLORS.WHITE}
+              borderColor={THEME_COLORS.DANGER_COLOR}
+              onPress={cancelEdit}
+            >
+              <Text style={[styles.buttonText, styles.cancelButton]}>
+                Cancel
+              </Text>
+            </Button>}
             <Button
               borderWidth={0}
               buttonColor={THEME_COLORS.DANGER_COLOR}

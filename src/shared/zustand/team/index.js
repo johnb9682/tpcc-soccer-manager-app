@@ -1,23 +1,62 @@
 import create from 'zustand';
 
-import { mockUserTeams, mockTeamInfo } from './mockData';
+import {
+  getUserTeam,
+  createTeam,
+  deleteTeam,
+  getTeamMembers,
+  deleteTeamMember,
+} from '../../api/team';
 
 const initialState = {
   isLoading: false,
   userTeams: [],
-  currentTeamInfo: {},
+  currentTeamMembers: [],
+  errorMessage: null,
 };
 
 export const useTeamStore = create((set, get) => ({
   ...initialState,
-  fetchUserTeams: async userId => {
+  fetchUserTeams: async (userId) => {
     set({ isLoading: true });
-    // call fetch api using userId
-    set({ userTeams: mockUserTeams, isLoading: false });
+
+    const result = await getUserTeam(userId);
+    if (result) {
+      const { errorMessage } = get();
+      if (errorMessage) {
+        set({ errorMessage: null });
+      }
+      set({ userTeams: result.data.teamResponses });
+    } else {
+      set({ errorMessage: result });
+    }
+
+    set({ isLoading: false });
   },
-  fetchTeamInfo: async teamId => {
+  createTeam: async (leaderId, teamName, teamDescription) => {
+    const result = await createTeam(leaderId, teamName, teamDescription);
+  },
+  deleteTeam: async (teamId) => {
+    const errorMessage = await deleteTeam(teamId);
+    if (errorMessage) {
+      set({ errorMessage });
+    }
+  },
+  fetchTeamMembers: async (teamId) => {
     set({ isLoading: true });
-    // call fetch api using teamId
-    set({ currentTeamInfo: mockTeamInfo, isLoading: false });
+
+    const result = await getTeamMembers(teamId);
+    if (result) {
+      set({ currentTeamMembers: result.data.userResponses });
+    }
+
+    set({ isLoading: false });
+  },
+  deleteTeamMember: async (userId, teamId) => {
+    console.log(userId, teamId);
+    const errorMessage = await deleteTeamMember(userId, teamId);
+    if (errorMessage) {
+      set({ errorMessage });
+    }
   },
 }));

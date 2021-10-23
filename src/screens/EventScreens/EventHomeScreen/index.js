@@ -12,9 +12,9 @@ import { styles } from './style';
 import { Button, Info, SearchInput } from '../../../components';
 import EventSection from '../components/EventSection';
 import { useEventStore } from '../../../shared/zustand/event';
+import { useAuthStore } from '../../../shared/zustand/auth';
 import { todayFormat } from '../../../components/constants';
 import { EVENT_TYPE } from '../components/constants';
-
 const EventHomeScreen = ({ navigation }) => {
   const {
     isLoading,
@@ -23,14 +23,14 @@ const EventHomeScreen = ({ navigation }) => {
     historyEvents,
     fetchUserEvents,
   } = useEventStore();
-
+  const { userInfo } = useAuthStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredOngoingEvents, setFilteredOngoingEvents] = React.useState([]);
   const [filteredUpcomingEvents, setFilteredUpcomingEvents] = React.useState(
     []
   );
   const [filteredHistoryEvents, setFilteredHistoryEvents] = React.useState([]);
-
+  const AllEvents = filteredOngoingEvents.concat(filteredUpcomingEvents, filteredHistoryEvents)
   const handleOnSearch = React.useCallback(
     searchValue => {
       const lowercaseSearchValue = searchValue.toLowerCase();
@@ -58,7 +58,7 @@ const EventHomeScreen = ({ navigation }) => {
   );
 
   const handleOnRefresh = React.useCallback(() => {
-    fetchUserEvents();
+    fetchUserEvents(userInfo['userId']);
   }, []);
 
   const totalEventNum = React.useMemo(() => {
@@ -68,11 +68,18 @@ const EventHomeScreen = ({ navigation }) => {
   const today = React.useMemo(() => {
     return dayjs().format(todayFormat).toUpperCase();
   });
-
+  function findChosenEvent(id) {
+    const foundEvent = AllEvents.find(event => event.eventId === id)
+    if (foundEvent !== undefined) {
+      navigation.navigate({ name: "EventDetail", params: foundEvent })
+    }
+  }
   React.useEffect(() => {
-    fetchUserEvents();
-  }, []);
-
+    const unsubscribe = navigation.addListener("focus", async () => {
+      await fetchUserEvents(userInfo['userId']);
+    });
+    // return unsubscribe;
+  }, [userInfo, navigation]);
   React.useEffect(() => {
     // initialization
     setFilteredOngoingEvents(onGoingEvents);
@@ -107,18 +114,21 @@ const EventHomeScreen = ({ navigation }) => {
             noDataMessage="No Ongoing Events"
             eventData={filteredOngoingEvents}
             eventType={EVENT_TYPE.ONGOING}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="Upcoming"
             noDataMessage="No Upcoming Events"
             eventData={filteredUpcomingEvents}
             eventType={EVENT_TYPE.UPCOMING}
+            onPress={findChosenEvent}
           />
           <EventSection
             title="History"
             noDataMessage="No History Events"
             eventData={filteredHistoryEvents}
             eventType={EVENT_TYPE.HISTORY}
+            onPress={findChosenEvent}
           />
 
           {totalEventNum === 0 && (

@@ -6,7 +6,7 @@ import { styles } from './style';
 import EventItem from '../EventItem';
 import { THEME_FONT_SIZES } from '../../../../components/theme';
 
-const EventSection = ({ title, eventType, noDataMessage, eventData = [] }) => {
+const EventSection = ({ title, eventType, noDataMessage, eventData = [], onPress }) => {
   return (
     <View>
       <Heading
@@ -25,7 +25,12 @@ const EventSection = ({ title, eventType, noDataMessage, eventData = [] }) => {
         ) : (
           eventData.map(event => {
             return (
-              <EventItem key={event.id} event={event} eventType={eventType} />
+              <EventItem
+                key={event.eventId}
+                event={event}
+                eventType={eventType}
+                onPress={onPress}
+              />
             );
           })
         )}

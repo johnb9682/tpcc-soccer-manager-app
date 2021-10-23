@@ -15,9 +15,11 @@ import {
   NotificationButton,
 } from '../../../components';
 import { useTeamStore } from '../../../shared/zustand/team';
+import { useAuthStore } from '../../../shared/zustand/auth';
 import TeamItem from '../components/TeamItem';
 
 const TeamHomeScreen = ({ navigation }) => {
+  const { userInfo } = useAuthStore();
   const { isLoading, userTeams, fetchUserTeams } = useTeamStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredTeams, setFilteredTeams] = React.useState([]);
@@ -43,16 +45,20 @@ const TeamHomeScreen = ({ navigation }) => {
         />
       ),
     });
-    fetchUserTeams();
-  }, []);
+    // fetch teams on screen focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchUserTeams(userInfo.userId);
+    });
+    return unsubscribe;
+  }, [userInfo, navigation]);
 
   React.useEffect(() => {
     setFilteredTeams(userTeams);
   }, [userTeams]);
 
   const handleOnRefresh = React.useCallback(() => {
-    fetchUserTeams();
-  }, []);
+    fetchUserTeams(userInfo.userId);
+  }, [userInfo]);
 
   return (
     <SafeAreaView style={styles.container}>
