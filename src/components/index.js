@@ -8,5 +8,6 @@ export * from './NoData';
 export * from './RoundRectContainer';
 export * from './SearchInput';
 export * from './DateInput';
+export * from './NotificationButton';
 export * from './CheckBox';
 export * from './SelectList';

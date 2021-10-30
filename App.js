@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
 import Toast from 'react-native-toast-message';
 
-import { THEME_COLORS } from './src/components/theme';
 import { useAuthStore } from './src/shared/zustand/auth';
 import ProfileScreen from './src/screens/AccountScreens/ProfileScreen';
 import LandingScreen from './src/screens/LandingScreen';
@@ -17,6 +16,7 @@ import SettingScreen from './src/screens/SettingScreens';
 import TeamHomeScreen from './src/screens/TeamScreens/TeamHomeScreen';
 import CreateTeamScreen from './src/screens/TeamScreens/CreateTeamScreen';
 import TeamScreen from './src/screens/TeamScreens/TeamScreen';
+import NotificationScreen from './src/screens/NotificationScreen';
 import InviteMemberScreen from './src/screens/TeamScreens/InviteMemberScreen';
 import NavBar from './src/components/NavBar';
 
@@ -50,6 +50,15 @@ const Team = () => {
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
         })}
+      />
+      <Stack.Screen
+        name='TeamNotification'
+        component={NotificationScreen}
+        options={{
+           title: 'Notifications',
+           headerTitleAlign: 'center',
+           headerBackTitleVisible: false,
+        }}
       />
       <Stack.Screen
         name='InviteMember'
@@ -144,7 +153,7 @@ const App = () => {
           <StatusBar
             barStyle='dark-content'
             translucent={true}
-            backgroundColor={THEME_COLORS.WHITE}
+            backgroundColor={'transparent'}
           />
           <Stack.Navigator initialRouteName='Landing'>
             <Stack.Screen
@@ -172,7 +181,7 @@ const App = () => {
         <StatusBar
           barStyle='dark-content'
           translucent={true}
-          backgroundColor={THEME_COLORS.WHITE}
+          backgroundColor={'transparent'}
         />
         <NavBar
           eventHomeScreen={Event}

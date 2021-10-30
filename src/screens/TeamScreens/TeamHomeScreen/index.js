@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 
 import { styles } from './style';
-import { SearchInput, Button, NoData } from '../../../components';
+import {
+  SearchInput,
+  Button,
+  NoData,
+  NotificationButton,
+} from '../../../components';
 import { useTeamStore } from '../../../shared/zustand/team';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import TeamItem from '../components/TeamItem';
@@ -31,6 +36,15 @@ const TeamHomeScreen = ({ navigation }) => {
   );
 
   React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <NotificationButton
+          onPress={() => {
+            navigation.navigate('TeamNotification');
+          }}
+        />
+      ),
+    });
     // fetch teams on screen focus
     const unsubscribe = navigation.addListener('focus', () => {
       fetchUserTeams(userInfo.userId);
