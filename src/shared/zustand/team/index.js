@@ -6,6 +6,7 @@ import {
   deleteTeam,
   getTeamMembers,
   deleteTeamMember,
+  inviteTeamMember,
 } from '../../api/team';
 
 const initialState = {
@@ -53,10 +54,21 @@ export const useTeamStore = create((set, get) => ({
     set({ isLoading: false });
   },
   deleteTeamMember: async (userId, teamId) => {
-    console.log(userId, teamId);
     const errorMessage = await deleteTeamMember(userId, teamId);
     if (errorMessage) {
       set({ errorMessage });
+    }
+  },
+  inviteTeamMember: async (leaderId, targetUserIds, teamId) => {
+    set({ isLoading: true });
+    const result = await inviteTeamMember(leaderId, targetUserIds, teamId);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return { type: 'error', message: result };
+    } else {
+      console.log(result);
+      set({ isLoading: false });
+      return { type: 'success', message: result.message };
     }
   },
 }));
