@@ -10,8 +10,8 @@ const SelectList = ({
   selectedItems = [],
   setSelectedItems,
   searchPlaceholder = '',
-  searchFunction = async ()=>{},
-  multiple = true,
+  searchFunction = async () => {},
+  // multiple = true,
   currentGroupInfo = [],
   data,
   renderItem,
@@ -28,9 +28,7 @@ const SelectList = ({
       setSelectedItems([...selectedItems, target]);
     }
   };
-  React.useEffect(() => {
-    console.log(selectedItems);
-  }, [selectedItems])
+
   const InGroup = (target) => {
     if (currentGroupInfo !== []) {
       for (let i = 0; i < currentGroupInfo.length; i++) {
@@ -40,16 +38,15 @@ const SelectList = ({
         }
       }
       return false;
-    }
-    else {
+    } else {
       return false;
     }
-  }
-  function generateRenderText(d,finalText) {
+  };
+  function generateRenderText(d, finalText) {
     for (let i = 0; i < renderItem.length; i++) {
-      finalText = finalText + d[renderItem[i]] + ", "
+      finalText = finalText + d[renderItem[i]] + ', ';
     }
-    return finalText.substring(0, finalText.length-2);
+    return finalText.substring(0, finalText.length - 2);
   }
   return (
     <View style={styles.container}>
@@ -76,7 +73,7 @@ const SelectList = ({
                 handleOnPress(JSON.stringify(d));
               }}
             >
-              <Text>{generateRenderText(d, "")}</Text>
+              <Text>{generateRenderText(d, '')}</Text>
             </CheckBox>
           </View>
         ))}
