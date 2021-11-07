@@ -54,6 +54,7 @@ const TeamHomeScreen = ({ navigation }) => {
         Toast.show({
           type: 'error',
           text1: 'Failed to fetch teams',
+          text2: result,
           topOffset: TOAST_UP_OFFSET,
         });
       }
@@ -66,11 +67,12 @@ const TeamHomeScreen = ({ navigation }) => {
   }, [userTeams]);
 
   const handleOnRefresh = async () => {
-    const result = fetchUserTeams(userInfo.userId);
+    const result = await fetchUserTeams(userInfo.userId);
     if (result) {
       Toast.show({
         type: 'error',
         text1: 'Failed to fetch teams',
+        text2: result,
         topOffset: TOAST_UP_OFFSET,
       });
     }
