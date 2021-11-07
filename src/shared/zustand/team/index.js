@@ -48,14 +48,10 @@ export const useTeamStore = create((set, get) => ({
     if (typeof result === 'string') {
       return { type: 'error', message: result };
     } else {
-      if (result.status === 200) {
-        return {
-          type: 'success',
-          message: 'Successfully deleted a team',
-        };
-      } else {
-        return { type: 'error', message: result.statusText };
-      }
+      return {
+        type: 'success',
+        message: 'Successfully deleted a team',
+      };
     }
   },
   fetchTeamMembers: async (teamId) => {
