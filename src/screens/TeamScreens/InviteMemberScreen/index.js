@@ -38,7 +38,10 @@ const InviteMemberScreen = ({ navigation, route }) => {
       );
       Toast.show({
         type: result.type,
-        text1: 'Failed to send invitation',
+        text1:
+          result.type === 'success'
+            ? 'Invitation sent!'
+            : 'Something went wrong',
         text2: result.message,
         topOffset: TOAST_UP_OFFSET,
       });

@@ -27,7 +27,6 @@ import { useAuthStore } from '../../../shared/zustand/auth';
 const TeamScreen = ({ navigation, route }) => {
   const {
     isLoading,
-    errorMessage,
     currentTeamMembers,
     fetchTeamMembers,
     deleteTeamMember,
@@ -37,17 +36,35 @@ const TeamScreen = ({ navigation, route }) => {
   const { teamName, teamId, teamDescription, leaderId } = route.params;
   const [isEditing, setIsEditing] = React.useState(false);
 
-  const confirmLeave = React.useCallback(() => {
-    deleteTeamMember(userInfo.userId, teamId);
+  const confirmLeave = async () => {
+    const result = await deleteTeamMember(userInfo.userId, teamId);
+    Toast.show({
+      type: result.type,
+      text1:
+        result.type === 'success'
+          ? 'Successfully leave the team!'
+          : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
     navigation.navigate('TeamHome');
-  }, [navigation, deleteTeamMember, teamId, userInfo]);
+  };
 
-  const confirmDismiss = React.useCallback(() => {
-    deleteTeam(teamId);
+  const confirmDismiss = async () => {
+    const result = await deleteTeam(teamId);
+    Toast.show({
+      type: result.type,
+      text1:
+        result.type === 'success'
+          ? 'Successfully deleted a team!'
+          : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
     navigation.navigate('TeamHome');
-  }, [navigation, deleteTeam, teamId]);
+  };
 
-  const handleOnPressLeave = ({ isLeader }) =>
+  const handleOnPressLeave = () =>
     Alert.alert(
       'Are you sure you want to leave the team?',
       'This operation can NOT be undone',
@@ -59,6 +76,7 @@ const TeamScreen = ({ navigation, route }) => {
         { text: 'Confirm', onPress: confirmLeave },
       ]
     );
+
   const handleOnPressDismiss = () =>
     Alert.alert(
       'Are you sure you want to dismiss the team?',
@@ -97,19 +115,6 @@ const TeamScreen = ({ navigation, route }) => {
     });
     return unsubscribe;
   }, [route, navigation]);
-
-  React.useEffect(() => {
-    if (errorMessage) {
-      if (errorMessage !== null) {
-        Toast.show({
-          type: 'error',
-          text1: 'Network Error',
-          text2: errorMessage,
-          topOffset: TOAST_UP_OFFSET,
-        });
-      }
-    }
-  }, [errorMessage]);
 
   return (
     <SafeAreaView style={styles.container}>

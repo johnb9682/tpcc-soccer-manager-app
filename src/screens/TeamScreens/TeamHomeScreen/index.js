@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Text,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { styles } from './style';
 import {
@@ -17,6 +18,7 @@ import {
 import { useTeamStore } from '../../../shared/zustand/team';
 import { useAuthStore } from '../../../shared/zustand/auth';
 import TeamItem from '../components/TeamItem';
+import { TOAST_UP_OFFSET } from '../../../components/constants';
 
 const TeamHomeScreen = ({ navigation }) => {
   const { userInfo } = useAuthStore();
@@ -46,8 +48,15 @@ const TeamHomeScreen = ({ navigation }) => {
       ),
     });
     // fetch teams on screen focus
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchUserTeams(userInfo.userId);
+    const unsubscribe = navigation.addListener('focus', async () => {
+      const result = await fetchUserTeams(userInfo.userId);
+      if (result) {
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to fetch teams',
+          topOffset: TOAST_UP_OFFSET,
+        });
+      }
     });
     return unsubscribe;
   }, [userInfo, navigation]);
@@ -56,9 +65,16 @@ const TeamHomeScreen = ({ navigation }) => {
     setFilteredTeams(userTeams);
   }, [userTeams]);
 
-  const handleOnRefresh = React.useCallback(() => {
-    fetchUserTeams(userInfo.userId);
-  }, [userInfo]);
+  const handleOnRefresh = async () => {
+    const result = fetchUserTeams(userInfo.userId);
+    if (result) {
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to fetch teams',
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

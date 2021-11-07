@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { styles } from './style';
 import { Button, Input } from '../../../components';
 import { THEME_COLORS } from '../../../components/theme';
 import { useTeamStore } from '../../../shared/zustand/team';
 import { useAuthStore } from '../../../shared/zustand/auth';
+import { TOAST_UP_OFFSET } from '../../../components/constants';
 
 const CreateTeamScreen = ({ navigation }) => {
   const { createTeam } = useTeamStore();
@@ -20,6 +22,15 @@ const CreateTeamScreen = ({ navigation }) => {
       teamNameText,
       teamDescriptionText
     );
+    Toast.show({
+      type: result.type,
+      text1:
+        result.type === 'success'
+          ? 'Successfully created a new team'
+          : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
     navigation.navigate('TeamHome');
   };
 
