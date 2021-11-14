@@ -6,13 +6,13 @@ import {
   deleteTeam,
   getTeamMembers,
   deleteTeamMember,
+  inviteTeamMember,
 } from '../../api/team';
 
 const initialState = {
   isLoading: false,
   userTeams: [],
   currentTeamMembers: [],
-  errorMessage: null,
 };
 
 export const useTeamStore = create((set, get) => ({
@@ -21,25 +21,37 @@ export const useTeamStore = create((set, get) => ({
     set({ isLoading: true });
 
     const result = await getUserTeam(userId);
-    if (result) {
-      const { errorMessage } = get();
-      if (errorMessage) {
-        set({ errorMessage: null });
-      }
-      set({ userTeams: result.data.teamResponses });
-    } else {
-      set({ errorMessage: result });
-    }
-
     set({ isLoading: false });
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      set({ userTeams: result.data.teamResponses });
+    }
   },
   createTeam: async (leaderId, teamName, teamDescription) => {
     const result = await createTeam(leaderId, teamName, teamDescription);
+    if (typeof result === 'string') {
+      return { type: 'error', message: result };
+    } else {
+      if (result.status === 200) {
+        return {
+          type: 'success',
+          message: 'Successfully created a new team',
+        };
+      } else {
+        return { type: 'error', message: result.statusText };
+      }
+    }
   },
   deleteTeam: async (teamId) => {
-    const errorMessage = await deleteTeam(teamId);
-    if (errorMessage) {
-      set({ errorMessage });
+    const result = await deleteTeam(teamId);
+    if (typeof result === 'string') {
+      return { type: 'error', message: result };
+    } else {
+      return {
+        type: 'success',
+        message: 'Successfully deleted a team',
+      };
     }
   },
   fetchTeamMembers: async (teamId) => {
@@ -53,10 +65,33 @@ export const useTeamStore = create((set, get) => ({
     set({ isLoading: false });
   },
   deleteTeamMember: async (userId, teamId) => {
-    console.log(userId, teamId);
-    const errorMessage = await deleteTeamMember(userId, teamId);
-    if (errorMessage) {
-      set({ errorMessage });
+    const result = await deleteTeamMember(userId, teamId);
+    if (typeof result === 'string') {
+      return { type: 'error', message: result };
+    } else {
+      if (result.status === 200) {
+        return {
+          type: 'success',
+          message: 'Successfully deleted a team member',
+        };
+      } else {
+        return { type: 'error', message: result.statusText };
+      }
+    }
+  },
+  inviteTeamMember: async (leaderId, receiverIds, teamId) => {
+    set({ isLoading: true });
+    const result = await inviteTeamMember(leaderId, receiverIds, teamId);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return { type: 'error', message: result };
+    } else {
+      set({ isLoading: false });
+      if (result.status === 200) {
+        return { type: 'success', message: 'Successfully sent invitations' };
+      } else {
+        return { type: 'error', message: result.statusText };
+      }
     }
   },
 }));
