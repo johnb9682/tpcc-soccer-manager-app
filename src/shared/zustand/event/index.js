@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { createEvent, getUserEvent, getEventUserInfo, cancelEvent, quitEvent } from '../../api/event';
+import { createEvent, getUserEvent, getEventUserInfo, cancelEvent, quitEvent, updateEventInfo } from '../../api/event';
 import dayjs from 'dayjs';
 
 const initialState = {
@@ -73,6 +73,13 @@ export const useEventStore = create((set, get) => ({
     const errorMessage = await quitEvent(userId, eventId);
     if (typeof errorMessage === "string") {
       set({ errorMessage, });
+    }
+  },
+  updateEvent: async eventInfoObj => {
+    set({ isLoading: true });
+    const errorMessage = await updateEventInfo(eventInfoObj);
+    if (errorMessage) {
+      set({ errorMessage });
     }
   },
 }));

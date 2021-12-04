@@ -32,4 +32,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
   },
+  warningText: {
+    width: "80%",
+    alignSelf: 'center',
+    color: THEME_COLORS.DANGER_COLOR,
+    fontSize: THEME_FONT_SIZES.SYSTEM_FONT_INFO2,
+  },
 });

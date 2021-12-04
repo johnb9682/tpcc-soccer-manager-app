@@ -101,7 +101,6 @@ const CreateEventScreen = ({ navigation }) => {
               {warning && <Text style={styles.warningText}>
                 The end date should be later than start date
               </Text>}
-              
             </View>
             <Input
               value={eventLocation}

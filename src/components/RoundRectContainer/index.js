@@ -8,6 +8,8 @@ const RoundRectContainer = ({
   children,
   borderRadius = 10,
   backgroundColor = THEME_COLORS.DEFAULT_GREY_SCALE,
+  borderWidth=0,
+  borderColor = THEME_COLORS.WHITE,
   width = '90%',
   height,
   minHeight,
@@ -32,6 +34,8 @@ const RoundRectContainer = ({
           paddingHorizontal,
           justifyContent,
           alignItems,
+          borderWidth,
+          borderColor,
         },
       ]}
     >
