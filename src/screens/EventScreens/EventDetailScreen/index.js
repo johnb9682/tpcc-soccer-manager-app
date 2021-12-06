@@ -6,6 +6,7 @@ import {
   Text,
   Alert,
   Button as NativeButton,
+  RecyclerViewBackedScrollViewBase,
 } from 'react-native';
 
 import { styles } from './style';
@@ -25,6 +26,7 @@ import { useAuthStore } from '../../../shared/zustand/auth';
 import EventMemberItem from '../components/EventMemberItem';
 import Toast from 'react-native-toast-message';
 import { TOAST_UP_OFFSET } from '../../../components/constants';
+import { RectButton } from 'react-native-gesture-handler';
 
 
 const EventDetailScreen = ({ navigation, route }) => {
@@ -37,6 +39,7 @@ const EventDetailScreen = ({ navigation, route }) => {
   const [eventEndTime, setEventEndTime] = React.useState(route.params.eventEndTime);
   const [isEditing, setIsEditing] = React.useState(false);
   const [warning, setWarning] = React.useState(false);
+  const [enableSave, setEnableSave] = React.useState(true);
   React.useEffect(() => {
     fetchEventUserInfo(route.params.eventId);
   }, []);
@@ -46,6 +49,14 @@ const EventDetailScreen = ({ navigation, route }) => {
     }
     else {
       setWarning(false);
+    }
+  })
+  React.useEffect(()=>{
+    if (!warning && (eventName!=='') && (eventLocation!=='')) {
+      setEnableSave(true);
+    }
+    else {
+      setEnableSave(false);
     }
   })
   const hostId = React.useMemo(() => {
@@ -141,7 +152,7 @@ const EventDetailScreen = ({ navigation, route }) => {
                 ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
                 : THEME_COLORS.DANGER_COLOR
             }
-            disabled={false}
+            disabled={!enableSave}
             onPress={()=>{
               if (isEditing) {
                 handleSave();
@@ -304,7 +315,7 @@ const EventDetailScreen = ({ navigation, route }) => {
             <Text style={styles.description}>
               {eventDescription}
             </Text>
-            {!route.params.eventDescription && (
+            {!eventDescription && (
               <NoData message={'No Description'} />
             )}
         </RoundRectContainer>
