@@ -130,7 +130,6 @@ const EventDetailScreen = ({ navigation, route }) => {
       "id": route.params.eventId,
     };
     const result = await updateEvent(eventInfoObj);
-    console.warn("updated!");
   });
   React.useLayoutEffect(() => {
     if (hostId === userInfo.userId) {
@@ -208,7 +207,7 @@ const EventDetailScreen = ({ navigation, route }) => {
           ?
           <Input
             onInput={setEventLocation}
-            value={eventName}
+            value={eventLocation}
             backgroundColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
             borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
             width={"90%"}
