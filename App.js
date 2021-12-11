@@ -45,19 +45,18 @@ const Team = () => {
       <Stack.Screen
         name='Team'
         component={TeamScreen}
-        options={({ route }) => ({
-          title: route.params.teamName,
+        options={{
           headerTitleAlign: 'center',
           headerBackTitleVisible: false,
-        })}
+        }}
       />
       <Stack.Screen
         name='TeamNotification'
         component={NotificationScreen}
         options={{
-           title: 'Notifications',
-           headerTitleAlign: 'center',
-           headerBackTitleVisible: false,
+          title: 'Notifications',
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
         }}
       />
       <Stack.Screen

@@ -42,10 +42,19 @@ export const deleteTeam = async (teamId) => {
   }
 };
 
-export const updateTeam = async (teamId) => {
+export const updateTeam = async (
+  teamId,
+  leaderId,
+  teamName,
+  teamDescription
+) => {
+  console.log(teamDescription);
   try {
     const response = await yelp.put('/team', {
-      //
+      id: teamId,
+      leaderId,
+      teamName,
+      teamDescription,
     });
     return response;
   } catch (err) {
