@@ -221,6 +221,11 @@ const TeamScreen = ({ navigation, route }) => {
                   ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
                   : THEME_COLORS.DEFAULT_BLUE_PRIMARY
               }
+              backgroundColor={
+                isEditing
+                  ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                  : THEME_COLORS.WHITE
+              }
               multiline
               width='90%'
               editable={isEditing}
