@@ -26,9 +26,9 @@ const Profile = ({ navigation }) => {
     }
   }
   function cancelEdit() {
-    setusernameStr(userInfo['userName'])
-    setuserEmail(userInfo['email'])
-    setIsEditProfile(false)
+    setusernameStr(userInfo['userName']);
+    setuserEmail(userInfo['email']);
+    setIsEditProfile(false);
   }
   const onPressSave = useCallback(async () => {
     const result = await updateUserInfo(userEmail, userId, usernameStr);
@@ -98,7 +98,6 @@ const Profile = ({ navigation }) => {
                       ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
                       : THEME_COLORS.DEFAULT_INPUT_BACKGROUND
                   }
-                  borderRadius={!isEditProfile ? 0 : 10}
                   placeholder='Email'
                 />
               </View>
@@ -117,7 +116,6 @@ const Profile = ({ navigation }) => {
                       ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
                       : THEME_COLORS.DEFAULT_INPUT_BACKGROUND
                   }
-                  borderRadius={!isEditProfile ? 0 : 10}
                   placeholder='Username'
                 />
               </View>
@@ -135,17 +133,18 @@ const Profile = ({ navigation }) => {
                 {isEditProfile ? 'Save' : 'Edit Profile'}
               </Text>
             </Button>
-            {isEditProfile && 
-            <Button
-              borderWidth={0}
-              buttonColor={THEME_COLORS.WHITE}
-              borderColor={THEME_COLORS.DANGER_COLOR}
-              onPress={cancelEdit}
-            >
-              <Text style={[styles.buttonText, styles.cancelButton]}>
-                Cancel
-              </Text>
-            </Button>}
+            {isEditProfile && (
+              <Button
+                borderWidth={0}
+                buttonColor={THEME_COLORS.WHITE}
+                borderColor={THEME_COLORS.DANGER_COLOR}
+                onPress={cancelEdit}
+              >
+                <Text style={[styles.buttonText, styles.cancelButton]}>
+                  Cancel
+                </Text>
+              </Button>
+            )}
             <Button
               borderWidth={0}
               buttonColor={THEME_COLORS.DANGER_COLOR}

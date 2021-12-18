@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Alert,
+  RefreshControl,
   Button as NativeButton,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -18,6 +19,7 @@ import {
   Button,
   Avartar,
   Loading,
+  Input,
 } from '../../../components';
 import { THEME_FONT_SIZES, THEME_COLORS } from '../../../components/theme';
 import { useTeamStore } from '../../../shared/zustand/team';
@@ -28,13 +30,18 @@ const TeamScreen = ({ navigation, route }) => {
   const {
     isLoading,
     currentTeamMembers,
+    currentTeamInfo,
     fetchTeamMembers,
     deleteTeamMember,
     deleteTeam,
+    fetchTeamInfo,
+    updateTeamInfo,
   } = useTeamStore();
   const { userInfo } = useAuthStore();
-  const { teamName, teamId, teamDescription, leaderId } = route.params;
+  const { teamId, leaderId } = route.params;
   const [isEditing, setIsEditing] = React.useState(false);
+  const [editedTeamName, setEditedTeamName] = React.useState('');
+  const [editedTeamDescription, setEditedTeamDescription] = React.useState('');
 
   const confirmLeave = async () => {
     const result = await deleteTeamMember(userInfo.userId, teamId);
@@ -55,9 +62,7 @@ const TeamScreen = ({ navigation, route }) => {
     Toast.show({
       type: result.type,
       text1:
-        result.type === 'success'
-          ? 'Successfully deleted a team!'
-          : 'Something went wrong',
+        result.type === 'success' ? result.message : 'Something went wrong',
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
@@ -90,9 +95,46 @@ const TeamScreen = ({ navigation, route }) => {
       ]
     );
 
+  const handleOnRefresh = async () => {
+    const result = await fetchTeamInfo(teamId);
+    // if failed, error message will be returned
+    if (result && result.type === 'error') {
+      Toast.show({
+        type: result.type,
+        text1: 'Something went wrong when fetching the team information.',
+        text2: result.message,
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+  };
+
+  const handleOnSaveEdit = async () => {
+    const result = await updateTeamInfo(
+      teamId,
+      leaderId,
+      editedTeamName,
+      editedTeamDescription
+    );
+    Toast.show({
+      type: result.type,
+      text1:
+        result.type === 'success' ? result.message : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  };
+
+  const handleOnPressEdit = () => {
+    if (isEditing) {
+      handleOnSaveEdit();
+    }
+    setIsEditing(!isEditing);
+  };
+
   React.useLayoutEffect(() => {
     if (leaderId === userInfo.userId) {
       navigation.setOptions({
+        title: editedTeamName,
         headerRight: () => (
           <NativeButton
             color={
@@ -100,17 +142,23 @@ const TeamScreen = ({ navigation, route }) => {
                 ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
                 : THEME_COLORS.DANGER_COLOR
             }
-            onPress={() => setIsEditing(!isEditing)}
+            onPress={handleOnPressEdit}
             title={isEditing ? 'Save' : 'Edit'}
           />
         ),
       });
     }
-  }, [navigation, leaderId, userInfo, isEditing, setIsEditing]);
+  }, [navigation, leaderId, userInfo, isEditing, setIsEditing, editedTeamName]);
 
   React.useEffect(() => {
-    // fetch teams on screen focus
+    setEditedTeamName(currentTeamInfo.teamName);
+    setEditedTeamDescription(currentTeamInfo.teamDescription);
+  }, [currentTeamInfo.teamName, currentTeamInfo.teamDescription]);
+
+  React.useEffect(() => {
+    // fetch team information on screen focus
     const unsubscribe = navigation.addListener('focus', () => {
+      fetchTeamInfo(teamId);
       fetchTeamMembers(teamId);
     });
     return unsubscribe;
@@ -121,6 +169,9 @@ const TeamScreen = ({ navigation, route }) => {
       <ScrollView
         keyboardShouldPersistTaps='always'
         keyboardDismissMode='on-drag'
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
+        }
       >
         <View>
           <View style={styles.avatarContainer}>
@@ -128,28 +179,61 @@ const TeamScreen = ({ navigation, route }) => {
               width={160}
               height={160}
               type='circle'
-              content={teamName ? teamName[0] : ''}
+              content={editedTeamName ? editedTeamName[0] : ''}
               fontSize={THEME_FONT_SIZES.AVATAR_FONT_MAX}
             />
           </View>
+          {isEditing && (
+            <View>
+              <Heading
+                containerStyle={styles.heading}
+                fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
+                fontWeight='bold'
+                isEditing={isEditing}
+              >
+                Team Name
+              </Heading>
+              <Input
+                value={editedTeamName}
+                width='90%'
+                borderColor={
+                  isEditing
+                    ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                    : THEME_COLORS.DEFAULT_BLUE_PRIMARY
+                }
+                onInput={setEditedTeamName}
+              />
+            </View>
+          )}
+          <View>
+            <Heading
+              containerStyle={styles.heading}
+              fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
+              fontWeight='bold'
+              isEditing={isEditing}
+            >
+              Team Description
+            </Heading>
 
-          <Heading
-            containerStyle={styles.heading}
-            fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
-            fontWeight='bold'
-          >
-            Team Description
-          </Heading>
-          <RoundRectContainer
-            minHeight={100}
-            paddingTop={10}
-            paddingBottom={10}
-            borderRadius={15}
-            justifyContent='flex-start'
-          >
-            <Text style={styles.description}>{teamDescription}</Text>
-            {!teamDescription && <NoData message={'No Description'} />}
-          </RoundRectContainer>
+            <Input
+              borderColor={
+                isEditing
+                  ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                  : THEME_COLORS.DEFAULT_BLUE_PRIMARY
+              }
+              backgroundColor={
+                isEditing
+                  ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                  : THEME_COLORS.WHITE
+              }
+              multiline
+              width='90%'
+              editable={isEditing}
+              value={editedTeamDescription}
+              onInput={setEditedTeamDescription}
+            />
+          </View>
+
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
@@ -197,16 +281,18 @@ const TeamScreen = ({ navigation, route }) => {
               Invite New Member
             </Text>
           </Button>
-          <Button
-            buttonColor={THEME_COLORS.WHITE}
-            borderColor={THEME_COLORS.WHITE}
-            width='90%'
-            onPress={handleOnPressLeave}
-          >
-            <Text style={[styles.buttonText, styles.leaveButton]}>
-              Leave Team
-            </Text>
-          </Button>
+          {leaderId !== userInfo.userId && (
+            <Button
+              buttonColor={THEME_COLORS.WHITE}
+              borderColor={THEME_COLORS.WHITE}
+              width='90%'
+              onPress={handleOnPressLeave}
+            >
+              <Text style={[styles.buttonText, styles.leaveButton]}>
+                Leave Team
+              </Text>
+            </Button>
+          )}
           {isEditing && userInfo.userId === leaderId && (
             <Button
               buttonColor={THEME_COLORS.DANGER_COLOR}

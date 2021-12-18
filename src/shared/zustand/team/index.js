@@ -4,6 +4,8 @@ import {
   getUserTeam,
   createTeam,
   deleteTeam,
+  getTeamInfo,
+  updateTeam,
   getTeamMembers,
   deleteTeamMember,
   inviteTeamMember,
@@ -13,6 +15,12 @@ const initialState = {
   isLoading: false,
   userTeams: [],
   currentTeamMembers: [],
+  currentTeamInfo: {
+    teamId: null,
+    leaderId: null,
+    teamName: '',
+    teamDescription: '',
+  },
 };
 
 export const useTeamStore = create((set, get) => ({
@@ -36,7 +44,7 @@ export const useTeamStore = create((set, get) => ({
       if (result.status === 200) {
         return {
           type: 'success',
-          message: 'Successfully created a new team',
+          message: 'Successfully created a new team!',
         };
       } else {
         return { type: 'error', message: result.statusText };
@@ -50,7 +58,36 @@ export const useTeamStore = create((set, get) => ({
     } else {
       return {
         type: 'success',
-        message: 'Successfully deleted a team',
+        message: 'Successfully deleted a team!',
+      };
+    }
+  },
+  fetchTeamInfo: async (teamId) => {
+    set({ isLoading: true });
+    const result = await getTeamInfo(teamId);
+    set({ isLoading: false });
+    if (typeof result === 'string') {
+      return { type: 'error', message: result };
+    } else {
+      set({ currentTeamInfo: result.data });
+    }
+  },
+  updateTeamInfo: async (teamId, leaderId, newTeamName, newTeamDescription) => {
+    set({ isLoading: true });
+    const result = await updateTeam(
+      teamId,
+      leaderId,
+      newTeamName,
+      newTeamDescription
+    );
+    set({ isLoading: false });
+    if (typeof result === 'string') {
+      return { type: 'error', message: result };
+    } else {
+      set({ currentTeamInfo: result.data });
+      return {
+        type: 'success',
+        message: 'Successfully updated team information!',
       };
     }
   },
@@ -72,7 +109,7 @@ export const useTeamStore = create((set, get) => ({
       if (result.status === 200) {
         return {
           type: 'success',
-          message: 'Successfully deleted a team member',
+          message: 'Successfully deleted a team member!',
         };
       } else {
         return { type: 'error', message: result.statusText };
@@ -88,7 +125,7 @@ export const useTeamStore = create((set, get) => ({
     } else {
       set({ isLoading: false });
       if (result.status === 200) {
-        return { type: 'success', message: 'Successfully sent invitations' };
+        return { type: 'success', message: 'Successfully sent invitations!' };
       } else {
         return { type: 'error', message: result.statusText };
       }
