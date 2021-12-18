@@ -14,6 +14,8 @@ import {
   RoundRectContainer,
   NoData,
   Button,
+  Input,
+  DateInput,
 } from '../../../components';
 import dayjs from 'dayjs';
 import { eventDetailDateFormat } from '../../../components/constants';
@@ -26,7 +28,7 @@ import { TOAST_UP_OFFSET } from '../../../components/constants';
 
 
 const EventDetailScreen = ({ navigation, route }) => {
-  const { isLoading, fetchEventUserInfo ,currentEventUserInfo, cancelEvent, quitEvent, errorMessage } = useEventStore();
+  const { isLoading, fetchEventUserInfo ,currentEventUserInfo, cancelEvent, quitEvent, errorMessage, updateEvent } = useEventStore();
   const { userInfo } = useAuthStore();
   const [eventName, setEventName] = React.useState(route.params.eventName);
   const [eventLocation, setEventLocation] = React.useState(route.params.eventLocation);
@@ -34,10 +36,27 @@ const EventDetailScreen = ({ navigation, route }) => {
   const [eventStartTime, setEventStartTime] = React.useState(route.params.eventStartTime);
   const [eventEndTime, setEventEndTime] = React.useState(route.params.eventEndTime);
   const [isEditing, setIsEditing] = React.useState(false);
+  const [warning, setWarning] = React.useState(false);
+  const [enableSave, setEnableSave] = React.useState(true);
   React.useEffect(() => {
     fetchEventUserInfo(route.params.eventId);
   }, []);
-
+  React.useEffect(() => {
+    if (eventEndTime - eventStartTime <= 0) {
+      setWarning(true);
+    }
+    else {
+      setWarning(false);
+    }
+  }, [eventEndTime, eventStartTime])
+  React.useEffect(()=>{
+    if (!warning && (eventName!=='') && (eventLocation!=='')) {
+      setEnableSave(true);
+    }
+    else {
+      setEnableSave(false);
+    }
+  }, [warning, eventLocation, eventName])
   const hostId = React.useMemo(() => {
     return route.params.hostId ?? null;
   }, [currentEventUserInfo]);
@@ -109,6 +128,38 @@ const EventDetailScreen = ({ navigation, route }) => {
       { text: 'Yes', onPress: confirmQuitEvent },
     ]
   );
+  const handleSave = React.useCallback(async () =>{
+    const eventInfoObj = {
+      eventDescription,
+      "eventEndTime": dayjs(eventEndTime).valueOf(),
+      eventLocation,
+      eventName,
+      "eventStartTime": dayjs(eventStartTime).valueOf(),
+      "hostId": userInfo['userId'],
+      "id": route.params.eventId,
+    };
+    const result = await updateEvent(eventInfoObj);
+    const resultStatus = result.status === 200 ? "success" : "error";
+    const toastTitle =
+      result.status === 200
+        ? 'Success!'
+        : 'Something went wrong';
+    Toast.show({
+      type: resultStatus,
+      text1: toastTitle,
+      text2:
+        resultStatus === 'success'
+          ? `You have changed the detail information of ${result.data.eventName}!`
+          : result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  });
+  const handleEditing = React.useCallback(async ()=>{
+    if (isEditing) {
+      handleSave();
+    }
+    setIsEditing(!isEditing);
+  })
   React.useLayoutEffect(() => {
     if (hostId === userInfo.userId) {
       navigation.setOptions({
@@ -119,13 +170,14 @@ const EventDetailScreen = ({ navigation, route }) => {
                 ? THEME_COLORS.DEFAULT_BLUE_PRIMARY
                 : THEME_COLORS.DANGER_COLOR
             }
-            onPress={() => setIsEditing(!isEditing)}
+            disabled={!enableSave}
+            onPress={handleEditing}
             title={isEditing ? 'Save' : 'Edit'}
           />
         ),
       });
     }
-  }, [navigation, hostId, userInfo, isEditing, setIsEditing]);
+  }, [navigation, hostId, userInfo, isEditing, setIsEditing, warning, handleSave]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -140,17 +192,34 @@ const EventDetailScreen = ({ navigation, route }) => {
           >
             Event Name
           </Heading>
+          {isEditing 
+          ?
+          <Input
+            onInput={setEventName}
+            value={eventName}
+            backgroundColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            width={"90%"}
+            borderRadius={15}
+            autoFocus={true}
+            placeholder='Event Name'
+          />
+          :  
           <RoundRectContainer
             minHeight={40}
             paddingTop={10}
             paddingBottom={10}
             borderRadius={15}
+            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+            borderWidth={"1px"}
+            backgroundColor={THEME_COLORS.WHITE}
             justifyContent='flex-start'
           >
             <Text style={styles.description}>
               {eventName}
             </Text>
-          </RoundRectContainer>
+          </RoundRectContainer>}
+
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
@@ -158,17 +227,32 @@ const EventDetailScreen = ({ navigation, route }) => {
           >
             Event Location
           </Heading>
+          {isEditing
+          ?
+          <Input
+            onInput={setEventLocation}
+            value={eventLocation}
+            backgroundColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            width={"90%"}
+            borderRadius={15}
+            placeholder='Event Location'
+          />
+          :
           <RoundRectContainer
             minHeight={40}
             paddingTop={10}
             paddingBottom={10}
             borderRadius={15}
+            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+            borderWidth={"1px"}
+            backgroundColor={THEME_COLORS.WHITE}
             justifyContent='flex-start'
           >
             <Text style={styles.description}>
               {eventLocation}
             </Text>
-          </RoundRectContainer>
+          </RoundRectContainer>}
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
@@ -176,17 +260,40 @@ const EventDetailScreen = ({ navigation, route }) => {
           >
             Event Time
           </Heading>
+          {isEditing
+          ?
+          <View>
+            <DateInput
+              label="Event Start Date"
+              value={new Date(eventStartTime)}
+              onChange={setEventStartTime}
+            />
+            <DateInput
+              label="Event End Date"
+              value={new Date(eventEndTime)}
+              onChange={setEventEndTime}
+            />
+            {warning && <Text style={styles.warningText}>
+              The end date should be later than start date
+            </Text>}
+          </View>
+          :
           <RoundRectContainer
             minHeight={40}
             paddingTop={10}
             paddingBottom={10}
             borderRadius={15}
+            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+            borderWidth={"1px"}
+            backgroundColor={THEME_COLORS.WHITE}
             justifyContent='flex-start'
           >
             <Text style={styles.description}>
               {dayjs(eventStartTime).format(eventDetailDateFormat) + "  to  " + dayjs(eventEndTime).format(eventDetailDateFormat)}
             </Text>
           </RoundRectContainer>
+          }
+
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
@@ -194,20 +301,39 @@ const EventDetailScreen = ({ navigation, route }) => {
           >
             Event Description
           </Heading>
+          {isEditing
+          ?
+          <Input
+            value={eventDescription}
+            placeholder="Event Description"
+            height={300}
+            multiline={true}
+            onInput={setEventDescription}
+            borderColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            backgroundColor={THEME_COLORS.DEFAULT_INPUT_BACKGROUND}
+            width={"90%"}
+            borderRadius={15}
+          />
+          :
           <RoundRectContainer
             minHeight={100}
             paddingTop={10}
             paddingBottom={10}
             borderRadius={15}
             justifyContent='flex-start'
+            borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+            borderWidth={"1px"}
+            backgroundColor={THEME_COLORS.WHITE}
           >
             <Text style={styles.description}>
               {eventDescription}
             </Text>
-            {!route.params.eventDescription && (
+            {!eventDescription && (
               <NoData message={'No Description'} />
             )}
-          </RoundRectContainer>
+        </RoundRectContainer>
+          }
+
           <Heading
             containerStyle={styles.heading}
             fontSize={THEME_FONT_SIZES.SYSTEM_FONT}
@@ -239,6 +365,7 @@ const EventDetailScreen = ({ navigation, route }) => {
             buttonColor={THEME_COLORS.WHITE}
             borderColor={THEME_COLORS.WHITE}
             width='90%'
+            disabled={isEditing}
             onPress={() => {
               navigation.navigate({
                 name: 'EventInvite',
@@ -253,24 +380,27 @@ const EventDetailScreen = ({ navigation, route }) => {
             borderColor={THEME_COLORS.WHITE}
             width='90%'
             onPress={handleOnPressCancel}
+            disabled={isEditing}
             >
             <Text style={[styles.buttonText, styles.cancelButton]}>Cancel Event</Text>
             </Button>
             </View>
           }
 
+          {userInfo.userId !== hostId && 
           <View style={styles.leaveButtonContainer}>
-            <Button
-              buttonColor={THEME_COLORS.DANGER_COLOR}
-              borderColor={THEME_COLORS.DANGER_COLOR}
-              width='90%'
-              onPress={handleOnPressQuit}
-            >
-              <Text style={[styles.buttonText]}>
-                Quit this Event
-              </Text>
-            </Button>
-          </View>
+          <Button
+            buttonColor={THEME_COLORS.DANGER_COLOR}
+            borderColor={THEME_COLORS.DANGER_COLOR}
+            width='90%'
+            onPress={handleOnPressQuit}
+            disabled={isEditing?true:false}
+          >
+            <Text style={[styles.buttonText]}>
+              Quit this Event
+            </Text>
+          </Button>
+        </View>}
         </View>
       </ScrollView>
     </SafeAreaView>
