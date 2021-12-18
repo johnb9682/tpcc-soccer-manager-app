@@ -80,6 +80,8 @@ export const useEventStore = create((set, get) => ({
     const errorMessage = await updateEventInfo(eventInfoObj);
     if (errorMessage) {
       set({ errorMessage });
+      return (errorMessage)
     }
+    set({isLoading: false});
   },
 }));

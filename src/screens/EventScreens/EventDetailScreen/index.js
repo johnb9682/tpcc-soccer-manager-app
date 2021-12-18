@@ -6,7 +6,6 @@ import {
   Text,
   Alert,
   Button as NativeButton,
-  RecyclerViewBackedScrollViewBase,
 } from 'react-native';
 
 import { styles } from './style';
@@ -26,7 +25,6 @@ import { useAuthStore } from '../../../shared/zustand/auth';
 import EventMemberItem from '../components/EventMemberItem';
 import Toast from 'react-native-toast-message';
 import { TOAST_UP_OFFSET } from '../../../components/constants';
-import { RectButton } from 'react-native-gesture-handler';
 
 
 const EventDetailScreen = ({ navigation, route }) => {
@@ -50,7 +48,7 @@ const EventDetailScreen = ({ navigation, route }) => {
     else {
       setWarning(false);
     }
-  })
+  }, [eventEndTime, eventStartTime])
   React.useEffect(()=>{
     if (!warning && (eventName!=='') && (eventLocation!=='')) {
       setEnableSave(true);
@@ -58,7 +56,7 @@ const EventDetailScreen = ({ navigation, route }) => {
     else {
       setEnableSave(false);
     }
-  })
+  }, [warning, eventLocation, eventName])
   const hostId = React.useMemo(() => {
     return route.params.hostId ?? null;
   }, [currentEventUserInfo]);
@@ -132,16 +130,36 @@ const EventDetailScreen = ({ navigation, route }) => {
   );
   const handleSave = React.useCallback(async () =>{
     const eventInfoObj = {
-      "eventDescription": eventDescription,
+      eventDescription,
       "eventEndTime": dayjs(eventEndTime).valueOf(),
-      "eventLocation": eventLocation,
-      "eventName": eventName,
+      eventLocation,
+      eventName,
       "eventStartTime": dayjs(eventStartTime).valueOf(),
       "hostId": userInfo['userId'],
       "id": route.params.eventId,
     };
     const result = await updateEvent(eventInfoObj);
+    const resultStatus = result.status === 200 ? "success" : "error";
+    const toastTitle =
+      result.status === 200
+        ? 'Success!'
+        : 'Something went wrong';
+    Toast.show({
+      type: resultStatus,
+      text1: toastTitle,
+      text2:
+        resultStatus === 'success'
+          ? `You have changed the detail information of ${result.data.eventName}!`
+          : result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
   });
+  const handleEditing = React.useCallback(async ()=>{
+    if (isEditing) {
+      handleSave();
+    }
+    setIsEditing(!isEditing);
+  })
   React.useLayoutEffect(() => {
     if (hostId === userInfo.userId) {
       navigation.setOptions({
@@ -153,12 +171,7 @@ const EventDetailScreen = ({ navigation, route }) => {
                 : THEME_COLORS.DANGER_COLOR
             }
             disabled={!enableSave}
-            onPress={()=>{
-              if (isEditing) {
-                handleSave();
-              }
-              setIsEditing(!isEditing);
-            }}
+            onPress={handleEditing}
             title={isEditing ? 'Save' : 'Edit'}
           />
         ),
@@ -352,7 +365,7 @@ const EventDetailScreen = ({ navigation, route }) => {
             buttonColor={THEME_COLORS.WHITE}
             borderColor={THEME_COLORS.WHITE}
             width='90%'
-            disabled={isEditing?true:false}
+            disabled={isEditing}
             onPress={() => {
               navigation.navigate({
                 name: 'EventInvite',
@@ -367,7 +380,7 @@ const EventDetailScreen = ({ navigation, route }) => {
             borderColor={THEME_COLORS.WHITE}
             width='90%'
             onPress={handleOnPressCancel}
-            disabled={isEditing?true:false}
+            disabled={isEditing}
             >
             <Text style={[styles.buttonText, styles.cancelButton]}>Cancel Event</Text>
             </Button>
