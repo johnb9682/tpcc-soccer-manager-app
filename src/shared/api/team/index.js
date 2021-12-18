@@ -48,7 +48,6 @@ export const updateTeam = async (
   teamName,
   teamDescription
 ) => {
-  console.log(teamDescription);
   try {
     const response = await yelp.put('/team', {
       id: teamId,

@@ -97,6 +97,7 @@ const TeamScreen = ({ navigation, route }) => {
 
   const handleOnRefresh = async () => {
     const result = await fetchTeamInfo(teamId);
+    // if failed, error message will be returned
     if (result && result.type === 'error') {
       Toast.show({
         type: result.type,
@@ -152,7 +153,7 @@ const TeamScreen = ({ navigation, route }) => {
   React.useEffect(() => {
     setEditedTeamName(currentTeamInfo.teamName);
     setEditedTeamDescription(currentTeamInfo.teamDescription);
-  }, [currentTeamInfo]);
+  }, [currentTeamInfo.teamName, currentTeamInfo.teamDescription]);
 
   React.useEffect(() => {
     // fetch team information on screen focus
@@ -195,7 +196,11 @@ const TeamScreen = ({ navigation, route }) => {
               <Input
                 value={editedTeamName}
                 width='90%'
-                borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
+                borderColor={
+                  isEditing
+                    ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                    : THEME_COLORS.DEFAULT_BLUE_PRIMARY
+                }
                 onInput={setEditedTeamName}
               />
             </View>
@@ -209,28 +214,19 @@ const TeamScreen = ({ navigation, route }) => {
             >
               Team Description
             </Heading>
-            {isEditing ? (
-              <Input
-                borderColor={THEME_COLORS.DEFAULT_BLUE_PRIMARY}
-                multiline
-                width='90%'
-                value={editedTeamDescription}
-                onInput={setEditedTeamDescription}
-              />
-            ) : (
-              <RoundRectContainer
-                minHeight={100}
-                paddingTop={10}
-                paddingBottom={10}
-                borderRadius={15}
-                justifyContent='flex-start'
-              >
-                <Text style={styles.description}>{editedTeamDescription}</Text>
-                {!editedTeamDescription && (
-                  <NoData message={'No Description'} />
-                )}
-              </RoundRectContainer>
-            )}
+
+            <Input
+              borderColor={
+                isEditing
+                  ? THEME_COLORS.DEFAULT_INPUT_BACKGROUND
+                  : THEME_COLORS.DEFAULT_BLUE_PRIMARY
+              }
+              multiline
+              width='90%'
+              editable={isEditing}
+              value={editedTeamDescription}
+              onInput={setEditedTeamDescription}
+            />
           </View>
 
           <Heading
