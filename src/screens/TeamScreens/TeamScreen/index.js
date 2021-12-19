@@ -15,7 +15,6 @@ import { styles } from './style';
 import {
   Heading,
   RoundRectContainer,
-  NoData,
   Button,
   Avartar,
   Loading,
@@ -42,6 +41,7 @@ const TeamScreen = ({ navigation, route }) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [editedTeamName, setEditedTeamName] = React.useState('');
   const [editedTeamDescription, setEditedTeamDescription] = React.useState('');
+  const newTeamDescription = React.useRef(null);
 
   const confirmLeave = async () => {
     const result = await deleteTeamMember(userInfo.userId, teamId);
@@ -108,12 +108,16 @@ const TeamScreen = ({ navigation, route }) => {
     }
   };
 
+  React.useEffect(() => {
+    newTeamDescription.current = editedTeamDescription;
+  }, [editedTeamDescription]);
+
   const handleOnSaveEdit = async () => {
     const result = await updateTeamInfo(
       teamId,
       leaderId,
       editedTeamName,
-      editedTeamDescription
+      newTeamDescription.current
     );
     Toast.show({
       type: result.type,
