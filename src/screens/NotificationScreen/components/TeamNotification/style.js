@@ -4,11 +4,11 @@ import { THEME_COLORS, THEME_FONT_SIZES } from '../../../../components/theme';
 
 export const styles = StyleSheet.create({
   eventItem: {
-    width: '100%',
+    width: '98%',
     backgroundColor: THEME_COLORS.WHITE,
     borderRadius: 10,
     marginVertical: 5,
-    marginHorizontal: 5,
+    marginHorizontal: '1%',
     padding: 10,
     shadowColor: THEME_COLORS.DEFAULT_SHADOW, //iOS
     shadowOffset: { height: 2, width: 0 }, // iOS
@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
   infoPair: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 5,
   },
   title: {
     fontWeight: 'bold',
@@ -52,4 +53,27 @@ export const styles = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
+  check: {
+    backgroundColor: THEME_COLORS.WHITE,
+    borderRadius: 3,
+    padding: 5,
+    shadowColor: THEME_COLORS.DEFAULT_SHADOW, //iOS
+    shadowOffset: { height: 2, width: 0 }, // iOS
+    shadowOpacity: 0.3, // iOS
+    shadowRadius: 3, //iOS
+    elevation: 3, // Android
+    marginHorizontal: 2,
+  },
+  close: {
+    backgroundColor: THEME_COLORS.WHITE,
+    borderRadius: 3,
+    marginRight: 2,
+    padding: 5,
+    shadowColor: THEME_COLORS.DEFAULT_SHADOW, //iOS
+    shadowOffset: { height: 2, width: 0 }, // iOS
+    shadowOpacity: 0.3, // iOS
+    shadowRadius: 3, //iOS
+    elevation: 3, // Android
+    marginHorizontal: 13,
+  }
 });
