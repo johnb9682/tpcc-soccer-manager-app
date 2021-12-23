@@ -126,6 +126,15 @@ const Event = () => {
         }}
       />
       <Stack.Screen
+        name='EventNotification'
+        component={NotificationScreen}
+        options={{
+          title: 'Notifications',
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen
         name='EventInvite'
         component={EventInviteScreen}
         options={{

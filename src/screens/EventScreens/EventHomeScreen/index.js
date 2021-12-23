@@ -9,7 +9,12 @@ import {
 import dayjs from 'dayjs';
 
 import { styles } from './style';
-import { Button, Info, SearchInput } from '../../../components';
+import {
+  Button,
+  Info,
+  SearchInput,
+  NotificationButton,
+} from '../../../components';
 import EventSection from '../components/EventSection';
 import { useEventStore } from '../../../shared/zustand/event';
 import { useAuthStore } from '../../../shared/zustand/auth';
@@ -30,17 +35,20 @@ const EventHomeScreen = ({ navigation }) => {
     []
   );
   const [filteredHistoryEvents, setFilteredHistoryEvents] = React.useState([]);
-  const AllEvents = filteredOngoingEvents.concat(filteredUpcomingEvents, filteredHistoryEvents)
+  const AllEvents = filteredOngoingEvents.concat(
+    filteredUpcomingEvents,
+    filteredHistoryEvents
+  );
   const handleOnSearch = React.useCallback(
-    searchValue => {
+    (searchValue) => {
       const lowercaseSearchValue = searchValue.toLowerCase();
-      const updatedOngoingEvents = onGoingEvents.filter(event =>
+      const updatedOngoingEvents = onGoingEvents.filter((event) =>
         event.eventName.toLowerCase().includes(lowercaseSearchValue)
       );
-      const updatedUpcomingEvents = upComingEvents.filter(event =>
+      const updatedUpcomingEvents = upComingEvents.filter((event) =>
         event.eventName.toLowerCase().includes(lowercaseSearchValue)
       );
-      const updatedHistoryEvents = historyEvents.filter(event =>
+      const updatedHistoryEvents = historyEvents.filter((event) =>
         event.eventName.toLowerCase().includes(lowercaseSearchValue)
       );
       setFilteredOngoingEvents(updatedOngoingEvents);
@@ -69,13 +77,13 @@ const EventHomeScreen = ({ navigation }) => {
     return dayjs().format(todayFormat).toUpperCase();
   });
   function findChosenEvent(id) {
-    const foundEvent = AllEvents.find(event => event.eventId === id)
+    const foundEvent = AllEvents.find((event) => event.eventId === id);
     if (foundEvent !== undefined) {
-      navigation.navigate({ name: "EventDetail", params: foundEvent })
+      navigation.navigate({ name: 'EventDetail', params: foundEvent });
     }
   }
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", async () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       await fetchUserEvents(userInfo['userId']);
     });
     // return unsubscribe;
@@ -87,11 +95,23 @@ const EventHomeScreen = ({ navigation }) => {
     setFilteredHistoryEvents(historyEvents);
   }, [onGoingEvents, upComingEvents, historyEvents]);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <NotificationButton
+          onPress={() => {
+            navigation.navigate('EventNotification');
+          }}
+        />
+      ),
+    });
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps='always'
+        keyboardDismissMode='on-drag'
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
         }
@@ -99,8 +119,8 @@ const EventHomeScreen = ({ navigation }) => {
         <View style={styles.innerContainer}>
           <View style={styles.searchContainer}>
             <SearchInput
-              width="94%"
-              placeholder="Search My Events"
+              width='94%'
+              placeholder='Search My Events'
               value={searchStr}
               onInput={setSearchStr}
               onSearch={handleOnSearch}
@@ -110,22 +130,22 @@ const EventHomeScreen = ({ navigation }) => {
             <Text style={styles.todayText}>{today}</Text>
           </View>
           <EventSection
-            title="Ongoing"
-            noDataMessage="No Ongoing Events"
+            title='Ongoing'
+            noDataMessage='No Ongoing Events'
             eventData={filteredOngoingEvents}
             eventType={EVENT_TYPE.ONGOING}
             onPress={findChosenEvent}
           />
           <EventSection
-            title="Upcoming"
-            noDataMessage="No Upcoming Events"
+            title='Upcoming'
+            noDataMessage='No Upcoming Events'
             eventData={filteredUpcomingEvents}
             eventType={EVENT_TYPE.UPCOMING}
             onPress={findChosenEvent}
           />
           <EventSection
-            title="History"
-            noDataMessage="No History Events"
+            title='History'
+            noDataMessage='No History Events'
             eventData={filteredHistoryEvents}
             eventType={EVENT_TYPE.HISTORY}
             onPress={findChosenEvent}
@@ -142,7 +162,11 @@ const EventHomeScreen = ({ navigation }) => {
         </View>
       </ScrollView>
       <View intensity={100} style={styles.bottomContainer}>
-        <Button borderWidth={0} height={50} onPress={() => navigation.navigate('CreateEvent')}>
+        <Button
+          borderWidth={0}
+          height={50}
+          onPress={() => navigation.navigate('CreateEvent')}
+        >
           <Text style={[styles.createButtonText, styles.buttonText]}>
             Create a New Event
           </Text>
