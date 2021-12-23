@@ -29,13 +29,13 @@ const TeamNotification = () => {
           <Icon
             name="check-bold"
             size={18}
-            color={"#008000"}
+            color={THEME_COLORS.GREEN}
             style={styles.check}
           />
           <Icon
             name="close-thick"
             size={18}
-            color={"#800000"}
+            color={THEME_COLORS.DEFAULT_RED_PRIMARY}
             style={styles.close}
           />
         </View>

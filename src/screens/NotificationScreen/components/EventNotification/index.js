@@ -10,7 +10,7 @@ import { mockEventInfo, mockTeamInfo } from '../../../../shared/zustand/event/mo
 const EventNotification = ({ event, eventType, onPress }) => {
   return (
     <TouchableOpacity style={styles.eventItem} onPress={() => {
-      const eventId = event['eventId'];
+      const eventId = event.eventId;
       onPress(eventId);
     }}>
       <View style={styles.header}>
@@ -30,13 +30,13 @@ const EventNotification = ({ event, eventType, onPress }) => {
           <Icon
             name="check-bold"
             size={18}
-            color={"#008000"}
+            color={THEME_COLORS.GREEN}
             style={styles.check}
           />
           <Icon
             name="close-thick"
             size={18}
-            color={"#800000"}
+            color={THEME_COLORS.DEFAULT_RED_PRIMARY}
             style={styles.close}
           />
         </View>
