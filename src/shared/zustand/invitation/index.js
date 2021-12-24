@@ -38,7 +38,7 @@ export const useInvitationStore = create((set, get) => ({
       return { type: 'error', message: result };
     } else {
       console.log(result.data);
-      set({ userEventInvitations: result.data });
+      set({ userEventInvitations: result.data.invitationEventResponses });
       return {
         type: 'success',
         message: 'Successfully fetched all event invitations!',

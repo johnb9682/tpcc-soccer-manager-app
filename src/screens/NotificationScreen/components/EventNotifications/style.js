@@ -4,7 +4,8 @@ import { THEME_COLORS, THEME_FONT_SIZES } from '../../../../components/theme';
 
 export const styles = StyleSheet.create({
   eventItem: {
-    width: '98%',
+    width: '90%',
+    alignSelf: 'center',
     backgroundColor: THEME_COLORS.WHITE,
     borderRadius: 10,
     marginVertical: 5,
@@ -75,5 +76,10 @@ export const styles = StyleSheet.create({
     shadowRadius: 3, //iOS
     elevation: 3, // Android
     marginHorizontal: 13,
-  }
+  },
+  heading: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: 'flex-start',
+  },
 });
