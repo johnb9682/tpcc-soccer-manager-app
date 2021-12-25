@@ -7,11 +7,13 @@ import { styles } from './style';
 import { dateFormat } from '../../../../components/constants';
 import { THEME_COLORS, THEME_FONT_SIZES } from '../../../../components/theme';
 import { Heading, NoData, RoundRectContainer } from '../../../../components';
+import { INVITE_STATUS } from '../../../../shared/api/invitation/constants';
 
 const EventNotifications = ({
   invitationsReceived,
   invitationsSent,
   onRespond,
+  onCancel,
 }) => {
   return (
     <View>
@@ -133,7 +135,17 @@ const EventNotifications = ({
                   </Text>
                 </View>
                 <View style={styles.infoPair}>
-                  <Text>Status:</Text>
+                  <Text>Status: {INVITE_STATUS[eventInvitation.status]}</Text>
+                  <TouchableOpacity
+                    onPress={() => onCancel(eventInvitation.invitationId)}
+                  >
+                    <Icon
+                      name='cancel'
+                      size={18}
+                      color={THEME_COLORS.DEFAULT_RED_PRIMARY}
+                      style={styles.close}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.body}>

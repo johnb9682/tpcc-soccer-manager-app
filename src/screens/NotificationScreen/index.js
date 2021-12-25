@@ -14,10 +14,13 @@ const NotificationScreen = ({ route, navigation }) => {
   const { userInfo } = useAuthStore();
   const {
     isLoading,
-    userEventInvitations,
-    userTeamInvitations,
+    userEventInvitationsReceived,
+    userEventInvitationsSent,
+    userTeamInvitationsReceived,
+    userTeamInvitationsSent,
     fetchUserEventInvitation,
     respondEventInvitation,
+    deleteEventInvitation,
   } = useInvitationStore();
 
   const handleOnRefresh = async () => {
@@ -30,6 +33,25 @@ const NotificationScreen = ({ route, navigation }) => {
     });
   };
 
+  const handleOnCancelEventInvitationSent = async (invitaionId) => {
+    const result = await deleteEventInvitation(invitaionId);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  };
+  const handleOnCancelTeamInvitationSent = async (invitaionId) => {
+    // const result = await deleteTeamInvitation(invitaionId);
+    // Toast.show({
+    //   type: result.type,
+    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+    //   text2: result.message,
+    //   topOffset: TOAST_UP_OFFSET,
+    // });
+  };
+
   const handleOnRespondEventInvitation = async (invitaionId, respondValue) => {
     const result = await respondEventInvitation(invitaionId, respondValue);
     Toast.show({
@@ -38,6 +60,15 @@ const NotificationScreen = ({ route, navigation }) => {
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+  };
+  const handleOnRespondTeamInvitation = async (invitaionId, respondValue) => {
+    // const result = await respondTeamInvitation(invitaionId, respondValue);
+    // Toast.show({
+    //   type: result.type,
+    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+    //   text2: result.message,
+    //   topOffset: TOAST_UP_OFFSET,
+    // });
   };
 
   React.useEffect(() => {
@@ -59,11 +90,17 @@ const NotificationScreen = ({ route, navigation }) => {
         }
       >
         <EventNotifications
-          invitationsReceived={userEventInvitations}
-          invitationsSent={[]}
+          invitationsReceived={userEventInvitationsReceived}
+          invitationsSent={userEventInvitationsSent}
           onRespond={handleOnRespondEventInvitation}
+          onCancel={handleOnCancelEventInvitationSent}
         />
-        <TeamNotification data={userTeamInvitations} />
+        <TeamNotification
+          invitationsReceived={userTeamInvitationsReceived}
+          invitationsSent={userTeamInvitationsSent}
+          onRespond={handleOnRespondTeamInvitation}
+          onCancel={handleOnCancelTeamInvitationSent}
+        />
       </ScrollView>
     </SafeAreaView>
   );

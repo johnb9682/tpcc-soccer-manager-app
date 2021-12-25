@@ -35,9 +35,20 @@ export const getEventInvitation = async (invitationId) => {
   }
 };
 
-export const getUserEventInvitation = async (userId) => {
+export const getUserReceiverEventInvitation = async (userId) => {
   try {
-    const result = await yelp.get('/getUserEventInvitation', {
+    const result = await yelp.get('/getUserReceiverEventInvitation', {
+      headers: { userId },
+    });
+    return result;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+export const getUserSenderEventInvitation = async (userId) => {
+  try {
+    const result = await yelp.get('/getUserSenderEventInvitation', {
       headers: { userId },
     });
     return result;
