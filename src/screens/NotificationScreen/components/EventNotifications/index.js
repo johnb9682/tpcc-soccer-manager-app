@@ -135,17 +135,19 @@ const EventNotifications = ({
                   </Text>
                 </View>
                 <View style={styles.infoPair}>
-                  <Text>Status: {INVITE_STATUS[eventInvitation.status]}</Text>
-                  <TouchableOpacity
-                    onPress={() => onCancel(eventInvitation.invitationId)}
-                  >
-                    <Icon
-                      name='cancel'
-                      size={18}
-                      color={THEME_COLORS.DEFAULT_RED_PRIMARY}
-                      style={styles.close}
-                    />
-                  </TouchableOpacity>
+                  <Text>{INVITE_STATUS[eventInvitation.status]}</Text>
+                  {eventInvitation.status === 0 && (
+                    <TouchableOpacity
+                      onPress={() => onCancel(eventInvitation.invitationId)}
+                    >
+                      <Icon
+                        name='cancel'
+                        size={18}
+                        color={THEME_COLORS.DEFAULT_RED_PRIMARY}
+                        style={styles.close}
+                      />
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
               <View style={styles.body}>
