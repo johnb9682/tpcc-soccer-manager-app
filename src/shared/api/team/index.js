@@ -80,16 +80,3 @@ export const deleteTeamMember = async (userId, teamId) => {
     return err.message;
   }
 };
-
-export const inviteTeamMember = async (senderId, receiverIds, teamId) => {
-  try {
-    const result = await yelp.post('/addTeamInvitation', {
-      senderId,
-      receiverIds,
-      teamId,
-    });
-    return result;
-  } catch (err) {
-    return err.message;
-  }
-};

@@ -116,19 +116,4 @@ export const useTeamStore = create((set, get) => ({
       }
     }
   },
-  inviteTeamMember: async (leaderId, receiverIds, teamId) => {
-    set({ isLoading: true });
-    const result = await inviteTeamMember(leaderId, receiverIds, teamId);
-    if (typeof result === 'string') {
-      set({ isLoading: false });
-      return { type: 'error', message: result };
-    } else {
-      set({ isLoading: false });
-      if (result.status === 200) {
-        return { type: 'success', message: 'Successfully sent invitations!' };
-      } else {
-        return { type: 'error', message: result.statusText };
-      }
-    }
-  },
 }));
