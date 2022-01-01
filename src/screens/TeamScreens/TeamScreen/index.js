@@ -96,13 +96,23 @@ const TeamScreen = ({ navigation, route }) => {
     );
 
   const handleOnRefresh = async () => {
-    const result = await fetchTeamInfo(teamId);
+    const resultInfo = await fetchTeamInfo(teamId);
+    const resultMember = await fetchTeamMembers(teamId);
+
     // if failed, error message will be returned
-    if (result && result.type === 'error') {
+    if (resultInfo && resultInfo.type === 'error') {
       Toast.show({
-        type: result.type,
+        type: resultInfo.type,
         text1: 'Something went wrong when fetching the team information.',
-        text2: result.message,
+        text2: resultInfo.message,
+        topOffset: TOAST_UP_OFFSET,
+      });
+    }
+    if (resultMember && resultMember.type === 'error') {
+      Toast.show({
+        type: resultMember.type,
+        text1: 'Something went wrong when fetching the team information.',
+        text2: resultMember.message,
         topOffset: TOAST_UP_OFFSET,
       });
     }

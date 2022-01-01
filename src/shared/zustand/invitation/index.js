@@ -7,7 +7,6 @@ import {
   deleteEventInvitation,
   addEventInvitation,
   respondEventInvitation,
-
   getTeamInvitation,
   getUserReceiverTeamInvitation,
   getUserSenderTeamInvitation,

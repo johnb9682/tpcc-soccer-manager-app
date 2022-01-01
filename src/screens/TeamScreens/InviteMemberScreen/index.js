@@ -6,14 +6,16 @@ import { styles } from './style';
 import { Button, Heading, SelectList } from '../../../components';
 import { THEME_COLORS, THEME_FONT_SIZES } from '../../../components/theme';
 import { useSearchStore } from '../../../shared/zustand/search';
-import { useTeamStore } from '../../../shared/zustand/team';
 import { TOAST_UP_OFFSET } from '../../../components/constants';
+import { useInvitationStore } from '../../../shared/zustand/invitation';
+import { useAuthStore } from '../../../shared/zustand/auth';
 
 const InviteMemberScreen = ({ navigation, route }) => {
-  const { teamId, leaderId } = route.params;
+  const { teamId } = route.params;
+  const { userInfo } = useAuthStore();
   const [selectedMembers, setSelectedMembers] = React.useState([]);
   const { fetchSearchedUsers } = useSearchStore();
-  const { inviteTeamMember } = useTeamStore();
+  const { addTeamInvitation } = useInvitationStore();
   const [data, setData] = React.useState([]);
   const handleOnSearch = async (searchStr) => {
     if (searchStr === '') {
@@ -31,10 +33,10 @@ const InviteMemberScreen = ({ navigation, route }) => {
       return memberId;
     });
     if (selectedMemberIds.length > 0) {
-      const result = await inviteTeamMember(
-        leaderId,
+      const result = await addTeamInvitation(
+        teamId,
         selectedMemberIds,
-        teamId
+        userInfo.userId
       );
       Toast.show({
         type: result.type,
