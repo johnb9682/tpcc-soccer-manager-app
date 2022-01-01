@@ -39,7 +39,9 @@ const Avartar = ({
         },
       ]}
     >
-      <Text style={[styles.text, { fontSize }]}>{content.toUpperCase()}</Text>
+      <Text style={[styles.text, { fontSize }]}>
+        {content ? content.toUpperCase() : ''}
+      </Text>
     </View>
   );
 };
