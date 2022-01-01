@@ -49,6 +49,7 @@ const NotificationScreen = ({ route, navigation }) => {
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+    handleOnRefresh();
   };
   const handleOnCancelTeamInvitationSent = async (invitaionId) => {
     const result = await deleteTeamInvitation(invitaionId);
@@ -58,6 +59,7 @@ const NotificationScreen = ({ route, navigation }) => {
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+    handleOnRefresh();
   };
 
   const handleOnRespondEventInvitation = async (invitaionId, respondValue) => {
@@ -68,6 +70,7 @@ const NotificationScreen = ({ route, navigation }) => {
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+    handleOnRefresh();
   };
   const handleOnRespondTeamInvitation = async (invitaionId, respondValue) => {
     const result = await respondTeamInvitation(invitaionId, respondValue);
@@ -77,6 +80,7 @@ const NotificationScreen = ({ route, navigation }) => {
       text2: result.message,
       topOffset: TOAST_UP_OFFSET,
     });
+    handleOnRefresh();
   };
 
   React.useEffect(() => {
