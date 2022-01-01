@@ -7,6 +7,7 @@ import { THEME_FONT_SIZES, THEME_COLORS } from '../theme';
 
 const Heading = ({
   children,
+  color,
   fontSize = THEME_FONT_SIZES.HEADING_DEFAULT,
   fontWeight = '400',
   containerStyle = {},
@@ -14,7 +15,9 @@ const Heading = ({
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.text, { fontSize, fontWeight }]}>{children}</Text>
+      <Text style={[styles.text, { fontSize, fontWeight, color }]}>
+        {children}
+      </Text>
       {isEditing && (
         <Icon
           name='pencil'

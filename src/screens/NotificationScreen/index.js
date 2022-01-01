@@ -1,38 +1,109 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, RefreshControl } from 'react-native';
-import EventNotification from './components/EventNotification';
-import TeamNotification from './components/TeamNotification';
-import { NoData } from '../../components';
+import Toast from 'react-native-toast-message';
+
+import EventNotifications from './components/EventNotifications';
+import TeamNotification from './components/TeamNotifications';
 import { styles } from './style';
-import { mockEventInfo, mockTeamInfo } from '../../shared/zustand/event/mockData';
 
-const NotificationScreen = ({ navigation }) => {
-  React.useEffect(()=>{
-    console.log(mockEventInfo.length);
-  })
+import { TOAST_UP_OFFSET } from '../../components/constants';
+import { useInvitationStore } from '../../shared/zustand/invitation';
+import { useAuthStore } from '../../shared/zustand/auth';
 
-  if (mockEventInfo.length === 0 && mockTeamInfo.length === 0) {
-    return(
-    <NoData message={'No Notifications'} />
-    )
-  }
-  else{
-    return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView
-          keyboardShouldPersistTaps='always'
-          keyboardDismissMode='on-drag'
-          // refreshControl={
-          //   <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
-          // }
-        >
-          <EventNotification />
-          <TeamNotification />
-          
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+const NotificationScreen = ({ route, navigation }) => {
+  const { userInfo } = useAuthStore();
+  const {
+    isLoading,
+    userEventInvitationsReceived,
+    userEventInvitationsSent,
+    userTeamInvitationsReceived,
+    userTeamInvitationsSent,
+    fetchUserEventInvitation,
+    respondEventInvitation,
+    deleteEventInvitation,
+  } = useInvitationStore();
+
+  const handleOnRefresh = async () => {
+    const result = await fetchUserEventInvitation(userInfo.userId);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  };
+
+  const handleOnCancelEventInvitationSent = async (invitaionId) => {
+    const result = await deleteEventInvitation(invitaionId);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  };
+  const handleOnCancelTeamInvitationSent = async (invitaionId) => {
+    // const result = await deleteTeamInvitation(invitaionId);
+    // Toast.show({
+    //   type: result.type,
+    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+    //   text2: result.message,
+    //   topOffset: TOAST_UP_OFFSET,
+    // });
+  };
+
+  const handleOnRespondEventInvitation = async (invitaionId, respondValue) => {
+    const result = await respondEventInvitation(invitaionId, respondValue);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
+  };
+  const handleOnRespondTeamInvitation = async (invitaionId, respondValue) => {
+    // const result = await respondTeamInvitation(invitaionId, respondValue);
+    // Toast.show({
+    //   type: result.type,
+    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+    //   text2: result.message,
+    //   topOffset: TOAST_UP_OFFSET,
+    // });
+  };
+
+  React.useEffect(() => {
+    // fetch invitations on screen focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchUserEventInvitation(userInfo.userId);
+      // fetchTeamInvitation(userInfo.userId)
+    });
+    return unsubscribe;
+  }, [route, navigation]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps='always'
+        keyboardDismissMode='on-drag'
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />
+        }
+      >
+        <EventNotifications
+          invitationsReceived={userEventInvitationsReceived}
+          invitationsSent={userEventInvitationsSent}
+          onRespond={handleOnRespondEventInvitation}
+          onCancel={handleOnCancelEventInvitationSent}
+        />
+        <TeamNotification
+          invitationsReceived={userTeamInvitationsReceived}
+          invitationsSent={userTeamInvitationsSent}
+          onRespond={handleOnRespondTeamInvitation}
+          onCancel={handleOnCancelTeamInvitationSent}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default NotificationScreen;
