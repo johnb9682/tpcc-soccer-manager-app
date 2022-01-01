@@ -59,25 +59,27 @@ const SelectList = ({
           onSearch={searchFunction}
         />
       </View>
-      <RoundRectContainer
-        borderRadius={15}
-        paddingHorizontal={5}
-        justifyContent='flex-start'
-      >
-        {data.map((d, index) => (
-          <View key={JSON.stringify(d)} style={styles.itemContainer}>
-            <CheckBox
-              selected={selectedItems.includes(JSON.stringify(d))}
-              disabled={InGroup(JSON.stringify(d))}
-              onPress={() => {
-                handleOnPress(JSON.stringify(d));
-              }}
-            >
-              <Text>{generateRenderText(d, '')}</Text>
-            </CheckBox>
-          </View>
-        ))}
-      </RoundRectContainer>
+      {data.length > 0 && (
+        <RoundRectContainer
+          borderRadius={15}
+          paddingHorizontal={5}
+          justifyContent='flex-start'
+        >
+          {data.map((d, index) => (
+            <View key={JSON.stringify(d)} style={styles.itemContainer}>
+              <CheckBox
+                selected={selectedItems.includes(JSON.stringify(d))}
+                disabled={InGroup(JSON.stringify(d))}
+                onPress={() => {
+                  handleOnPress(JSON.stringify(d));
+                }}
+              >
+                <Text>{generateRenderText(d, '')}</Text>
+              </CheckBox>
+            </View>
+          ))}
+        </RoundRectContainer>
+      )}
     </View>
   );
 };

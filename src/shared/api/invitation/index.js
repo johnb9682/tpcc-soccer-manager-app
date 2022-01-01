@@ -60,7 +60,7 @@ export const getUserSenderEventInvitation = async (userId) => {
 export const respondEventInvitation = async (invitationId, respondValue) => {
   try {
     const response = await yelp.put('/respondEventInvitation', {
-      id: invitationId,
+      invitationId,
       respondValue,
     });
     return response;
@@ -68,9 +68,6 @@ export const respondEventInvitation = async (invitationId, respondValue) => {
     return err.message;
   }
 };
-
-// Follow the implementation of event invitation API functions
-// Add API functions for team invitation below
 
 export const addTeamInvitation = async (teamId, receiverIds, senderId) => {
   try {
@@ -132,7 +129,7 @@ export const getUserSenderTeamInvitation = async (userId) => {
 export const respondTeamInvitation = async (invitationId, respondValue) => {
   try {
     const response = await yelp.put('/respondTeamInvitation', {
-      id: invitationId,
+      invitationId,
       respondValue,
     });
     return response;

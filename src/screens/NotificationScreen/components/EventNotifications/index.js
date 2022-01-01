@@ -48,28 +48,34 @@ const EventNotifications = ({
                     {eventInvitation.eventName}
                   </Text>
                 </View>
-                <View style={styles.infoPair}>
-                  <TouchableOpacity
-                    onPress={() => onRespond(eventInvitation.invitationId, 1)}
-                  >
-                    <Icon
-                      name='check-bold'
-                      size={18}
-                      color={THEME_COLORS.GREEN}
-                      style={styles.check}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => onRespond(eventInvitation.invitationId, -1)}
-                  >
-                    <Icon
-                      name='close-thick'
-                      size={18}
-                      color={THEME_COLORS.DEFAULT_RED_PRIMARY}
-                      style={styles.close}
-                    />
-                  </TouchableOpacity>
-                </View>
+                {eventInvitation.status === 0 ? (
+                  <View style={styles.infoPair}>
+                    <TouchableOpacity
+                      onPress={() => onRespond(eventInvitation.invitationId, 1)}
+                    >
+                      <Icon
+                        name='check-bold'
+                        size={18}
+                        color={THEME_COLORS.GREEN}
+                        style={styles.check}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        onRespond(eventInvitation.invitationId, -1)
+                      }
+                    >
+                      <Icon
+                        name='close-thick'
+                        size={18}
+                        color={THEME_COLORS.DEFAULT_RED_PRIMARY}
+                        style={styles.close}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <Text>{INVITE_STATUS[eventInvitation.status]}</Text>
+                )}
               </View>
               <View style={styles.body}>
                 <View style={styles.infoPair}>
@@ -136,18 +142,16 @@ const EventNotifications = ({
                 </View>
                 <View style={styles.infoPair}>
                   <Text>{INVITE_STATUS[eventInvitation.status]}</Text>
-                  {eventInvitation.status === 0 && (
-                    <TouchableOpacity
-                      onPress={() => onCancel(eventInvitation.invitationId)}
-                    >
-                      <Icon
-                        name='cancel'
-                        size={18}
-                        color={THEME_COLORS.DEFAULT_RED_PRIMARY}
-                        style={styles.close}
-                      />
-                    </TouchableOpacity>
-                  )}
+                  <TouchableOpacity
+                    onPress={() => onCancel(eventInvitation.invitationId)}
+                  >
+                    <Icon
+                      name='cancel'
+                      size={18}
+                      color={THEME_COLORS.DEFAULT_RED_PRIMARY}
+                      style={styles.close}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.body}>

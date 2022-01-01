@@ -19,16 +19,24 @@ const NotificationScreen = ({ route, navigation }) => {
     userTeamInvitationsReceived,
     userTeamInvitationsSent,
     fetchUserEventInvitation,
+    fetchUserTeamInvitation,
     respondEventInvitation,
+    respondTeamInvitation,
     deleteEventInvitation,
+    deleteTeamInvitation,
   } = useInvitationStore();
 
   const handleOnRefresh = async () => {
-    const result = await fetchUserEventInvitation(userInfo.userId);
+    const resultEvent = await fetchUserEventInvitation(userInfo.userId);
+    const resultTeam = await fetchUserTeamInvitation(userInfo.userId);
+
+    const areBothSuccess =
+      resultEvent.type === 'success' && resultTeam.type === 'success';
+
     Toast.show({
-      type: result.type,
-      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
-      text2: result.message,
+      type: areBothSuccess ? resultEvent.type : 'error',
+      text1: areBothSuccess ? 'Success!' : 'Something went wrong',
+      text2: resultEvent.message,
       topOffset: TOAST_UP_OFFSET,
     });
   };
@@ -43,13 +51,13 @@ const NotificationScreen = ({ route, navigation }) => {
     });
   };
   const handleOnCancelTeamInvitationSent = async (invitaionId) => {
-    // const result = await deleteTeamInvitation(invitaionId);
-    // Toast.show({
-    //   type: result.type,
-    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
-    //   text2: result.message,
-    //   topOffset: TOAST_UP_OFFSET,
-    // });
+    const result = await deleteTeamInvitation(invitaionId);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
   };
 
   const handleOnRespondEventInvitation = async (invitaionId, respondValue) => {
@@ -62,20 +70,20 @@ const NotificationScreen = ({ route, navigation }) => {
     });
   };
   const handleOnRespondTeamInvitation = async (invitaionId, respondValue) => {
-    // const result = await respondTeamInvitation(invitaionId, respondValue);
-    // Toast.show({
-    //   type: result.type,
-    //   text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
-    //   text2: result.message,
-    //   topOffset: TOAST_UP_OFFSET,
-    // });
+    const result = await respondTeamInvitation(invitaionId, respondValue);
+    Toast.show({
+      type: result.type,
+      text1: result.type === 'success' ? 'Success!' : 'Something went wrong',
+      text2: result.message,
+      topOffset: TOAST_UP_OFFSET,
+    });
   };
 
   React.useEffect(() => {
     // fetch invitations on screen focus
     const unsubscribe = navigation.addListener('focus', () => {
       fetchUserEventInvitation(userInfo.userId);
-      // fetchTeamInvitation(userInfo.userId)
+      fetchUserTeamInvitation(userInfo.userId);
     });
     return unsubscribe;
   }, [route, navigation]);
