@@ -2,7 +2,7 @@
   "expo": {
     "name": "Team Manager",
     "slug": "team-manager",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -15,7 +15,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tpcc22nd.team.manager"
     },
     "android": {
       "adaptiveIcon": {
